@@ -18,5 +18,5 @@ hexo new 新的开始
 
 感觉很好
 
-通过浏览器打开http://localhost:400 
+通过浏览器打开http://localhost:4000 
 成功了.ok
