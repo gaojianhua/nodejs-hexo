@@ -3,11 +3,11 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title:  Robin blog
+title:  Robin gao
 subtitle: 探索未知 每天都是新的开始
 description:  简单生活
 author: Robin
-language: zh-CN
+language: zh-Hans
 timezone:
 
 # URL
@@ -63,7 +63,7 @@ pagination_dir: page
 # Extensions
 ## Plugins: http://hexo.io/plugins/
 ## Themes: http://hexo.io/themes/
-theme: landscape
+theme: next
 
 # Deployment
 ## Docs: http://hexo.io/docs/deployment.html
@@ -71,3 +71,11 @@ deploy:
   type: git
   repo: https://github.com/gaojianhua/nodejs-hexo.git
   #branch:master
+
+# Social links
+social:
+  github: https://github.com/gaojianhua
+  weibo: http://weibo.com/u/1726833822
+
+duoshuo_shortname: robingao
+

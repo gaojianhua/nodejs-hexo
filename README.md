@@ -5,3 +5,5 @@
 
 you can see this blog http://blog.fens.me/hexo-blog-github/
 or https://hexo.io/zh-cn/docs/
+
+翻墙推荐:http://www.fqjiasu.com/aff.php?aff=260
