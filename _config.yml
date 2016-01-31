@@ -71,3 +71,5 @@ deploy:
   type: git
   repo: https://github.com/gaojianhua/nodejs-hexo.git
   #branch:master
+##多说, 换成自己定义的多说域名的名字 http://duoshuo.com/create-site/
+duoshuo_shortname: robingao
