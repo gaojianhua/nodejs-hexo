@@ -73,3 +73,10 @@ deploy:
   #branch:master
 ##多说, 换成自己定义的多说域名的名字 http://duoshuo.com/create-site/
 duoshuo_shortname: robingao
+
+
+wechat_subscriber:
+  enabled: true
+  qcode: /uploads/gjh.jpg
+  description: 欢迎您扫一扫,添加我的微信！
+

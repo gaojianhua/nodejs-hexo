@@ -14,6 +14,8 @@ categories: openresty
 ### 下载 
 	http://openresty.org/cn/ 官网 下载 最新版本
 
+<!-- more -->
+
 ### 安装依赖
 ```bash
 yum install readline-devel pcre-devel openssl-devel gcc

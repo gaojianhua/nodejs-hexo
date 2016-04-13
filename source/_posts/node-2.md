@@ -6,14 +6,14 @@ tags:
 - 日记
 categories: node
 ---
-###简介
+### 简介
 
 npm（node package manager），是node.js的一个包管理器，用于第三方模块的下载、安装和管理。
 npm收录着庞大而丰富的第三方资源，
 npm对于node.js的意义，比maven与java。
 
-
-###安装
+<!-- more -->
+### 安装
 
 	windows下 安装node 后 npm已经安装成功
 
@@ -50,7 +50,7 @@ npm@3.4.1 C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm
 
 ```
 
-###npm 使用
+### npm 使用
 
 1、npm常用命令
 npm init  会引导你创建一个package.json文件，包括名称、版本、作者这些信息等

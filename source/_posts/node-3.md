@@ -9,7 +9,8 @@ categories: node
 
 node.js 有控制台交互模式和脚本模式
 
-###交互模式
+<!-- more -->
+### 交互模式
 打开控制台,输入node 进入交互模式 
 ```bash
 D:\myWorkTemp\node-study>node
@@ -19,7 +20,7 @@ hello word!
 
 输入.exit 退出交互模式 ,或者使用两次ctrl+c 退出
 
-###脚本模式
+### 脚本模式
 
 创建文件内容如下:
 console.log('Hello World!');
