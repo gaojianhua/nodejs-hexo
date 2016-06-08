@@ -318,13 +318,13 @@ appRestart
 	    internal {
 	        host = '192.168.0.61'
 	        user = 'root'
-	        password = 'rootroot'
+	        password = 'password'
 	        //identity =  identity = file("${System.properties['user.home']}/.ssh/test/id_rsa")
 	    }
 	    product {
 	        host = '114.215.137.243'
 	        user = 'root'
-	        //password = 'yiteng'
+	        //password = 'password'
 	        identity =  identity = file("${System.properties['user.home']}/.ssh/id_rsa")
 	    }
 	}
