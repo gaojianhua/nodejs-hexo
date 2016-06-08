@@ -10,13 +10,13 @@ categories: svn
 
 ### svn目录的作用
 
-  svn的目录分为:  
-    1. branchs  
-    1. tags  
-    1. trunk  
-  其中trunk不做开发使用,保持为最新发布或者预发布的版本, 
-  tags 作为版本标记,每次发版或者bug修复后标记版本 
-  branches 分支作为开发使用,开发新功能或者修复bug ,创建 ***-dev分支 作为新功能开发
+svn的目录分为:  
+1. branchs  
+1. tags  
+1. trunk  
+其中trunk不做开发使用,保持为最新发布或者预发布的版本, 
+tags 作为版本标记,每次发版或者bug修复后标记版本 
+branches 分支作为开发使用,开发新功能或者修复bug ,创建 ***-dev分支 作为新功能开发
 <!-- more -->
 
 #### 场景1
