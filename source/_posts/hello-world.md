@@ -41,4 +41,10 @@ More info: [Generating](http://hexo.io/docs/generating.html)
 $ hexo deploy
 ```
 
+### Add next theme 
+
+```bash
+git clone https://github.com/iissnan/hexo-theme-next themes/next
+```
+
 More info: [Deployment](http://hexo.io/docs/deployment.html)

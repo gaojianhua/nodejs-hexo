@@ -38,7 +38,6 @@ branches 分支作为开发使用,开发新功能或者修复bug ,创建 ***-dev
 
 #### svn 主干合并到分支
 
-![测试图](/uploads/gjh.jpg)
 
 
 
