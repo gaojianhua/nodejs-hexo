@@ -1,6 +1,6 @@
 title: 在Ubuntu 16.04中使Sublime Text 3支持输入中文
 
-date: 2016-04-12 20:42:12
+date: 2016-04-12 20:42:09
 tags:
 - 开始
 - 我
