@@ -77,6 +77,6 @@ duoshuo_shortname: robingao
 
 wechat_subscriber:
   enabled: true
-  qcode: /uploads/gjh.jpg
-  description: 欢迎您扫一扫,添加我的微信！
+  qcode: /uploads/payforme.jpg
+  description: 感觉不错,微信打赏一下！
 
