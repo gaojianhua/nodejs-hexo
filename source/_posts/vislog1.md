@@ -84,9 +84,11 @@ nginx 日志格式化, 注意每个变量之间只有一个空格,不要多
 2. 日志数据清洗 
 日志清洗 主要采用spark 的定时任务,清洗出有效数据,并保存到hive数据仓库中存储 . 
 
-![离线日志处理流程](/upload/NginxAccessLog.png "离线日志处理流程")  
 
-在线原图 : https://www.processon.com/view/link/57a80262e4b0fb4c10d00947
+![离线日志处理流程](/uploads/NginxAccessLog.png "离线日志处理流程")  
+
+
+__在线原图 :__ https://www.processon.com/view/link/57a80262e4b0fb4c10d00947
 
 
 ### spark 日志清洗案例 

@@ -71,7 +71,7 @@ nginx 日志格式化, 注意每个变量之间只有一个空格,不要多
 
 ### 
 
-__原文链接: __
+__原文链接: __http://robingao.xyz/2016/08/06/vislog/ 或者 https://github.com/gaojianhua/nodejs-hexo
 
 
 /*参考资料*/
