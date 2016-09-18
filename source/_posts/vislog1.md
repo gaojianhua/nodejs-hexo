@@ -30,7 +30,7 @@ nginx 日志格式化, 注意每个变量之间只有一个空格,不要多
 
     log_format  main  '$remote_addr $http_e_corpId $http_e_userId [$time_local] "$request" '
         	'$status $body_bytes_sent "$http_referer" '
-        	'"$http_user_agent" $request_time vis-main $http_x_real_ip';
+        	'"$http_user_agent" $request_time vis-main $http_x_real_ip $upstream_response_time';
 
 *字段解释说明:
      '$remote_addr       : 访问ip
@@ -70,6 +70,25 @@ nginx 日志格式化, 注意每个变量之间只有一个空格,不要多
 		vis-main 
 
 有这些信息,可以做很多的统计分析 , pv ,耗时,功能使用频率使用时间峰值,客户端环境分布, 使用地区分布 等等
+
+### 添加$upstream_response_time
+
+下面介绍下2者的差别：
+
+1、request_time
+官网描述：request processing time in seconds with a milliseconds resolution; time elapsed between the first bytes were read from the client and the log write after the last bytes were sent to the client 。
+指的就是从接受用户请求的第一个字节到发送完响应数据的时间，即包括接收请求数据时间、程序响应时间、输出
+响应数据时间。
+
+2、upstream_response_time
+官网描述：keeps times of responses obtained from upstream servers; times are kept in seconds with a milliseconds resolution. Several response times are separated by commas and colons like addresses in the $upstream_addr variable
+
+是指从Nginx向后端（php-cgi)建立连接开始到接受完数据然后关闭连接为止的时间。
+
+从上面的描述可以看出，$request_time肯定比$upstream_response_time值大，特别是使用POST方式传递参数时，因为Nginx会把request body缓存住，接受完毕后才会把数据一起发给后端。所以如果用户网络较差，或者传递数据较大时，$request_time会比$upstream_response_time大很多。
+
+所以如果使用nginx的accesslog查看php程序中哪些接口比较慢的话，记得在log_format中加入$upstream_response_time
+
 
 
 ### 具体处理流程:

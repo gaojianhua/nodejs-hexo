@@ -27,7 +27,7 @@ nginx 日志格式化, 注意每个变量之间只有一个空格,不要多
 
     log_format  main  '$remote_addr $http_e_corpId $http_e_userId [$time_local] "$request" '
         	'$status $body_bytes_sent "$http_referer" '
-        	'"$http_user_agent" $request_time vis-main $http_x_real_ip';
+        	'"$http_user_agent" $request_time vis-main $http_x_real_ip $upstream_response_time';
 
 *字段解释说明:
 
