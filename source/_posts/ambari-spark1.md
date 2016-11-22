@@ -4,7 +4,7 @@ tags:
 - 开始
 - 我
 - 日记
-categories: ambari
+categories: spark
 ---
 
 ### 乡村销客
