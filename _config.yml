@@ -3,7 +3,7 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title:  Robin gao
+title:  Robin Gao
 subtitle: 探索未知 每天都是新的开始
 description:  开心就好
 author: 高建华
@@ -79,4 +79,11 @@ wechat_subscriber:
   enabled: true
   qcode: /uploads/payforme.jpg
   description: 感觉不错,微信打赏一下！
+
+# Swiftype Search Key 搜索
+#swiftype_key: xxxxxxxxx
+
+
+#新增字段 baidu_analytics，值设置成你的百度统计脚本 id。
+baidu_analytics: e2c9a62df20c57b80e31998bdf409910
 

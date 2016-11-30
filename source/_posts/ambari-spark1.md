@@ -1,4 +1,4 @@
-title: 乡村销客日志离线处理之--ambari-spark(2)
+title: 乡村销客离线计算--ambari-spark(2)
 date: 2016-10-10 20:22:31
 tags:
 - 开始
