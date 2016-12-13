@@ -239,9 +239,30 @@ http://192.168.0.65/ambari
 首先下载上面资源列表中的相应repo文件，修改其中的URL为本地的地址，相关配置如下：
 
 ambari.repo
+直接执行AMBARI-2.4.1.0/setup_repo.sh 即可生成ambari.repo
 
 hdp.repo
+在/HDP/centos7/ 下载 hdp.repo 修改为如下
 
+```bash
+#VERSION_NUMBER=2.5.0.0-1245
+[HDP-2.5.0.0]
+name=HDP Version - HDP-2.5.0.0
+baseurl=http://192.168.0.65/ambari/HDP/centos7
+gpgcheck=1
+gpgkey=http://192.168.0.65/ambari/HDP/centos7/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins
+enabled=1
+priority=1
+
+
+[HDP-UTILS-1.1.0.21]
+name=HDP-UTILS Version - HDP-UTILS-1.1.0.21
+baseurl=http://192.168.0.65/ambari/HDP-UTILS-1.1.0.21/repos/centos7
+gpgcheck=1
+gpgkey=http://192.168.0.65/ambari/HDP/centos7/2.x/updates/2.5.0.0/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins
+enabled=1
+priority=1
+```
 
 将上面的修改过的源放到/etc/yum.repos.d/下面
 
@@ -256,8 +277,6 @@ yum repolist
 
 
 ##  安装mysql数据库
-
-
 
 Ambari安装会将安装等信息写入数据库，建议使用自己安装的MySQL数据库，也可以不安装而使用默认数据库PostgreSQL
 
@@ -296,6 +315,22 @@ GRANT ALL PRIVILEGES ON *.* TO 'oozie'@'%';
 FLUSH PRIVILEGES;
 ```
 
+## 安装JDK
+
+参考:
+http://gjhbiji.mydoc.io/?t=36412
+
+配置java环境变量
+
+```bash
+vim /etc/profile
+export JAVA_HOME=/opt/java/jdk1.8.0_91
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+PATH=$PATH:$HOME/bin:$JAVA_HOME/bin
+source /etc/profile
+```
+
+
 ## 安装mysql jdbc 驱动
 
 ```bash
@@ -307,11 +342,128 @@ yum install mysql-connector-java
 
 # 5.安装配置ambari  
 
-## 
+## 安装Ambari
 
-## 
+```bash
+yum install ambari-server
+```
+## 配置Ambari
 
-## 
+```bash
+ambari-server setup
+```
+下面是配置执行流程，按照提示操作
+
+1.检查SELinux是否关闭，如果关闭不用操作
+
+```bash
+Using python  /usr/bin/python
+Setup ambari-server
+Checking SELinux...
+SELinux status is 'disabled'
+```
+
+2.提示是否自定义设置。输入：y
+
+```bash
+Customize user account for ambari-server daemon [y/n] (n)? y
+```
+
+3.ambari-server 账号。输入：ambari
+
+```bash
+Enter user account for ambari-server daemon (root):ambari
+Adjusting ambari-server permissions and ownership...
+```
+4.检查防火墙，如果关闭则不用操作
+```bash
+Checking firewall status...
+Redirecting to /bin/systemctl status  iptables.service
+```
+
+5.设置JDK。输入：3
+
+```bash
+Checking JDK...
+Do you want to change Oracle JDK [y/n] (n)? y
+[] Oracle JDK 1.8 + Java Cryptography Extension (JCE) Policy Files 8
+[] Oracle JDK 1.7 + Java Cryptography Extension (JCE) Policy Files 7
+[] Custom JDK
+==============================================================================
+Enter choice (1): 3
+```
+
+6.如果上面选择3自定义JDK,则需要设置JAVA_HOME。输入：/opt/Java/jdk1.8.0_91
+
+```bash
+WARNING: JDK must be installed on all hosts and JAVA_HOME must be valid on all hosts.
+WARNING: JCE Policy files are required for configuring Kerberos security. If you plan to use Kerberos,please make sure JCE Unlimited Strength Jurisdiction Policy Files are valid on all hosts.
+Path to JAVA_HOME: /opt/java/jdk1.8.0_91
+Validating JDK on Ambari Server...done.
+Completing setup...
+```
+
+7.数据库配置。选择：y
+
+```bash
+Configuring database...
+Enter advanced database configuration [y/n] (n)? y
+```
+
+8.选择数据库类型。输入：3
+
+```bash
+Configuring database...
+==============================================================================
+Choose one of the following options:
+[1] - PostgreSQL (Embedded)
+[2] - Oracle
+[3] - MySQL
+[4] - PostgreSQL
+[5] - Microsoft SQL Server (Tech Preview)
+[6] - SQL Anywhere
+==============================================================================
+Enter choice (3): 3
+```
+9.设置数据库的具体配置信息，根据实际情况输入，如果和括号内相同，则可以直接回车。
+
+```bash
+Hostname (localhost): 
+Port (): 
+Database name (ambari): 
+Username (ambari): 
+Enter Database Password (Ambari-123): 
+```
+
+10.提示必须安装MySQL JDBC，回车结束ambari配置
+
+```bash
+WARNING: Before starting Ambari Server, you must copy the MySQL JDBC driver JAR file to /usr/share/java.
+Press <enter> to continue.
+```
+11.将Ambari数据库脚本导入到数据库
+
+如果使用自己定义的数据库，必须在启动Ambari服务之前导入Ambari的sql脚本
+
+用Ambari用户（上面设置的用户）登录mysql
+
+```bash
+mysql -u ambari -p
+use ambari
+source /var/lib/ambari-server/resources/Ambari-DDL-MySQL-CREATE.sql
+```
+## 启动Amabri
+
+执行启动命令，启动Ambari服务
+
+```bash
+ambari-server start
+```
+成功启动后在浏览器输入Ambari地址：
+
+http://192.168.0.65:8080/
+出现登录界面，默认管理员账户登录， 账户：admin 密码：admin
+
 
 
 ----
