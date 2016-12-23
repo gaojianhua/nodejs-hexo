@@ -1,9 +1,7 @@
 title: node学习笔记(3)--hello
 date: 2014-03-27 21:10:29
 tags:
-- 开始
-- 我
-- 日记
+- 笔记
 categories: node
 ---
 

@@ -1,9 +1,9 @@
 title: 乡村销客离线计算--ambari平台搭建
 date: 2016-08-29 21:22:11
 tags:
-- 开始
-- 我
-- 日记
+- 乡村销客
+- 大数据
+- ambari
 categories: ambari
 ---
 

@@ -1,9 +1,7 @@
 title: node学习笔记(2)--包管理器npm
 date: 2014-03-27 21:10:28
 tags:
-- 开始
-- 我
-- 日记
+- 笔记
 categories: node
 ---
 ### 简介

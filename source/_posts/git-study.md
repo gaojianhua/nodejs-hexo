@@ -1,9 +1,8 @@
 title: git学习笔记
 date: 2014-01-28 20:40:48
 tags:
-- 开始
-- 我
-- 日记 
+
+- 笔记 
 categories: git
 ---
 

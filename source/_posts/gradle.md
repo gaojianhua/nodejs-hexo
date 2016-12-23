@@ -1,9 +1,8 @@
 title: gradle used
 date: 2016-03-27 19:42:21
 tags:
-- 开始
-- 我
-- 日记
+
+- 笔记
 categories: gradle
 ---
 

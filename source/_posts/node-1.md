@@ -1,9 +1,7 @@
 title: node学习笔记(1)--安装
 date: 2014-03-27 20:42:25
 tags:
-- 开始
-- 我
-- 日记
+- 笔记
 categories: node
 ---
 

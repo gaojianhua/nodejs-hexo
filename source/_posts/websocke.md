@@ -2,9 +2,7 @@
 title: websocket
 date: 2015-09-27 19:41:32
 tags:
-- 开始
-- 我
-- 日记
+- 笔记
 categories: websocket
 ---
 

@@ -1,10 +1,8 @@
 title: XenCenter虚拟机扩展磁盘空间
 date: 2016-11-22 21:22:10
 tags:
-- 开始
-- 我
-- 日记
-categories: xenserver
+- 笔记
+categories: xencenter
 ---
 
 # 1.乡村销客

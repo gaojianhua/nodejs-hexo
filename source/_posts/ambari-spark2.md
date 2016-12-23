@@ -1,9 +1,9 @@
 title: 乡村销客离线计算--ambari-spark(3)
 date: 2016-10-17 22:13:01
 tags:
-- 开始
-- 我
-- 日记
+- 乡村销客
+- 大数据
+- spark
 categories: spark
 ---
 

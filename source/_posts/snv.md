@@ -2,9 +2,7 @@
 title: svn 使用笔记
 date: 2015-12-27 20:41:29
 tags:
-- 开始
-- 我
-- 日记
+- 笔记
 categories: svn
 ---
 

@@ -1,9 +1,9 @@
 title: 乡村销客离线计算--spark开发环境Eclipse
 date: 2016-08-09 22:22:13
 tags:
-- 开始
-- 我
-- 日记
+- 乡村销客
+- 大数据
+- spark
 categories: 日志处理
 ---
 

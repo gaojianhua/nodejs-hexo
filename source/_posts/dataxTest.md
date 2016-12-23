@@ -1,9 +1,9 @@
 title: 乡村销客离线计算--DataX 测试
 date: 2016-09-25 21:22:11
 tags:
-- 开始
-- 我
-- 日记
+- 乡村销客
+- 大数据
+- ETL
 categories: ambari
 ---
 

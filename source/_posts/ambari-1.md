@@ -1,15 +1,15 @@
 title: 乡村销客离线计算--ambari2.4.1和hdp2.5安装部署
 date: 2016-10-29 22:12:19
 tags:
-- 开始
-- 我
-- 日记
+- 乡村销客
+- 大数据
 categories: ambari
 ---
 
 # 1.乡村销客
-__ 乡村销客官网 __: http://www.vilsale.com 
+{% cq %} __ 乡村销客官网 __:http://www.vilsale.com  {% endcq %}
 乡村销客是面向化肥行业的企业互联网营销工具。通过“移动应用+云计算+应用市场”的互联网领先技术，帮助化肥生产销售企业快速实现  
+<img src="http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/vis.png" class="full-image">
 <!-- more -->
 1. __ 移动化市场营销及客户拜访，__  
 1. __ 解决调度发运响应不畅  __  
@@ -109,7 +109,7 @@ vi /etc/hosts
 ```bash
 vi /etc/sysconfig/network
 NETWORKING=yes
-HOSTNAME=SY-001.hadoop
+HOSTNAME=h65m.hadoop
 ```
 
 ## 关闭防火墙
@@ -129,7 +129,6 @@ Centos 6 命令
 chkconfig iptables off
 /etc/init.d/iptables stop
 ```
-
 
 
 ## 关闭SELinux
@@ -155,11 +154,6 @@ setenforce 0
 vi /etc/sysconfig/selinux
 SELINUX=disabled
 ```
-## 
-
-
-## 
-
 
 
 ----
@@ -344,6 +338,8 @@ yum install mysql-connector-java
 
 ## 安装Ambari
 
+在主节点执行
+
 ```bash
 yum install ambari-server
 ```
@@ -470,21 +466,82 @@ http://192.168.0.65:8080/
 
 # 6.安装hdp集群 
   
-## 
+## 1 出现登录界面，
 
-## 
+默认管理员账户登录， 账户：admin 密码：admin
 
-## 
+![安装hdp集群](http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb1.png "安装hdp集群") 
 
-----
 
-# 7.注意事项  
+## 2登陆成功后，如下界面，点击 Launch Install Wizard 
 
-## 
+![安装hdp集群](http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb2.png "安装hdp集群") 
 
-## 
+## 3 安装集群， 设置一个集群名字
 
-## 
+![安装hdp集群](http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb3.png "安装hdp集群") 
+
+## 4 设置HDP安装源
+
+选择HDP2.5 ,并且设置Advanced Repository Options 的信息，本次使用本地源，所以修改对用系统的安装源为本地源地址。
+
+![安装hdp集群](http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb4.png "安装hdp集群") 
+
+![安装hdp集群](http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb5.png "安装hdp集群") 
+
+
+## 6设置集群机器，
+选择密钥 id_rsa ,
+
+![安装hdp集群](http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb6.png "安装hdp集群") 
+
+## 7确认集群host
+确认前面配置集群中hosts列表 中的机器是否都可用，也可以移除相关机器，机器Success后进行下一步操作。
+
+![安装hdp集群](http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb7.png "安装hdp集群") 
+
+![安装hdp集群](http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb8.png "安装hdp集群") 
+
+## 9 选择安装的服务
+
+![安装hdp集群](http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb9.png "安装hdp集群") 
+
+## 10 各个服务Masters 配置，
+可以自己选择机器
+
+![安装hdp集群](http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb10.png "安装hdp集群") 
+
+## 11服务的Slaves 和 Clients节配置 
+
+![安装hdp集群](http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb11.png "安装hdp集群") 
+
+## 12服务的个性化配置
+
+![安装hdp集群](http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb12.png "安装hdp集群") 
+
+## 13 hdfs 配置修改
+可以不更改
+
+![安装hdp集群](http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb13.png "安装hdp集群") 
+
+## 14HIVE配置源数据
+
+需要上传mysql.jar  执行 图中命令 配置mysql驱动 ， 没有装hive的略过
+
+![安装hdp集群](http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb14.png "安装hdp集群") 
+
+## 15显示配置信息
+
+![安装hdp集群](http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb15.png "安装hdp集群") 
+
+## 16 开始安装 
+
+![安装hdp集群](http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb16.png "安装hdp集群") 
+
+# 卸载ambari
+
+卸载ambari 请看下一篇文章 
+
 
 
 /*参考资料*/
