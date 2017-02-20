@@ -198,5 +198,38 @@ python /opt/local/datax/bin/datax.py  /opt/local/datax/job/mysql.json
 ```
 
 
+查看该用户下的crontab服务是否创建成功， 用 crontab  -l 命令  
+
+
+分       小时      日        月       星期     命令
+
+0-59    0-23    1-31     1-12       0-6     command     (取值范围,0表示周日一般一行对应一个任务)
+
+
+```bash
+每天执行一次
+40 00 * * * /opt/local/datax/visdb/startETL.sh >>/opt/logs/datax/log.`date +\%Y\%m\%d\%H\%M\%S` 2>&1
+每小时执行一次
+09 * * * * echo "break now. hour" >>/opt/logs/datax/hlog.`date +\%Y\%m\%d\%H\%M\%S` 2>&1
+每周执行一次
+10 02 * * 0 echo "break now. weekly " >>/opt/logs/datax/wlog.`date +\%Y\%m\%d\%H\%M\%S` 2>&1
+每月执行一次
+13 03 1 * * echo "break now. month" >>/opt/logs/datax/mlog.`date +\%Y\%m\%d\%H\%M\%S` 2>&1
+
+30  3  10,20  *  *  ls  每月10号及20号的3：30执行ls命令[注：“，”用来连接多个不连续的时段]
+
+25  8-11 *  *   *   ls   每天8-11点的第25分钟执行ls命令[注：“-”用来连接连续的时段]
+
+*/15  *   *   *   *   ls  每15分钟执行一次ls命令 [即每个小时的第0 15 30 45 60分钟执行ls命令 ]
+
+30  6   */10   *  *  ls   每个月中，每隔10天6:30执行一次ls命令[即每月的1、11、21、31日是的6：30执行一次ls 命令。 ]
+
+每天7：50以root 身份执行/etc/cron.daily目录中的所有可执行文件
+
+50  7  *   *  *   root  run-parts     /etc/cron.daily   [ 注：run-parts参数表示，执行后面目录中的所有可执行文件。 ]
+```
+
+
+
 /*参考资料*/
 http://robingao.xyz/2016/09/25/dataxTest/
