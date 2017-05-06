@@ -7,7 +7,7 @@ categories: ambari
 ---
 
 # 1.乡村销客
-{% cq %} __ 乡村销客官网 __:http://www.vilsale.com  {% endcq %}
+ __ 乡村销客官网 __:http://www.vilsale.com 
 乡村销客是面向化肥行业的企业互联网营销工具。通过“移动应用+云计算+应用市场”的互联网领先技术，帮助化肥生产销售企业快速实现  
 <img src="http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/vis.png" class="full-image">
 <!-- more -->

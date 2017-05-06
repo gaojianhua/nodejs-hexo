@@ -87,4 +87,3 @@ wechat_subscriber:
 
 #新增字段 baidu_analytics，值设置成你的百度统计脚本 id。
 baidu_analytics: e2c9a62df20c57b80e31998bdf409910
-
