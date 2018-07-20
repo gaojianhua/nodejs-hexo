@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="gradle简介 Gradle是一个基于Apache Ant和Apache Maven概念的项目自动化建构工具。它使用一种基于Groovy的特定领域语言来声明项目设置，而不是传统的XML。既保持了Maven的优点，又通过使用Groovy定义的DSL[2]，克服了 Maven中使用XML繁冗以及不灵活等缺点。 当前其支持的语言限于Java、Groovy和Scala，计划未来将支持更多的语言。">
+<meta name="keywords" content="笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="gradle used">
+<meta property="og:url" content="http://www.robingao.win/2016/03/27/gradle/index.html">
+<meta property="og:site_name" content="Robin Gao">
+<meta property="og:description" content="gradle简介 Gradle是一个基于Apache Ant和Apache Maven概念的项目自动化建构工具。它使用一种基于Groovy的特定领域语言来声明项目设置，而不是传统的XML。既保持了Maven的优点，又通过使用Groovy定义的DSL[2]，克服了 Maven中使用XML繁冗以及不灵活等缺点。 当前其支持的语言限于Java、Groovy和Scala，计划未来将支持更多的语言。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-06-21T08:47:28.666Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="gradle used">
+<meta name="twitter:description" content="gradle简介 Gradle是一个基于Apache Ant和Apache Maven概念的项目自动化建构工具。它使用一种基于Groovy的特定领域语言来声明项目设置，而不是传统的XML。既保持了Maven的优点，又通过使用Groovy定义的DSL[2]，克服了 Maven中使用XML繁冗以及不灵活等缺点。 当前其支持的语言限于Java、Groovy和Scala，计划未来将支持更多的语言。">
+
+
+
+
+
+
+  <link rel="canonical" href="http://www.robingao.win/2016/03/27/gradle/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>gradle used | Robin Gao</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?e2c9a62df20c57b80e31998bdf409910";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Robin Gao</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">探索未知 每天都是新的开始</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+    <a href="/404.html" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />公益 404</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.robingao.win/2016/03/27/gradle/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="高建华">
+      <meta itemprop="description" content="开心就好">
+      <meta itemprop="image" content="http://vis-user-image.oss-cn-qingdao.aliyuncs.com/userphoto/userphoto_9c3ae7df-b40f-4951-b4d5-677bae94277f_1457662255778__9C4A33BD1BA866FFD744A45D56B6B9BE.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Robin Gao">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">gradle used
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2016-03-27 19:42:21" itemprop="dateCreated datePublished" datetime="2016-03-27T19:42:21+08:00">2016-03-27</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/gradle/" itemprop="url" rel="index"><span itemprop="name">gradle</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/03/27/gradle/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2016/03/27/gradle/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2016/03/27/gradle/" class="leancloud_visitors" data-flag-title="gradle used">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="gradle简介"><a href="#gradle简介" class="headerlink" title="gradle简介"></a>gradle简介</h3><p> Gradle是一个基于Apache Ant和Apache Maven概念的项目自动化建构工具。它使用一种基于Groovy的特定领域语言来声明项目设置，而不是传统的XML。既保持了Maven的优点，又通过使用Groovy定义的DSL[2]，克服了 Maven中使用XML繁冗以及不灵活等缺点。<br> 当前其支持的语言限于Java、Groovy和Scala，计划未来将支持更多的语言。<br><a id="more"></a></p>
+<h4 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h4><ol>
+<li>gradle对多工程的构建支持很出色，工程依赖是gradle的第一公民。</li>
+<li>gradle支持局部构建。<br>　3. 支持多方式依赖管理：包括从maven远程仓库、nexus私服、ivy仓库以及本地文件系统的jars或者dirs</li>
+<li>gradle是第一个构建集成工具（the first build integration tool），与ant、maven、ivy有良好的相容相关性。</li>
+<li>轻松迁移：gradle适用于任何结构的工程（Gradle can adapt to any structure you have.）。你可以在同一个开发平台平行构建原工程和gradle工程。通常要求写相关测试，以保证开发的插件的相似性，这种迁移可以减少破坏性，尽可能的可靠。这也是重构的最佳实践。</li>
+<li>gradle的整体设计是以作为一种语言为导向的，而非成为一个严格死板的框架。</li>
+<li>免费开源<h4 id="gradle提供了什么"><a href="#gradle提供了什么" class="headerlink" title="gradle提供了什么"></a>gradle提供了什么</h4>1.一种可切换的，像maven一样的基于约定的构建框架，却又从不锁住你（约定优于配置）<br>Switchable, build-by-convention frameworks a la Maven. But we never lock you in!<ol start="2">
+<li>强大的支持多工程的构建</li>
+<li>强大的依赖管理（基于Apache Ivy），提供最大的便利去构建你的工程<br>Language for dependency based programming</li>
+<li>全力支持已有的Maven或者Ivy仓库基础建设</li>
+<li>支持传递性依赖管理，在不需要远程仓库和pom.xml和ivy配置文件的前提下<br>6 基于groovy脚本构建，其build脚本使用groovy语言编写<br>7 具有广泛的领域模型支持你的构建A rich domain model for describing your build.<h4 id="使用工具"><a href="#使用工具" class="headerlink" title="使用工具"></a>使用工具</h4></li>
+<li>IntelliJ IDEA 当前最新版本15.0.3</li>
+<li>Eclipse</li>
+<li>Android Studio<br>等</li>
+</ol>
+</li>
+</ol>
+<h3 id="eclipse-中gradle插件的使用"><a href="#eclipse-中gradle插件的使用" class="headerlink" title="eclipse 中gradle插件的使用"></a>eclipse 中gradle插件的使用</h3><h4 id="安装gradle插件"><a href="#安装gradle插件" class="headerlink" title="安装gradle插件"></a>安装gradle插件</h4><pre><code>由于公司历史的原因,开发工具一直用Eclipse进行,故以下介绍基于Eclipse
+
+help&gt;Eclipse marketplace
+在find处输入 gradle 点击右边的go 按钮
+查询结果中找到Gradle(sts) intergration fro Eclipse ****.RELEASE 点击install 或者直接拖到Eclipse中安装
+</code></pre><h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><pre><code>创建gradle项目, new &gt; other &gt; gradle(sts) project
+
+目录结构
+ src/main/java         --开发源码包
+ src/main/resoureces   --开发资源包
+ src/test/java         --测试源码包
+ src/test/resources    --测试资源包
+ build                 --build存放目录包
+ src                   --build源码包
+ build.gradle          --gradle任务配置文件
+
+本公司员工可以用svn检出平台sin项目 
+http://103.10.84.37/svn/SIN/trunk 作为参考项目此项目为多项目
+检出之后先从Eclispe中删除,让后import 作为gradle项目, 
+选择sin项目之后,点击build model ,成功之后选择所有子项目 finish
+</code></pre><h4 id="配置build-gradle"><a href="#配置build-gradle" class="headerlink" title="配置build.gradle"></a>配置build.gradle</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line">buildscript &#123;</span><br><span class="line">	repositories &#123;</span><br><span class="line">	  jcenter()</span><br><span class="line">	&#125;	</span><br><span class="line">	dependencies &#123;</span><br><span class="line">	  classpath <span class="string">'org.akhikhl.gretty:gretty:+'</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">buildscript &#123;</span><br><span class="line">  repositories &#123;</span><br><span class="line">    jcenter()</span><br><span class="line">  &#125;</span><br><span class="line">  dependencies &#123;</span><br><span class="line">    classpath <span class="string">'org.hidetake:gradle-ssh-plugin:2.0.0'</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/****引入gradle插件*****************/</span><br><span class="line">apply plugin: <span class="string">'java'</span></span><br><span class="line">apply plugin: <span class="string">'eclipse'</span>	</span><br><span class="line">/****jdk版本*****************/</span><br><span class="line">sourceCompatibility = 1.7</span><br><span class="line"></span><br><span class="line">/****maven仓库*****************/</span><br><span class="line">repositories &#123;</span><br><span class="line">    maven &#123;    	</span><br><span class="line">        url <span class="string">"http://103.10.84.37:8081/nexus/content/groups/public/"</span></span><br><span class="line">    &#125;</span><br><span class="line">    maven &#123;    	</span><br><span class="line">        url <span class="string">"http://repository.ow2.org/nexus/content/repositories/public/"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">/****编译编码，解决Gradle编译时出现： 编码GBK的不可映射字符*****************/</span><br><span class="line">[compileJava, compileTestJava]*.options*.encoding = <span class="string">'UTF-8'</span></span><br><span class="line"></span><br><span class="line">/****依赖关系*****************/</span><br><span class="line">dependencies &#123;</span><br><span class="line">	compile <span class="string">"et.sin:sin-cache:1.0.8"</span>,</span><br><span class="line">			<span class="string">"et.sin:sin-resteasy:1.0.8"</span></span><br><span class="line">	runtime <span class="string">"et.sin:sin-codeseed:1.0.8"</span>	</span><br><span class="line">	testCompile	<span class="string">"junit:junit:4.9"</span>,</span><br><span class="line">				<span class="string">"org.springframework:spring-test:4.2.4.RELEASE"</span>		</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/****生成jar*****************/</span><br><span class="line">version = <span class="string">'1.0'</span>//发布版本</span><br><span class="line">jar &#123;</span><br><span class="line">	manifest &#123;</span><br><span class="line">        attributes <span class="string">'Created-By'</span>:<span class="string">'eteng-etd'</span>,//声明该文件的生成者</span><br><span class="line">        <span class="string">'Implementation-Title'</span>: <span class="string">'Singularity'</span>, </span><br><span class="line">        <span class="string">'Implementation-Version'</span>: version</span><br><span class="line">    &#125;</span><br><span class="line">	//jar包包含测试代码，用于其它项目测试调用</span><br><span class="line">	from(sourceSets.test.allJava)</span><br><span class="line">&#125;</span><br><span class="line">/****生成源码jar*****************/</span><br><span class="line">task sourceJar(<span class="built_in">type</span>: Jar) &#123; </span><br><span class="line">    from sourceSets.main.allJava//主体源代码</span><br><span class="line">    from sourceSets.test.allJava//测试源代码</span><br><span class="line">    classifier <span class="string">"sources"</span></span><br><span class="line">&#125;</span><br><span class="line">/***生成javadoc,命令行参数配置**/</span><br><span class="line">javadoc &#123;</span><br><span class="line">	<span class="built_in">source</span> = [sourceSets.main.allJava,sourceSets.test.allJava] //需要生成javadoc的源码包</span><br><span class="line">	classpath=configurations.testCompile</span><br><span class="line">    options.encoding = <span class="string">"UTF-8"</span></span><br><span class="line">    options.charSet = <span class="string">"UTF-8"</span></span><br><span class="line">    options.links = [<span class="string">"http://docs.oracle.com/javase/8/docs/api/"</span>]</span><br><span class="line">    options.memberLevel=<span class="string">"PACKAGE"</span></span><br><span class="line">&#125;</span><br><span class="line">//生成javadoc jar</span><br><span class="line">task javadocJar(<span class="built_in">type</span>: Jar, dependsOn: javadoc) &#123;</span><br><span class="line">	from javadoc.destinationDir</span><br><span class="line">    classifier = <span class="string">'javadoc'</span>	    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">task codeseed(<span class="built_in">type</span>: JavaExec, dependsOn: <span class="string">'classes'</span>) &#123;</span><br><span class="line">    description <span class="string">'运行代码生成器'</span></span><br><span class="line">    classpath = sourceSets.main.runtimeClasspath</span><br><span class="line">    main = <span class="string">"et.common.codeseed.CodeSeed"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/****引入gretty插件*****************/	</span><br><span class="line">apply plugin: <span class="string">'org.akhikhl.gretty'</span>	</span><br><span class="line">gretty &#123;</span><br><span class="line">    port = 8080</span><br><span class="line">    servletContainer = <span class="string">'tomcat8'</span></span><br><span class="line">    //contextPath =<span class="string">"/sin"</span></span><br><span class="line">	extraResourceBase   project.getProjectDir().getAbsolutePath() + <span class="string">"/webapp"</span> 	    </span><br><span class="line">    contextConfigFile = project.getProjectDir().getAbsolutePath() + <span class="string">"/webapp/WEB-INF/ROOT.xml"</span>    </span><br><span class="line">    enableNaming=<span class="literal">true</span> //启用JNDI</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此平台推荐配置 ,请参考平台demo项目中的build.gradle<br>初级入门可使用以上配置运行一个web项目了, 客官请往下看</p>
+<blockquote>
+</blockquote>
+<h4 id="build-gradle详解"><a href="#build-gradle详解" class="headerlink" title="build.gradle详解"></a>build.gradle详解</h4><p>看完builld.gradle配置 ,我们知道, 其实 这个文件就是配置引入那些 gradle 的插件,自定义任务和第三方jar包依赖关系</p>
+<p>/<strong>**</strong>引入java插件<strong>***</strong>/</p>
+<p>apply plugin: ‘java’ </p>
+<p>引入插件之后 ,相当于 引入了一定任务,执行之后帮我们做一定的操作<br>例如引入java之后,  在gradle task 视图中我们选择 project 为自己的项目<br>就可看到相关任务</p>
+<p>还可以设置一些必要的配置信息<br>/<strong>***</strong>jdk版本<strong><em>**</em></strong>/<br>sourceCompatibility = 1.7<br>/<strong><strong>maven仓库下载依赖jar用*</strong></strong>/<br>repositories {<br>}</p>
+<p>还有配置关键的jar包依赖<br>/<strong><strong>**</strong></strong>依赖关系<strong><strong>***</strong></strong>/<br>dependencies {<br>    compile “et.sin:sin-cache:1.0.8”,<br>            “et.sin:sin-resteasy:1.0.8”<br>    runtime “et.sin:sin-codeseed:1.0.8”<br>    testCompile    “junit:junit:4.9”,<br>                “org.springframework:spring-test:4.2.4.RELEASE”<br>}</p>
+<p>compile 代表编译时依赖<br>runtime 代表运行时依赖<br>testCompile junit 测试时的依赖</p>
+<p>更详细的请看<a href="http://wiki.jikexueyuan.com/project/gradle/dependency-management-basics.html" target="_blank" rel="noopener">http://wiki.jikexueyuan.com/project/gradle/dependency-management-basics.html</a> 当然也可以看官网的配置</p>
+<p>/<strong><strong>**</strong></strong>自定义任务<strong><strong><strong><strong><em>**</em></strong></strong></strong></strong>/<br>task codeseed(type: JavaExec, dependsOn: ‘classes’) {<br>    description ‘运行代码生成器’<br>    classpath = sourceSets.main.runtimeClasspath<br>    main = “et.common.codeseed.CodeSeed”<br>}</p>
+<h4 id="启动tomcat容器"><a href="#启动tomcat容器" class="headerlink" title="启动tomcat容器"></a>启动tomcat容器</h4><pre><code>我们使用了gretty插件,配置如下
+</code></pre><p>buildscript {<br>    repositories {<br>      jcenter()<br>    }<br>    dependencies {<br>      classpath ‘org.akhikhl.gretty:gretty:+’<br>    }<br>}</p>
+<p>/<strong><strong>引入gretty插件<strong><strong><strong>*</strong></strong></strong></strong></strong>/<br>apply plugin: ‘org.akhikhl.gretty’<br>gretty {<br>    port = 8080<br>    servletContainer = ‘tomcat8’<br>    //contextPath =”/sin”<br>    extraResourceBase   project.getProjectDir().getAbsolutePath() + “/webapp”<br>    contextConfigFile = project.getProjectDir().getAbsolutePath() + “/webapp/WEB-INF/ROOT.xml”<br>    enableNaming=true //启用JNDI<br>}</p>
+<p>引入插件之后,看到 gradle task视图中多了关于app的任务</p>
+<p>appStart<br>appStop<br>appStartDebug<br>appRestart<br>等等</p>
+<p>启动appStart ,tomcat容器启动</p>
+<h4 id="junit测试"><a href="#junit测试" class="headerlink" title="junit测试"></a>junit测试</h4><pre><code>参考平台 test的目录的写法
+</code></pre><p>基本到此为止……基本可以进行开发测试了<br>/<em>当然你可能还不满足于这点东西,,那就继续吧</em>/</p>
+<blockquote>
+</blockquote>
+<h3 id="build-gradle-更多高级用法"><a href="#build-gradle-更多高级用法" class="headerlink" title="build.gradle 更多高级用法"></a>build.gradle 更多高级用法</h3><p>在大型java项目中,使用的gradle插件增多和任务的增多单个配置就显得臃肿了,<br>以下介绍一些其他用法:</p>
+<h4 id="引入其他-gradle文件"><a href="#引入其他-gradle文件" class="headerlink" title="引入其他.gradle文件"></a>引入其他.gradle文件</h4><pre><code>我们可以分类写.gradle文件,然后在build.gradle中引入即可.
+例如,我可以把关于gretty 的配置写在 gretty.gradle
+
+在build.gradle 中引入 
+/*********ssh自动部署********************/
+apply from: &quot;ssh.gradle&quot;
+/********gretty插件配置*****************/    
+apply from: &quot;gretty.gradle&quot;
+</code></pre><h4 id="项目中多平台配置文件管理"><a href="#项目中多平台配置文件管理" class="headerlink" title="项目中多平台配置文件管理"></a>项目中多平台配置文件管理</h4><pre><code>配置其他的资源文件, 打包时会自动加入
+
+例如生产系统的配置和测试系统的配置时不一样的,
+正式发布时,我们把配置指向正式系统, 配置文件会自动覆盖/src/main/resources,中相同的配置文件
+
+//设置其他资源文件 --打包正式时启用production
+sourceSets {
+    main {
+        resources {
+            //srcDir &quot;config/production&quot;
+            srcDir &quot;src/main/resources&quot;
+        }
+    }
+}
+</code></pre><h4 id="ssh自动部署"><a href="#ssh自动部署" class="headerlink" title="ssh自动部署"></a>ssh自动部署</h4><pre><code>配置ssh.gradle  ,在build.gradle中引入 , 依赖于war任务 ,
+</code></pre><p>利用ssh,先打包出项目的war包,  上传到指定的服务器,,然后执行命令解压命令,让后执行重启tomcat的命令.<br>    配置如下</p>
+<pre><code><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line">/****引入gradle插件*****************/</span><br><span class="line">//https://gradle-ssh-plugin.github.io/</span><br><span class="line">apply plugin: <span class="string">'org.hidetake.ssh'</span></span><br><span class="line"></span><br><span class="line">/*************打包war设置********************/</span><br><span class="line">//https://dongchuan.gitbooks.io/gradle-user-guide-/content/the_war_plugin/war.html</span><br><span class="line">// war  或jar包的版本</span><br><span class="line">version = <span class="string">'1.4'</span></span><br><span class="line">// War 或jar 包名称</span><br><span class="line">String output = new Date().format(<span class="string">'yyyyMMddHHmm'</span>)</span><br><span class="line">war.baseName = <span class="string">'VSA_WEB'</span>+output</span><br><span class="line">// Web directory, this overrides the default value <span class="string">"src/java/webapp"</span></span><br><span class="line">project.webAppDirName = <span class="string">'webapp'</span></span><br><span class="line">//设置其他资源文件 --打包正式时启用production</span><br><span class="line">sourceSets &#123;</span><br><span class="line">    main &#123;</span><br><span class="line">        resources &#123;</span><br><span class="line">            //srcDir <span class="string">"config/production"</span></span><br><span class="line">            srcDir <span class="string">"src/main/resources"</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">/************ssh自动部署***internal测试*****product正式******/</span><br><span class="line">remotes &#123;</span><br><span class="line">    internal &#123;</span><br><span class="line">        host = <span class="string">'192.168.0.61'</span></span><br><span class="line">        user = <span class="string">'root'</span></span><br><span class="line">        password = <span class="string">'password'</span></span><br><span class="line">        //identity =  identity = file(<span class="string">"<span class="variable">$&#123;System.properties['user.home']&#125;</span>/.ssh/test/id_rsa"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    product &#123;</span><br><span class="line">        host = <span class="string">'114.215.137.243'</span></span><br><span class="line">        user = <span class="string">'root'</span></span><br><span class="line">        //password = <span class="string">'password'</span></span><br><span class="line">        identity =  identity = file(<span class="string">"<span class="variable">$&#123;System.properties['user.home']&#125;</span>/.ssh/id_rsa"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">ssh.settings &#123;</span><br><span class="line">  knownHosts = allowAnyHosts</span><br><span class="line">  //dryRun = <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">task sshCheck &lt;&lt; &#123;</span><br><span class="line">    ssh.run &#123;</span><br><span class="line">        session(remotes.product) &#123;</span><br><span class="line">            def result = execute <span class="string">'uname -a'</span></span><br><span class="line">            execute <span class="string">'cat /etc/*-release'</span>, ignoreError: <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">/***********发布测试************/</span><br><span class="line">task sshLocalDeploy(dependsOn: war) &lt;&lt; &#123;</span><br><span class="line">    ssh.run &#123;</span><br><span class="line">        session(remotes.internal) &#123;</span><br><span class="line">        	execute <span class="string">'/opt/bin/tomcat-sc.sh tomcat-vistv stop'</span></span><br><span class="line">            put from: war.archivePath.path, into: <span class="string">'/opt/buildapp'</span></span><br><span class="line">            println <span class="string">'--**war upload successed...'</span></span><br><span class="line">            execute <span class="string">'unzip -oq  /opt/buildapp/'</span> +war.archiveName + <span class="string">' -d /opt/apps/VISTV_WEB'</span></span><br><span class="line">            println <span class="string">'--**war unzip successed...'</span></span><br><span class="line">            execute <span class="string">'/opt/bin/tomcat-sc.sh tomcat-vistv start'</span></span><br><span class="line">            println <span class="string">'--**server restart successed...'</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">/***********发布测试***************/</span><br><span class="line">task sshProductDeploy(dependsOn: war) &lt;&lt; &#123;</span><br><span class="line">    ssh.run &#123;</span><br><span class="line">        session(remotes.product) &#123;</span><br><span class="line">         	println <span class="string">'--**war starting upload ...'</span></span><br><span class="line">            put from: war.archivePath.path, into: <span class="string">'/opt/back_apps'</span></span><br><span class="line">            //execute <span class="string">'unzip -oq  /opt/back_apps/'</span> +war.archiveName + <span class="string">' -d /opt/apps/VSA_WEB'</span></span><br><span class="line">         	//execute <span class="string">'/opt/bin/tomcat-sc.sh tomcat-test start'</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><p>/<em>参考资料</em>/<br>极客学院-gradle使用教程:[<a href="http://wiki.jikexueyuan.com/project/gradle]" target="_blank" rel="noopener">http://wiki.jikexueyuan.com/project/gradle]</a></p>
+<p>美团点评: [<a href="http://tech.meituan.com/gradle-practice.html]" target="_blank" rel="noopener">http://tech.meituan.com/gradle-practice.html]</a></p>
+<p> Gradle在大型Java项目上的应用:[<a href="http://www.bianceng.cn/Programming/Java/201312/38553_4.htm]" target="_blank" rel="noopener">http://www.bianceng.cn/Programming/Java/201312/38553_4.htm]</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/payforme.jpg" alt="高建华 wechat" style="width: 200px; max-width: 100%;"/>
+    <div>感觉不错,微信打赏一下！</div>
+</div>
+
+      </div>
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/笔记/" rel="tag"># 笔记</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/12/27/snv/" rel="next" title="svn 使用笔记">
+                <i class="fa fa-chevron-left"></i> svn 使用笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/04/12/sublimetext/" rel="prev" title="在Ubuntu 16.04中使Sublime Text 3支持输入中文">
+                在Ubuntu 16.04中使Sublime Text 3支持输入中文 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="http://vis-user-image.oss-cn-qingdao.aliyuncs.com/userphoto/userphoto_9c3ae7df-b40f-4951-b4d5-677bae94277f_1457662255778__9C4A33BD1BA866FFD744A45D56B6B9BE.jpg"
+                alt="高建华" />
+            
+              <p class="site-author-name" itemprop="name">高建华</p>
+              <p class="site-description motion-element" itemprop="description">开心就好</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/gaojianhua" target="_blank" title="Github"><i class="fa fa-fw fa-globe"></i>Github</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/u/1726833822" target="_blank" title="Weibo"><i class="fa fa-fw fa-globe"></i>Weibo</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.imooc.com/u/2296056/courses" title="慕课网" target="_blank">慕课网</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://github.com/ETENG-WIKI" title="ETENG-WIKI" target="_blank">ETENG-WIKI</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#gradle简介"><span class="nav-number">1.</span> <span class="nav-text">gradle简介</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#功能"><span class="nav-number">1.1.</span> <span class="nav-text">功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#gradle提供了什么"><span class="nav-number">1.2.</span> <span class="nav-text">gradle提供了什么</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用工具"><span class="nav-number">1.3.</span> <span class="nav-text">使用工具</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#eclipse-中gradle插件的使用"><span class="nav-number">2.</span> <span class="nav-text">eclipse 中gradle插件的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装gradle插件"><span class="nav-number">2.1.</span> <span class="nav-text">安装gradle插件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用"><span class="nav-number">2.2.</span> <span class="nav-text">使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置build-gradle"><span class="nav-number">2.3.</span> <span class="nav-text">配置build.gradle</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#build-gradle详解"><span class="nav-number">2.4.</span> <span class="nav-text">build.gradle详解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动tomcat容器"><span class="nav-number">2.5.</span> <span class="nav-text">启动tomcat容器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#junit测试"><span class="nav-number">2.6.</span> <span class="nav-text">junit测试</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#build-gradle-更多高级用法"><span class="nav-number">3.</span> <span class="nav-text">build.gradle 更多高级用法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#引入其他-gradle文件"><span class="nav-number">3.1.</span> <span class="nav-text">引入其他.gradle文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#项目中多平台配置文件管理"><span class="nav-number">3.2.</span> <span class="nav-text">项目中多平台配置文件管理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ssh自动部署"><span class="nav-number">3.3.</span> <span class="nav-text">ssh自动部署</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">高建华</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.3.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'p1o0jofOaRQUBgTa8UKO4tRN-gzGzoHsz',
+        appKey: 'egswCKrEQX4XlKVnbXVVXPTv',
+        placeholder: '写下你的意见吧',
+        avatar:'identicon',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("p1o0jofOaRQUBgTa8UKO4tRN-gzGzoHsz", "egswCKrEQX4XlKVnbXVVXPTv");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            
+            counter.save(null, {
+              success: function(counter) {
+                
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            
+              var newcounter = new Counter();
+              /* Set ACL */
+              var acl = new AV.ACL();
+              acl.setPublicReadAccess(true);
+              acl.setPublicWriteAccess(true);
+              newcounter.setACL(acl);
+              /* End Set ACL */
+              newcounter.set("title", title);
+              newcounter.set("url", url);
+              newcounter.set("time", 1);
+              newcounter.save(null, {
+                success: function(newcounter) {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                },
+                error: function(newcounter, error) {
+                  console.log('Failed to create');
+                }
+              });
+            
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

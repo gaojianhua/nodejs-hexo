@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="基础能力什么是值传递和引用传递线程状态有哪些，它们之间是如何转换的线程与进程的区别，各有什么优缺点">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面试题">
+<meta property="og:url" content="http://www.robingao.win/2017/04/12/java-examination/index.html">
+<meta property="og:site_name" content="Robin Gao">
+<meta property="og:description" content="基础能力什么是值传递和引用传递线程状态有哪些，它们之间是如何转换的线程与进程的区别，各有什么优缺点">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-06-21T08:47:28.666Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="面试题">
+<meta name="twitter:description" content="基础能力什么是值传递和引用传递线程状态有哪些，它们之间是如何转换的线程与进程的区别，各有什么优缺点">
+
+
+
+
+
+
+  <link rel="canonical" href="http://www.robingao.win/2017/04/12/java-examination/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>面试题 | Robin Gao</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?e2c9a62df20c57b80e31998bdf409910";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Robin Gao</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">探索未知 每天都是新的开始</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+    <a href="/404.html" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />公益 404</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.robingao.win/2017/04/12/java-examination/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="高建华">
+      <meta itemprop="description" content="开心就好">
+      <meta itemprop="image" content="http://vis-user-image.oss-cn-qingdao.aliyuncs.com/userphoto/userphoto_9c3ae7df-b40f-4951-b4d5-677bae94277f_1457662255778__9C4A33BD1BA866FFD744A45D56B6B9BE.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Robin Gao">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">面试题
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-04-12 22:32:10" itemprop="dateCreated datePublished" datetime="2017-04-12T22:32:10+08:00">2017-04-12</time>
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/04/12/java-examination/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2017/04/12/java-examination/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/04/12/java-examination/" class="leancloud_visitors" data-flag-title="面试题">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="基础能力"><a href="#基础能力" class="headerlink" title="基础能力"></a>基础能力</h2><p>什么是值传递和引用传递<br>线程状态有哪些，它们之间是如何转换的<br>线程与进程的区别，各有什么优缺点<br><a id="more"></a><br>索引的作用及代价？如何建好索引？索引的原理<br>Hash算法<br>算法：二分查找算法，冒泡排序、选择排序算法、插入排序、归并、希尔、快排算法<br>锁：乐观锁和悲观锁<br>什么情况下会产生死锁？如何避免死锁？<br>JVM GC：介绍垃圾回收机制，垃圾回收算法。<br>JAVA的反射机制<br>Java集合类有哪些，分别在哪些场景使用<br>Linux下如何快速查找某个文件<br>Linux下如何设置环境变量<br>Linux下如何查看TCP连接状态<br>简述一次HTTP请求的基本流程<br>什么是JDBC，为什么需要什么是JDBC？实现原理是什么？<br>Get和Post的区别<br>Cookie和Session的区别，分别用于什么场景<br>为什么需要编码？UTF-8和GBK是如何进行编码的<br>分别介绍下JDK，JRE和JVM</p>
+<h2 id="学习能力"><a href="#学习能力" class="headerlink" title="学习能力"></a>学习能力</h2><p>列举所熟悉或研究过的技术框架<br>如何学习Java/C++？只是停留在用，还是深入研究过。<br>如何学习新技术？考察是否善于学习<br>新技术关注度，平常对哪方面的技术感兴趣？技术的广度和热情<br>看过哪些技术书，总结下看过的技术书</p>
+<h2 id="实战能力"><a href="#实战能力" class="headerlink" title="实战能力"></a>实战能力</h2><p>介绍下自己开发过的程序，谈谈后续如何优化<br>在实战中有没有遇到什么技术问题，如何解决的</p>
+<h2 id="逻辑思维能力"><a href="#逻辑思维能力" class="headerlink" title="逻辑思维能力"></a>逻辑思维能力</h2><p>有人把公司内网的信息截图泄露到外面，如何找出截图的人？<br>你有几位学弟，你要找其中一位学弟和你一起做项目，如何通过几个问题来判断学弟是否聪明？<br>你写了篇专利，如何快速判断这篇专利的创新性，和已有专利的重复度。<br>如果你开发了一个内部秒杀系统，让同事秒杀某件商品，如何找到作弊的人？</p>
+<p>转载自 并发编程网:<a href="http://ifeve.com/fresh-graduate-interview/" target="_blank" rel="noopener">http://ifeve.com/fresh-graduate-interview/</a></p>
+<hr>
+<p>————————-题库———————–</p>
+<h2 id="基础题目"><a href="#基础题目" class="headerlink" title="基础题目"></a>基础题目</h2><p>Java线程的状态<br>进程和线程的区别，进程间如何通讯，线程间如何通讯<br>HashMap的数据结构是什么？如何实现的。和HashTable，ConcurrentHashMap的区别<br>Cookie和Session的区别<br>索引有什么用？如何建索引？<br>ArrayList是如何实现的，ArrayList和LinkedList的区别？ArrayList如何实现扩容。<br>equals方法实现<br>面向对象<br>线程状态，BLOCKED和WAITING有什么区别<br>JVM如何加载字节码文件<br>JVM GC，GC算法。<br>什么情况会出现Full GC，什么情况会出现yong GC。<br>JVM内存模型<br>Java运行时数据区<br>事务的实现原理</p>
+<h2 id="技术深度"><a href="#技术深度" class="headerlink" title="技术深度"></a>技术深度</h2><p>有没有看过JDK源码，看过的类实现原理是什么。<br>HTTP协议<br>TCP协议<br>一致性Hash算法<br>JVM如何加载字节码文件<br>类加载器如何卸载字节码<br>IO和NIO的区别，NIO优点<br>Java线程池的实现原理，keepAliveTime等参数的作用。<br>HTTP连接池实现原理<br>数据库连接池实现原理<br>数据库的实现原理</p>
+<h2 id="技术框架"><a href="#技术框架" class="headerlink" title="技术框架"></a>技术框架</h2><p>看过哪些开源框架的源码<br>为什么要用Redis，Redis有哪些优缺点？Redis如何实现扩容？<br>Netty是如何使用线程池的，为什么这么使用<br>为什么要使用Spring，Spring的优缺点有哪些<br>Spring的IOC容器初始化流程<br>Spring的IOC容器实现原理，为什么可以通过byName和ByType找到Bean<br>Spring AOP实现原理<br>消息中间件是如何实现的，技术难点有哪些</p>
+<h2 id="系统架构"><a href="#系统架构" class="headerlink" title="系统架构"></a>系统架构</h2><p>如何搭建一个高可用系统<br>哪些设计模式可以增加系统的可扩展性<br>介绍设计模式，如模板模式，命令模式，策略模式，适配器模式、桥接模式、装饰模式，观察者模式，状态模式，访问者模式。<br>抽象能力，怎么提高研发效率。<br>什么是高内聚低耦合，请举例子如何实现<br>什么情况用接口，什么情况用消息<br>如果AB两个系统互相依赖，如何解除依赖<br>如何写一篇设计文档，目录是什么<br>什么场景应该拆分系统，什么场景应该合并系统<br>系统和模块的区别，分别在什么场景下使用</p>
+<h2 id="分布式系统"><a href="#分布式系统" class="headerlink" title="分布式系统"></a>分布式系统</h2><p>分布式事务，两阶段提交。<br>如何实现分布式锁<br>如何实现分布式Session<br>如何保证消息的一致性<br>负载均衡<br>正向代理（客户端代理）和反向代理（服务器端代理）<br>CDN实现原理<br>怎么提升系统的QPS和吞吐量</p>
+<h2 id="实战能力-1"><a href="#实战能力-1" class="headerlink" title="实战能力"></a>实战能力</h2><p>有没有处理过线上问题？出现内存泄露，CPU利用率标高，应用无响应时如何处理的。<br>开发中有没有遇到什么技术问题？如何解决的<br>如果有几十亿的白名单，每天白天需要高并发查询，晚上需要更新一次，如何设计这个功能。<br>新浪微博是如何实现把微博推给订阅者<br>Google是如何在一秒内把搜索结果返回给用户的。<br>12306网站的订票系统如何实现，如何保证不会票不被超卖。<br>如何实现一个秒杀系统，保证只有几位用户能买到某件商品。</p>
+<h2 id="软能力"><a href="#软能力" class="headerlink" title="软能力"></a>软能力</h2><p>如何学习一项新技术，比如如何学习Java的，重点学习什么<br>有关注哪些新的技术<br>工作任务非常多非常杂时如何处理<br>项目出现延迟如何处理<br>和同事的设计思路不一样怎么处理<br>如何保证开发质量<br>职业规划是什么？短期，长期目标是什么<br>团队的规划是什么<br>能介绍下从工作到现在自己的成长在那里</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/payforme.jpg" alt="高建华 wechat" style="width: 200px; max-width: 100%;"/>
+    <div>感觉不错,微信打赏一下！</div>
+</div>
+
+      </div>
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/09/mysql-char/" rel="next" title="mysql去除字段中的换行和回车符">
+                <i class="fa fa-chevron-left"></i> mysql去除字段中的换行和回车符
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/13/concurrent-1/" rel="prev" title="并发编程-进阶1">
+                并发编程-进阶1 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="http://vis-user-image.oss-cn-qingdao.aliyuncs.com/userphoto/userphoto_9c3ae7df-b40f-4951-b4d5-677bae94277f_1457662255778__9C4A33BD1BA866FFD744A45D56B6B9BE.jpg"
+                alt="高建华" />
+            
+              <p class="site-author-name" itemprop="name">高建华</p>
+              <p class="site-description motion-element" itemprop="description">开心就好</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/gaojianhua" target="_blank" title="Github"><i class="fa fa-fw fa-globe"></i>Github</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/u/1726833822" target="_blank" title="Weibo"><i class="fa fa-fw fa-globe"></i>Weibo</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.imooc.com/u/2296056/courses" title="慕课网" target="_blank">慕课网</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://github.com/ETENG-WIKI" title="ETENG-WIKI" target="_blank">ETENG-WIKI</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基础能力"><span class="nav-number">1.</span> <span class="nav-text">基础能力</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#学习能力"><span class="nav-number">2.</span> <span class="nav-text">学习能力</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实战能力"><span class="nav-number">3.</span> <span class="nav-text">实战能力</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#逻辑思维能力"><span class="nav-number">4.</span> <span class="nav-text">逻辑思维能力</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基础题目"><span class="nav-number">5.</span> <span class="nav-text">基础题目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#技术深度"><span class="nav-number">6.</span> <span class="nav-text">技术深度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#技术框架"><span class="nav-number">7.</span> <span class="nav-text">技术框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统架构"><span class="nav-number">8.</span> <span class="nav-text">系统架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分布式系统"><span class="nav-number">9.</span> <span class="nav-text">分布式系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实战能力-1"><span class="nav-number">10.</span> <span class="nav-text">实战能力</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#软能力"><span class="nav-number">11.</span> <span class="nav-text">软能力</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">高建华</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.3.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'p1o0jofOaRQUBgTa8UKO4tRN-gzGzoHsz',
+        appKey: 'egswCKrEQX4XlKVnbXVVXPTv',
+        placeholder: '写下你的意见吧',
+        avatar:'identicon',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("p1o0jofOaRQUBgTa8UKO4tRN-gzGzoHsz", "egswCKrEQX4XlKVnbXVVXPTv");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            
+            counter.save(null, {
+              success: function(counter) {
+                
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            
+              var newcounter = new Counter();
+              /* Set ACL */
+              var acl = new AV.ACL();
+              acl.setPublicReadAccess(true);
+              acl.setPublicWriteAccess(true);
+              newcounter.setACL(acl);
+              /* End Set ACL */
+              newcounter.set("title", title);
+              newcounter.set("url", url);
+              newcounter.set("time", 1);
+              newcounter.save(null, {
+                success: function(newcounter) {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                },
+                error: function(newcounter, error) {
+                  console.log('Failed to create');
+                }
+              });
+            
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

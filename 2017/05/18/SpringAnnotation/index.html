@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="一. Java元注解释义Question-注解在Java中如何起作用？-Spring是如何识别注解？-如何自定义注解为我所用？">
+<meta name="keywords" content="Spring">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring注解原理探索">
+<meta property="og:url" content="http://www.robingao.win/2017/05/18/SpringAnnotation/index.html">
+<meta property="og:site_name" content="Robin Gao">
+<meta property="og:description" content="一. Java元注解释义Question-注解在Java中如何起作用？-Spring是如何识别注解？-如何自定义注解为我所用？">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-07-04T08:24:55.366Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring注解原理探索">
+<meta name="twitter:description" content="一. Java元注解释义Question-注解在Java中如何起作用？-Spring是如何识别注解？-如何自定义注解为我所用？">
+
+
+
+
+
+
+  <link rel="canonical" href="http://www.robingao.win/2017/05/18/SpringAnnotation/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Spring注解原理探索 | Robin Gao</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?e2c9a62df20c57b80e31998bdf409910";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Robin Gao</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">探索未知 每天都是新的开始</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+    <a href="/404.html" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />公益 404</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.robingao.win/2017/05/18/SpringAnnotation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="高建华">
+      <meta itemprop="description" content="开心就好">
+      <meta itemprop="image" content="http://vis-user-image.oss-cn-qingdao.aliyuncs.com/userphoto/userphoto_9c3ae7df-b40f-4951-b4d5-677bae94277f_1457662255778__9C4A33BD1BA866FFD744A45D56B6B9BE.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Robin Gao">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Spring注解原理探索
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-05-18 20:19:23" itemprop="dateCreated datePublished" datetime="2017-05-18T20:19:23+08:00">2017-05-18</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Spring/" itemprop="url" rel="index"><span itemprop="name">Spring</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/05/18/SpringAnnotation/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2017/05/18/SpringAnnotation/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/05/18/SpringAnnotation/" class="leancloud_visitors" data-flag-title="Spring注解原理探索">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="一-Java元注解释义"><a href="#一-Java元注解释义" class="headerlink" title="一. Java元注解释义"></a>一. Java元注解释义</h2><p>Question<br>-注解在Java中如何起作用？<br>-Spring是如何识别注解？<br>-如何自定义注解为我所用？</p>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Spring注解：</span><br><span class="line">@Aotuwired @Required @Qualifier @Provider @Scope ...</span><br><span class="line">Spring MVC 注解：</span><br><span class="line">@Controller @Service @Repository @Component @RequestMapping @RequetBody @ResponseBody ...</span><br></pre></td></tr></table></figure>
+<p>java注解起源于JDK1.5<br>常见的注解有 @Override @Deprecated</p>
+<ol>
+<li>从@Override说起,源码如下</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">/*If a method is annotated with this annotation type </span><br><span class="line"> * compilers are required to generate an error message </span><br><span class="line"> * unless at least one of the following conditions hold:</span><br><span class="line"> *</span><br><span class="line"> * The method does override or implement a method declared in a</span><br><span class="line"> * supertype.</span><br><span class="line"> * The method has a signature that is override-equivalent to that of</span><br><span class="line"> * any public method declared in &#123;@linkplain Object&#125;.</span><br><span class="line"> */</span><br><span class="line">@Target(ElementType.METHOD)</span><br><span class="line">@Retention(RetentionPolicy.SOURCE)</span><br><span class="line">public @interface Override &#123;    // @interface 修饰注解类</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>元注解@Target,@Retention,@Documented,@Inherited </p>
+<ul>
+<li>@Target 表示该注解用于什么地方，可能的 ElemenetType 参数包括： </li>
+<li>ElemenetType.CONSTRUCTOR 构造器声明 </li>
+<li>ElemenetType.FIELD 域声明（包括 enum 实例） </li>
+<li>ElemenetType.LOCAL_VARIABLE 局部变量声明 </li>
+<li>ElemenetType.METHOD 方法声明 </li>
+<li>ElemenetType.PACKAGE 包声明 </li>
+<li>ElemenetType.PARAMETER 参数声明 </li>
+<li>ElemenetType.TYPE 类，接口（包括注解类型）或enum声明 </li>
+<li></li>
+<li>@Retention 表示在什么级别保存该注解信息。可选的 RetentionPolicy 参数包括： </li>
+<li>RetentionPolicy.SOURCE 保留在源码,注解将被编译器丢弃 </li>
+<li>RetentionPolicy.CLASS 注解在class文件中可用，但会被VM丢弃 </li>
+<li>RetentionPolicy.RUNTIME VM将在运行期也保留注释，因此可以通过反射机制读取注解的信息。 </li>
+<li></li>
+<li>@Documented 将此注解包含在 javadoc 中 </li>
+<li></li>
+<li>@Inherited 允许子类继承父类中的注解</li>
+</ul>
+<p><strong> 1：如果定义一个注解需要被反射读取，则在定义这个注解的时候将添加@Retention(RetentionPolicy.RUNTIME) 元注解。</strong><br><strong> 2：如果想要自定义一个注解，就必须指定注解作用的位置。作用在 类，方法，属性域，构造函数等。 </strong><br><strong> 3：如果想要自定义注解，添加@interface 修饰类名 </strong> </p>
+<h2 id="二-Java中如何自定义注解"><a href="#二-Java中如何自定义注解" class="headerlink" title="二. Java中如何自定义注解"></a>二. Java中如何自定义注解</h2><p>SpringMVC中@RequestMapping 注解的源码示例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">@Target(&#123;ElementType.METHOD, ElementType.TYPE&#125;)</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)  // 注解一直保持到VM运行期，被反射读取。</span><br><span class="line">@Documented</span><br><span class="line">@Mapping    // SpringMVC定义的元注解，暂忽略此。</span><br><span class="line">public @interface RequestMapping &#123;</span><br><span class="line">    String name() default &quot;&quot;;</span><br><span class="line">    </span><br><span class="line">    @AliasFor(&quot;path&quot;)    // SpringMVC中定义的别名注解。</span><br><span class="line">    String[] value() default &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    @AliasFor(&quot;value&quot;)</span><br><span class="line">    String[] path() default &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    RequestMethod[] method() default &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    String[] params() default &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    String[] headers() default &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    String[] consumes() default &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    String[] produces() default &#123;&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">用法示例：</span><br><span class="line">@RequestMapping(value=&quot;/user&quot;, methods=RequestMethod.GET)，</span><br><span class="line">@RequestMapping可供选择的参数有：</span><br><span class="line">name, value, path, method, params, headers, consumes, produces。</span><br><span class="line"></span><br><span class="line">注解的每个参数对应着 @RequestMapping 类中的方法名。</span><br><span class="line">每个参数指定一个默认值（default）。</span><br></pre></td></tr></table></figure>
+<p><strong> 1：注解定义格式：public @interface 注解名 {定义体} </strong><br><strong> 2：定义注解时，不得继承其他的注解或者接口。 </strong><br><strong> 3：注解类体中，每一个方法实际上声明了一个注解参数。方法名就是参数名，返回值类型就是参数类型。 </strong><br><strong> 4：注解参数支持的类型：8种基本类型（byte，short，int，long，float，double，char，boolean），String类型，Class类型，enum类型，Annotation类型，以上所有类型的数组。 </strong><br><strong> 5：访问修饰权限：public或者默认default。 </strong><br><strong> 6：注解元素必须要有默认值。在定义注解的默认值中指定，或者在使用注解的时候指定。非基本类型不能默认null。 </strong></p>
+<p>当自定义注解类之后，便可以在类（ElementType.TYPE）、方法（ElementType.METHOD）上标注 @RequestMapping。</p>
+<p>那怎样做才能让注解被Java程序所运行</p>
+<h2 id="Java程序如何识别注解"><a href="#Java程序如何识别注解" class="headerlink" title="Java程序如何识别注解"></a>Java程序如何识别注解</h2><p>Java 反射<br>java.lang.reflect 包，实现反射功能的工具类。<br>注解处理类库：java.lang.reflect.AnnotatedElement。</p>
+<p>程序通过反射获取了某个类的AnnotatedElement对象之后, 程序就可以调用该对象如下的方法来访问Annotation的信息：</p>
+<p>为了处理注解，<strong> 注解处理器 </strong> 做3件事情：</p>
+<ul>
+<li>读取配置文件中管理的bean</li>
+<li>实例化bean</li>
+<li>注解处理器获取实例bean中的注解并操作</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">前提假设：</span><br><span class="line">我们已经自定义注解类，如 @RequestMapping 注解类,</span><br><span class="line">并在合适的bean做出注解标注。</span><br><span class="line">则编写自己的注解处理器。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">public class ClassPathXMLApplicationContext &#123;</span><br><span class="line">    </span><br><span class="line">    public ClassPathXMLApplicationContext(String configFileName) &#123;</span><br><span class="line">        // 读取配置文件中管理的bean</span><br><span class="line">        readXMLConfigFile(configFileName);</span><br><span class="line">        // 实例化bean</span><br><span class="line">        instanceBean();</span><br><span class="line">        // 向容器注册bean</span><br><span class="line">        registerAnnotationBean();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 读取配置文件中的bean</span><br><span class="line">    private void readXMLConfigFile() &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 实例化bean</span><br><span class="line">    private void instanceBean() &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 向容器注册bean</span><br><span class="line">    private void registerAnnotationBean() &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Spring处理注解的源码分析"><a href="#Spring处理注解的源码分析" class="headerlink" title="Spring处理注解的源码分析"></a>Spring处理注解的源码分析</h2><p>管理注解bean定义的两个容器：</p>
+<ul>
+<li>AnnotationConfigWebApplicationContext</li>
+<li>AnnotationConfigApplicationContext 的 Java doc 原语：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Standalone application context, accepting annotated classes as input.</span><br><span class="line">... Alllows for registering classes one by one</span><br><span class="line">using &#123;@link #register(Class...)&#125; as well as for classpath scanning using &#123;@link #scan(String...)&#125;.</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>这两个类是 直接依赖于注解 作为容器配置信息 的 IOC容器。</p>
+<p>AnnotationConfigWebApplicationContext 是AnnotationConfigApplicationContext 的Web版本。<br>两者虽然实现方式略有差别，但处理注解的逻辑一样。<br>先扫描（scan(String…)）类路径（classpath），然后一一注册（register(Class&lt;?&gt;…)）。</p>
+<p>简单点，以 AnnotationConfigApplicationContext 为例。</p>
+<p>AnnotationConfigApplicationContext的源码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">package org.springframework.context.annotation;</span><br><span class="line"></span><br><span class="line">public class AnnotationConfigApplicationContext extends GenericApplicationContext implements AnnotationConfigRegistry &#123;</span><br><span class="line">    // 读取器：读取注解的Bean，并注册到容器中。</span><br><span class="line">    private final AnnotatedBeanDefinitionReader reader;</span><br><span class="line">    // 扫描器：扫描类路径中注解的Bean，并注册到容器中。</span><br><span class="line">    private final ClassPathBeanDefinitionScanner scanner;</span><br><span class="line"></span><br><span class="line">    public AnnotationConfigApplicationContext() &#123;</span><br><span class="line">        // reader和scanner，功能类似，使用场景不同：annotatedClasses, basePakages.</span><br><span class="line">        this.reader = new AnnotatedBeanDefinitionReader(this);</span><br><span class="line">        this.scanner = new ClassPathBeanDefinitionScanner(this);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public AnnotationConfigApplicationContext(DefaultListableBeanFactory beanFactory) &#123;</span><br><span class="line">        super(beanFactory);</span><br><span class="line">        this.reader = new AnnotatedBeanDefinitionReader(this);</span><br><span class="line">        this.scanner = new ClassPathBeanDefinitionScanner(this);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">/*********************************</span><br><span class="line"> *  1 区</span><br><span class="line"> ***/</span><br><span class="line">    public AnnotationConfigApplicationContext(Class&lt;?&gt;... annotatedClasses) &#123;</span><br><span class="line">        this();</span><br><span class="line">        register(annotatedClasses);</span><br><span class="line">        refresh();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public AnnotationConfigApplicationContext(String... basePackages) &#123;</span><br><span class="line">        this();</span><br><span class="line">        scan(basePackages);</span><br><span class="line">        refresh();</span><br><span class="line">    &#125;</span><br><span class="line">/*********************************/</span><br><span class="line">    @Override</span><br><span class="line">    public void setEnvironment(ConfigurableEnvironment environment) &#123;</span><br><span class="line">        super.setEnvironment(environment);</span><br><span class="line">        this.reader.setEnvironment(environment);</span><br><span class="line">        this.scanner.setEnvironment(environment);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setBeanNameGenerator(BeanNameGenerator beanNameGenerator) &#123;</span><br><span class="line">        this.reader.setBeanNameGenerator(beanNameGenerator);</span><br><span class="line">        this.scanner.setBeanNameGenerator(beanNameGenerator);</span><br><span class="line">        getBeanFactory().registerSingleton(</span><br><span class="line">                AnnotationConfigUtils.CONFIGURATION_BEAN_NAME_GENERATOR, beanNameGenerator);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setScopeMetadataResolver(ScopeMetadataResolver scopeMetadataResolver) &#123;</span><br><span class="line">        this.reader.setScopeMetadataResolver(scopeMetadataResolver);</span><br><span class="line">        this.scanner.setScopeMetadataResolver(scopeMetadataResolver);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">/***************************</span><br><span class="line"> *  2 区</span><br><span class="line"> ***/</span><br><span class="line">    public void register(Class&lt;?&gt;... annotatedClasses) &#123;</span><br><span class="line">        Assert.notEmpty(annotatedClasses, &quot;At least one annotated class must be specified&quot;);</span><br><span class="line">        this.reader.register(annotatedClasses);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void scan(String... basePackages) &#123;</span><br><span class="line">        Assert.notEmpty(basePackages, &quot;At least one base package must be specified&quot;);</span><br><span class="line">        this.scanner.scan(basePackages);</span><br><span class="line">    &#125;</span><br><span class="line">/***************************/</span><br><span class="line">    @Override</span><br><span class="line">    protected void prepareRefresh() &#123;</span><br><span class="line">        this.scanner.clearCache();</span><br><span class="line">        super.prepareRefresh();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>请注意：<br>AnnotationCnofigApplicationContext 类的源码中的 “1 区”：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">AnnotationConfigApplicationContext的基本功能在构造函数中完成。</span><br><span class="line"></span><br><span class="line">实例化reader 和scanner；然后调用 register(Class&lt;?&gt;... annotatedClasses) 或 scan(String... basePackages) 方法；最后刷新。</span><br><span class="line"></span><br><span class="line">而 register(Class&lt;?&gt;... annotatedClasses) 方法调用reader.register(Class&lt;?&gt;... annotatedClasses)；</span><br><span class="line"></span><br><span class="line">scan(String... basePackages) 方法调用scanner.scan(String... basePackages)。</span><br><span class="line"></span><br><span class="line">AnnotatedBeanDefinitionReader 和 ClassPathBeanDefinitionScanner 功能类似，二者取其一。</span><br></pre></td></tr></table></figure></p>
+<p>AnnotationConfigApplicationContext 类的源码中的 “2 区”：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">如下两个方法完成了Spring的扫描注册功能：</span><br><span class="line">reader.register(Class&lt;?&gt;... annotatedClasses);</span><br><span class="line">scanner.scan(String... basePackages);</span><br></pre></td></tr></table></figure></p>
+<p>reader.register(Class&lt;?&gt;… annotatedClasses) 的源码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">public void register(Class&lt;?&gt;... annotatedClasses) &#123;</span><br><span class="line">        for (Class&lt;?&gt; annotatedClass : annotatedClasses) &#123;</span><br><span class="line">            registerBean(annotatedClass);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">public void registerBean(Class&lt;?&gt; annotatedClass) &#123;</span><br><span class="line">        registerBean(annotatedClass, null, (Class&lt;? extends Annotation&gt;[]) null);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 注解功能实现区</span><br><span class="line">@SuppressWarnings(&quot;unchecked&quot;)</span><br><span class="line">public void registerBean(Class&lt;?&gt; annotatedClass, String name, Class&lt;? extends Annotation&gt;... qualifiers) &#123;</span><br><span class="line">    AnnotatedGenericBeanDefinition abd = new AnnotatedGenericBeanDefinition(annotatedClass);</span><br><span class="line">    if (this.conditionEvaluator.shouldSkip(abd.getMetadata())) &#123;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ScopeMetadata scopeMetadata = this.scopeMetadataResolver.resolveScopeMetadata(abd);</span><br><span class="line">    abd.setScope(scopeMetadata.getScopeName());</span><br><span class="line">    String beanName = (name != null ? name : this.beanNameGenerator.generateBeanName(abd, this.registry));</span><br><span class="line">        </span><br><span class="line">    AnnotationConfigUtils.processCommonDefinitionAnnotations(abd);</span><br><span class="line">    if (qualifiers != null) &#123;</span><br><span class="line">        for (Class&lt;? extends Annotation&gt; qualifier : qualifiers) &#123;</span><br><span class="line">            if (Primary.class == qualifier) &#123;</span><br><span class="line">                abd.setPrimary(true);</span><br><span class="line">            &#125; else if (Lazy.class == qualifier) &#123;</span><br><span class="line">                abd.setLazyInit(true);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                abd.addQualifier(new AutowireCandidateQualifier(qualifier));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    BeanDefinitionHolder definitionHolder = new BeanDefinitionHolder(abd, beanName);</span><br><span class="line">    definitionHolder = AnnotationConfigUtils.applyScopedProxyMode(scopeMetadata, definitionHolder, this.registry);</span><br><span class="line">    BeanDefinitionReaderUtils.registerBeanDefinition(definitionHolder, this.registry);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>scanner.scan(String… basePackages) 源码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">public int scan(String... basePackages) &#123;</span><br><span class="line">        int beanCountAtScanStart = this.registry.getBeanDefinitionCount();</span><br><span class="line"></span><br><span class="line">        doScan(basePackages);    // 备注：重点关注此处</span><br><span class="line"></span><br><span class="line">        // Register annotation config processors, if necessary.</span><br><span class="line">        if (this.includeAnnotationConfig) &#123;</span><br><span class="line">            AnnotationConfigUtils.registerAnnotationConfigProcessors(this.registry);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return (this.registry.getBeanDefinitionCount() - beanCountAtScanStart);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 注解功能实现区</span><br><span class="line">protected Set&lt;BeanDefinitionHolder&gt; doScan(String... basePackages) &#123;</span><br><span class="line">    Assert.notEmpty(basePackages, &quot;At least one base package must be specified&quot;);</span><br><span class="line">    /**</span><br><span class="line">     * BeanDefinitionHoder: Holder for a BeanDefinition with name and aliases.</span><br><span class="line">     * BeanDefinition: A BeanDefinition describes a bean instance,   </span><br><span class="line">     *   which has property values, constructor argument values, and </span><br><span class="line">     *   further information supplied by concrete implementations.</span><br><span class="line">     */</span><br><span class="line">    Set&lt;BeanDefinitionHolder&gt; beanDefinitions = new LinkedHashSet&lt;BeanDefinitionHolder&gt;();</span><br><span class="line">    for (String basePackage : basePackages) &#123;  // 多个包路径</span><br><span class="line">        Set&lt;BeanDefinition&gt; candidates = findCandidateComponents(basePackage);</span><br><span class="line">        for (BeanDefinition candidate : candidates) &#123;</span><br><span class="line">            ScopeMetadata scopeMetadata = this.scopeMetadataResolver.resolveScopeMetadata(candidate);</span><br><span class="line">            candidate.setScope(scopeMetadata.getScopeName());</span><br><span class="line">            String beanName = this.beanNameGenerator.generateBeanName(candidate, this.registry);</span><br><span class="line">            if (candidate instanceof AbstractBeanDefinition) &#123;</span><br><span class="line">                postProcessBeanDefinition((AbstractBeanDefinition) candidate, beanName);</span><br><span class="line">            &#125;</span><br><span class="line">            if (candidate instanceof AnnotatedBeanDefinition) &#123;</span><br><span class="line">                AnnotationConfigUtils.processCommonDefinitionAnnotations((AnnotatedBeanDefinition) candidate);</span><br><span class="line">            &#125;</span><br><span class="line">            if (checkCandidate(beanName, candidate)) &#123;</span><br><span class="line">                BeanDefinitionHolder definitionHolder = new BeanDefinitionHolder(candidate, beanName);</span><br><span class="line">                definitionHolder = AnnotationConfigUtils.applyScopedProxyMode(scopeMetadata, definitionHolder, this.registry);</span><br><span class="line">                beanDefinitions.add(definitionHolder);</span><br><span class="line">                registerBeanDefinition(definitionHolder, this.registry);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return beanDefinitions;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/payforme.jpg" alt="高建华 wechat" style="width: 200px; max-width: 100%;"/>
+    <div>感觉不错,微信打赏一下！</div>
+</div>
+
+      </div>
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Spring/" rel="tag"># Spring</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/16/shuyu/" rel="next" title="那些术语记录">
+                <i class="fa fa-chevron-left"></i> 那些术语记录
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/20/thread_pool/" rel="prev" title="JAVA线程池基础">
+                JAVA线程池基础 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="http://vis-user-image.oss-cn-qingdao.aliyuncs.com/userphoto/userphoto_9c3ae7df-b40f-4951-b4d5-677bae94277f_1457662255778__9C4A33BD1BA866FFD744A45D56B6B9BE.jpg"
+                alt="高建华" />
+            
+              <p class="site-author-name" itemprop="name">高建华</p>
+              <p class="site-description motion-element" itemprop="description">开心就好</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/gaojianhua" target="_blank" title="Github"><i class="fa fa-fw fa-globe"></i>Github</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/u/1726833822" target="_blank" title="Weibo"><i class="fa fa-fw fa-globe"></i>Weibo</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.imooc.com/u/2296056/courses" title="慕课网" target="_blank">慕课网</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://github.com/ETENG-WIKI" title="ETENG-WIKI" target="_blank">ETENG-WIKI</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一-Java元注解释义"><span class="nav-number">1.</span> <span class="nav-text">一. Java元注解释义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-Java中如何自定义注解"><span class="nav-number">2.</span> <span class="nav-text">二. Java中如何自定义注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java程序如何识别注解"><span class="nav-number">3.</span> <span class="nav-text">Java程序如何识别注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring处理注解的源码分析"><span class="nav-number">4.</span> <span class="nav-text">Spring处理注解的源码分析</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">高建华</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.3.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'p1o0jofOaRQUBgTa8UKO4tRN-gzGzoHsz',
+        appKey: 'egswCKrEQX4XlKVnbXVVXPTv',
+        placeholder: '写下你的意见吧',
+        avatar:'identicon',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("p1o0jofOaRQUBgTa8UKO4tRN-gzGzoHsz", "egswCKrEQX4XlKVnbXVVXPTv");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            
+            counter.save(null, {
+              success: function(counter) {
+                
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            
+              var newcounter = new Counter();
+              /* Set ACL */
+              var acl = new AV.ACL();
+              acl.setPublicReadAccess(true);
+              acl.setPublicWriteAccess(true);
+              newcounter.setACL(acl);
+              /* End Set ACL */
+              newcounter.set("title", title);
+              newcounter.set("url", url);
+              newcounter.set("time", 1);
+              newcounter.save(null, {
+                success: function(newcounter) {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                },
+                error: function(newcounter, error) {
+                  console.log('Failed to create');
+                }
+              });
+            
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

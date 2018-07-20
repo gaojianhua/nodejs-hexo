@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="1.单例对象">
+<meta name="keywords" content="乡村销客,大数据">
+<meta property="og:type" content="article">
+<meta property="og:title" content="scals学习笔记-类和对象1">
+<meta property="og:url" content="http://www.robingao.win/2017/03/07/scals-class2/index.html">
+<meta property="og:site_name" content="Robin Gao">
+<meta property="og:description" content="1.单例对象">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-06-21T08:47:28.682Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="scals学习笔记-类和对象1">
+<meta name="twitter:description" content="1.单例对象">
+
+
+
+
+
+
+  <link rel="canonical" href="http://www.robingao.win/2017/03/07/scals-class2/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>scals学习笔记-类和对象1 | Robin Gao</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?e2c9a62df20c57b80e31998bdf409910";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Robin Gao</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">探索未知 每天都是新的开始</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+    <a href="/404.html" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />公益 404</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.robingao.win/2017/03/07/scals-class2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="高建华">
+      <meta itemprop="description" content="开心就好">
+      <meta itemprop="image" content="http://vis-user-image.oss-cn-qingdao.aliyuncs.com/userphoto/userphoto_9c3ae7df-b40f-4951-b4d5-677bae94277f_1457662255778__9C4A33BD1BA866FFD744A45D56B6B9BE.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Robin Gao">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">scals学习笔记-类和对象1
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-03-07 20:11:13" itemprop="dateCreated datePublished" datetime="2017-03-07T20:11:13+08:00">2017-03-07</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/scals/" itemprop="url" rel="index"><span itemprop="name">scals</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/03/07/scals-class2/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2017/03/07/scals-class2/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/03/07/scals-class2/" class="leancloud_visitors" data-flag-title="scals学习笔记-类和对象1">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="1-单例对象"><a href="#1-单例对象" class="headerlink" title="1.单例对象"></a>1.单例对象</h1><a id="more"></a>
+<p>在某些场景下,我们可能不需要创建对象,而是想直接调用方法,但是scala语言并不支持静态成员变量,scals通过单例对象解决该问题,单例对象的创建方式如下:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">object Student&#123;</span><br><span class="line">	private var studengNo:Int=0;</span><br><span class="line">	def uniqueStudentNo()=&#123;</span><br><span class="line">		studentNo+=1</span><br><span class="line">		studentNo</span><br><span class="line">	&#125;</span><br><span class="line">	def main(args:Arrary[String]:Unit)=&#123;</span><br><span class="line">		println(Student.uniqueStudentNo())</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>object Student 编码后将生成两个字节码文件</p>
+<p>Student$.class<br>Student.class</p>
+<p>利用javap命令查看字节码文件内容有:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">javap -private Student$</span><br><span class="line">警告: 二进制文件Student$包含cn.scala.xtwy.Student$</span><br><span class="line">Compiled from <span class="string">"Student.scala"</span></span><br><span class="line">public final class cn.scala.xtwy.Student$ &#123;</span><br><span class="line">  public static final cn.scala.xtwy.Student$ MODULE$;</span><br><span class="line">  private int studentNo;</span><br><span class="line">  public static &#123;&#125;;</span><br><span class="line">  private int studentNo();</span><br><span class="line">  private void studentNo_<span class="variable">$eq</span>(int);</span><br><span class="line">  public int uniqueStudentNo();</span><br><span class="line">  private cn.scala.xtwy.Student$();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">javap -private Student</span><br><span class="line">警告: 二进制文件Student包含cn.scala.xtwy.Student</span><br><span class="line">Compiled from <span class="string">"Student.scala"</span></span><br><span class="line">public final class cn.scala.xtwy.Student &#123;</span><br><span class="line">  public static void main(java.lang.String[]);</span><br><span class="line">  public static int uniqueStudentNo();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>他们都是final类型的,而且student不难看出,object Student最终生成了两个类,分别是Student和Student$ 的构造方法是私有的,通过静态成员域 public static final cn.scala.xtwy.Student$ MODULE$;对student$进行引用,这其实是java语言中单例实现方式</p>
+<p>单例对象的使用方式同java语言类引用静态成员是一样的.</p>
+<h1 id="半生对象于伴生类"><a href="#半生对象于伴生类" class="headerlink" title="半生对象于伴生类"></a>半生对象于伴生类</h1><p>在前面的单例对象的基础之上,我们在objec Studeng 所在的文件内定义了一个class Student,此时object Student被称为class Student的伴生对象,而 class student 被称作object Student的伴生类 :</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">class Student(var name:String,age:Int)</span><br><span class="line"></span><br><span class="line">object Student &#123;</span><br><span class="line">  private var studentNo:Int=0;</span><br><span class="line">  def uniqueStudentNo()=&#123;</span><br><span class="line">    studentNo+=1</span><br><span class="line">    studentNo</span><br><span class="line">  &#125;</span><br><span class="line">  def main(args: Array[String]): Unit = &#123;</span><br><span class="line">    println(Student.uniqueStudentNo())</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//生成的字节码文件如下：</span><br><span class="line">D:\ScalaWorkspace\ScalaChapter06_2\bin\cn\scala\xtwy&gt;javap -private Student</span><br><span class="line">警告: 二进制文件Student包含cn.scala.xtwy.Student</span><br><span class="line">Compiled from <span class="string">"Student.scala"</span></span><br><span class="line">public class cn.scala.xtwy.Student &#123;</span><br><span class="line">  private java.lang.String name;</span><br><span class="line">  private int age;</span><br><span class="line">  public static void main(java.lang.String[]);</span><br><span class="line">  public static int uniqueStudentNo();</span><br><span class="line">  public java.lang.String name();</span><br><span class="line">  public void name_<span class="variable">$eq</span>(java.lang.String);</span><br><span class="line">  public int age();</span><br><span class="line">  public void age_<span class="variable">$eq</span>(int);</span><br><span class="line">  public cn.scala.xtwy.Student(java.lang.String, int);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">D:\ScalaWorkspace\ScalaChapter06_2\bin\cn\scala\xtwy&gt;javap -private Student$</span><br><span class="line">警告: 二进制文件Student$包含cn.scala.xtwy.Student$</span><br><span class="line">Compiled from <span class="string">"Student.scala"</span></span><br><span class="line">public final class cn.scala.xtwy.Student$ &#123;</span><br><span class="line">  public static final cn.scala.xtwy.Student$ MODULE$;</span><br><span class="line">  private int studentNo;</span><br><span class="line">  public static &#123;&#125;;</span><br><span class="line">  private int studentNo();</span><br><span class="line">  private void studentNo_<span class="variable">$eq</span>(int);</span><br><span class="line">  public int uniqueStudentNo();</span><br><span class="line">  public void main(java.lang.String[]);</span><br><span class="line">  private cn.scala.xtwy.Student$();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从上面的代码中不难看出, 其实伴生对象与伴生类本质上是不同的两个类,只不过伴生类与伴生对象之间可以相互访问到对方的成员包括私有的成员变量或者方法,例如:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">class Student(var name:String,var age:Int)&#123;</span><br><span class="line">	private var sex:Int=0</span><br><span class="line">	//直接访问伴生对象的私有成员</span><br><span class="line">	def printCompanionObject()=println(Student.studentNo)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">object Student&#123;</span><br><span class="line">  private var studentNo:Int=0;</span><br><span class="line">  def uniqueStudentNo()=&#123;</span><br><span class="line">    studentNo+=1</span><br><span class="line">    studentNo</span><br><span class="line">  &#125;</span><br><span class="line">  def main(args: Array[String]): Unit = &#123;</span><br><span class="line">    println(Student.uniqueStudentNo())</span><br><span class="line">    val s=new Student(<span class="string">"john"</span>,29)</span><br><span class="line">    //直接访问伴生类Student中的私有成员</span><br><span class="line">    println(s.sex)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="apply方法"><a href="#apply方法" class="headerlink" title="apply方法"></a>apply方法</h1><p>在前几节中我们提到，通过利用apply方法可以直接利用类名创建对象，例如前面在讲集合的时候，可以通过val intList=List(1,2,3)这种方式创建初始化一个列表对象，其实它相当于调用val intList=List.apply(1,2,3)，只不过val intList=List(1,2,3)这种创建方式更简洁一点，但我们必须明确的是这种创建方式仍然避免不了new，它后面的实现机制仍然是new的方式，只不过我们自己在使用的时候可以省去new的操作。下面就让我们来自己实现apply方法，代码如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">//定义Student类，该类称为伴生类，因为在同一个源文件里面，我们还定义了object Student</span><br><span class="line">class Student(var name:String,var age:Int)&#123;</span><br><span class="line">  private var sex:Int=0</span><br><span class="line">  //直接访问伴生对象的私有成员</span><br><span class="line">  def printCompanionObject()=println(Student.studentNo)</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//伴生对象</span><br><span class="line">object Student &#123;</span><br><span class="line">  private var studentNo:Int=0;</span><br><span class="line">  def uniqueStudentNo()=&#123;</span><br><span class="line">    studentNo+=1</span><br><span class="line">    studentNo</span><br><span class="line">  &#125;</span><br><span class="line">  //定义自己的apply方法</span><br><span class="line">  def apply(name:String,age:Int)=new Student(name,age)</span><br><span class="line">  def main(args: Array[String]): Unit = &#123;</span><br><span class="line">    println(Student.uniqueStudentNo())</span><br><span class="line">    val s=new Student(<span class="string">"john"</span>,29)</span><br><span class="line">    //直接访问伴生类Student中的私有成员</span><br><span class="line">    println(s.sex)</span><br><span class="line">    //直接利用类名进行对象的创建，这种方式实际上是调用前面的apply方法进行实现，这种方式的好处是避免了自己手动new去创建对象</span><br><span class="line">    val s1=Student(<span class="string">"john"</span>,29)</span><br><span class="line">    println(s1.name)</span><br><span class="line">    println(s1.age)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="应用程序对象"><a href="#应用程序对象" class="headerlink" title="应用程序对象"></a>应用程序对象</h1><p>利用IDE开发scala应用程序时,在运行程序时必须制定main方法作为程序的入口,例如:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">object Student &#123;</span><br><span class="line">  //必须定义mian方法作为程序的入口才能执行</span><br><span class="line">  def main(args: Array[String]): Unit = &#123;</span><br><span class="line">    val s1=Student(<span class="string">"john"</span>,29)</span><br><span class="line">    println(s1.name)</span><br><span class="line">    println(s1.age)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>除了这种方式之外,scala还提供了一种机制,通过扩展App,在scala IDE for Eclipse 里通过new-&gt; scala app方式创建的</p>
+<p>也可以在代码直接指定:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//扩展App后,程序可以直接运行,而不需要自己定义main方法,代码更简洁</span><br><span class="line">object AppDemo extends App&#123;	</span><br><span class="line">	println(<span class="string">"App Demo"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="抽象类"><a href="#抽象类" class="headerlink" title="抽象类"></a>抽象类</h1><p>抽象类是一种不能被实例化的类,抽象类中包括了若干不能完整定义的方法,这些方法由子类扩展定义自己的实现.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//scala中的抽象类定义</span><br><span class="line">abstract class Animal &#123;</span><br><span class="line">  def eat:Unit</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//对应字节码文件</span><br><span class="line">javap -private Animal.class</span><br><span class="line"></span><br><span class="line">Compiled from <span class="string">"human.scala"</span></span><br><span class="line">public abstract class cn.scala.xtwy.Animal &#123;</span><br><span class="line">  public abstract void eat();</span><br><span class="line">  public cn.scala.xtwy.Animal();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>除抽象方法外,抽象类中还有抽象字段:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">abstract class Animal&#123;</span><br><span class="line">	//抽象字段</span><br><span class="line">	//前面我们提到,一般类中定义字段的话必须初始化,而抽象类中则没有这样的要求</span><br><span class="line">	var height:Int</span><br><span class="line">	def eat:Unit</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//Person继承Animal，对eat方法进行了实现</span><br><span class="line">//通过主构造器对height参数进行了初始化</span><br><span class="line">class Person(var height:Int) extends Animal&#123;</span><br><span class="line">  //对父类中的方法进行实现，注意这里面可以不加override关键字</span><br><span class="line">  def eat()=&#123;</span><br><span class="line">    println(<span class="string">"eat by mouth"</span>)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//通过扩展App创建程序的入口</span><br><span class="line">object Person extends App&#123;</span><br><span class="line">  new Person(10).eat()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">//上面这几个类会产生以下四个字节码文件</span><br><span class="line"></span><br><span class="line">2015/07/22  23:28    &lt;DIR&gt;          .</span><br><span class="line">2015/07/22  23:28    &lt;DIR&gt;          ..</span><br><span class="line">2015/07/22  23:28               675 Animal.class</span><br><span class="line">2015/07/22  23:28             2,143 Person$.class</span><br><span class="line">2015/07/22  23:28               699 Person<span class="variable">$delayedInit</span><span class="variable">$body</span>.class</span><br><span class="line">2015/07/22  23:28             1,741 Person.class</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//字节码内容如下：</span><br><span class="line">//Animal类对应的字节码，可以看到，字节码中包括了抽象字段height的getter和setter方法，只不过它们都是抽象的</span><br><span class="line">javap -private Animal.class</span><br><span class="line"></span><br><span class="line">Compiled from <span class="string">"Person.scala"</span></span><br><span class="line">public abstract class cn.scala.xtwy.Animal &#123;</span><br><span class="line">  public abstract int height();</span><br><span class="line">  public abstract void height_<span class="variable">$eq</span>(int);</span><br><span class="line">  public abstract void eat();</span><br><span class="line">  public cn.scala.xtwy.Animal();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//Person类对应的字节码文件</span><br><span class="line">javap -private Person.class</span><br><span class="line"></span><br><span class="line">Compiled from <span class="string">"Person.scala"</span></span><br><span class="line">public class cn.scala.xtwy.Person extends cn.scala.xtwy.Animal &#123;</span><br><span class="line">  private int height;</span><br><span class="line">  public static void main(java.lang.String[]);</span><br><span class="line">  public static void delayedInit(scala.Function0&lt;scala.runtime.BoxedUnit&gt;);</span><br><span class="line">  public static java.lang.String[] args();</span><br><span class="line">  public static void scala<span class="variable">$App</span><span class="variable">$_setter_</span><span class="variable">$executionStart_</span><span class="variable">$eq</span>(long);</span><br><span class="line">  public static long executionStart();</span><br><span class="line">  public int height();</span><br><span class="line">  public void height_<span class="variable">$eq</span>(int);</span><br><span class="line">  public void eat();</span><br><span class="line">  public cn.scala.xtwy.Person(int);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//伴生对象Person对应的字节码文件内容</span><br><span class="line">javap -private Person$.clas</span><br><span class="line">s</span><br><span class="line">Compiled from <span class="string">"Person.scala"</span></span><br><span class="line">public final class cn.scala.xtwy.Person$ implements scala.App &#123;</span><br><span class="line">  public static final cn.scala.xtwy.Person$ MODULE$;</span><br><span class="line">  private final long executionStart;</span><br><span class="line">  private java.lang.String[] scala<span class="variable">$App</span>$<span class="variable">$_args</span>;</span><br><span class="line">  private final scala.collection.mutable.ListBuffer&lt;scala.Function0&lt;scala.runtim</span><br><span class="line">e.BoxedUnit&gt;&gt; scala<span class="variable">$App</span>$<span class="variable">$initCode</span>;</span><br><span class="line">  public static &#123;&#125;;</span><br><span class="line">  public long executionStart();</span><br><span class="line">  public java.lang.String[] scala<span class="variable">$App</span>$<span class="variable">$_args</span>();</span><br><span class="line">  public void scala<span class="variable">$App</span>$<span class="variable">$_args_</span><span class="variable">$eq</span>(java.lang.String[]);</span><br><span class="line">  public scala.collection.mutable.ListBuffer&lt;scala.Function0&lt;scala.runtime.Boxed</span><br><span class="line">Unit&gt;&gt; scala<span class="variable">$App</span>$<span class="variable">$initCode</span>();</span><br><span class="line">  public void scala<span class="variable">$App</span><span class="variable">$_setter_</span><span class="variable">$executionStart_</span><span class="variable">$eq</span>(long);</span><br><span class="line">  public void scala<span class="variable">$App</span><span class="variable">$_setter_</span><span class="variable">$scala</span><span class="variable">$App</span>$<span class="variable">$initCode_</span><span class="variable">$eq</span>(scala.collection.mutabl</span><br><span class="line">e.ListBuffer);</span><br><span class="line">  public java.lang.String[] args();</span><br><span class="line">  public void delayedInit(scala.Function0&lt;scala.runtime.BoxedUnit&gt;);</span><br><span class="line">  public void main(java.lang.String[]);</span><br><span class="line">  private cn.scala.xtwy.Person$();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/payforme.jpg" alt="高建华 wechat" style="width: 200px; max-width: 100%;"/>
+    <div>感觉不错,微信打赏一下！</div>
+</div>
+
+      </div>
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/乡村销客/" rel="tag"># 乡村销客</a>
+          
+            <a href="/tags/大数据/" rel="tag"># 大数据</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/07/scala-8import/" rel="next" title="scala学习笔记-包和引入">
+                <i class="fa fa-chevron-left"></i> scala学习笔记-包和引入
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/07/scala-class/" rel="prev" title="scals学习笔记-类和对象1">
+                scals学习笔记-类和对象1 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="http://vis-user-image.oss-cn-qingdao.aliyuncs.com/userphoto/userphoto_9c3ae7df-b40f-4951-b4d5-677bae94277f_1457662255778__9C4A33BD1BA866FFD744A45D56B6B9BE.jpg"
+                alt="高建华" />
+            
+              <p class="site-author-name" itemprop="name">高建华</p>
+              <p class="site-description motion-element" itemprop="description">开心就好</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/gaojianhua" target="_blank" title="Github"><i class="fa fa-fw fa-globe"></i>Github</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/u/1726833822" target="_blank" title="Weibo"><i class="fa fa-fw fa-globe"></i>Weibo</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.imooc.com/u/2296056/courses" title="慕课网" target="_blank">慕课网</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://github.com/ETENG-WIKI" title="ETENG-WIKI" target="_blank">ETENG-WIKI</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-单例对象"><span class="nav-number">1.</span> <span class="nav-text">1.单例对象</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#半生对象于伴生类"><span class="nav-number">2.</span> <span class="nav-text">半生对象于伴生类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#apply方法"><span class="nav-number">3.</span> <span class="nav-text">apply方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#应用程序对象"><span class="nav-number">4.</span> <span class="nav-text">应用程序对象</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#抽象类"><span class="nav-number">5.</span> <span class="nav-text">抽象类</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">高建华</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.3.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'p1o0jofOaRQUBgTa8UKO4tRN-gzGzoHsz',
+        appKey: 'egswCKrEQX4XlKVnbXVVXPTv',
+        placeholder: '写下你的意见吧',
+        avatar:'identicon',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("p1o0jofOaRQUBgTa8UKO4tRN-gzGzoHsz", "egswCKrEQX4XlKVnbXVVXPTv");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            
+            counter.save(null, {
+              success: function(counter) {
+                
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            
+              var newcounter = new Counter();
+              /* Set ACL */
+              var acl = new AV.ACL();
+              acl.setPublicReadAccess(true);
+              acl.setPublicWriteAccess(true);
+              newcounter.setACL(acl);
+              /* End Set ACL */
+              newcounter.set("title", title);
+              newcounter.set("url", url);
+              newcounter.set("time", 1);
+              newcounter.save(null, {
+                success: function(newcounter) {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                },
+                error: function(newcounter, error) {
+                  console.log('Failed to create');
+                }
+              });
+            
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="包的作用与定义">
+<meta name="keywords" content="乡村销客,大数据">
+<meta property="og:type" content="article">
+<meta property="og:title" content="scala学习笔记-包和引入">
+<meta property="og:url" content="http://www.robingao.win/2017/03/07/scala-8import/index.html">
+<meta property="og:site_name" content="Robin Gao">
+<meta property="og:description" content="包的作用与定义">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-06-21T08:47:28.682Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="scala学习笔记-包和引入">
+<meta name="twitter:description" content="包的作用与定义">
+
+
+
+
+
+
+  <link rel="canonical" href="http://www.robingao.win/2017/03/07/scala-8import/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>scala学习笔记-包和引入 | Robin Gao</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?e2c9a62df20c57b80e31998bdf409910";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Robin Gao</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">探索未知 每天都是新的开始</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+    <a href="/404.html" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />公益 404</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.robingao.win/2017/03/07/scala-8import/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="高建华">
+      <meta itemprop="description" content="开心就好">
+      <meta itemprop="image" content="http://vis-user-image.oss-cn-qingdao.aliyuncs.com/userphoto/userphoto_9c3ae7df-b40f-4951-b4d5-677bae94277f_1457662255778__9C4A33BD1BA866FFD744A45D56B6B9BE.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Robin Gao">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">scala学习笔记-包和引入
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-03-07 20:11:13" itemprop="dateCreated datePublished" datetime="2017-03-07T20:11:13+08:00">2017-03-07</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/scala/" itemprop="url" rel="index"><span itemprop="name">scala</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/03/07/scala-8import/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2017/03/07/scala-8import/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/03/07/scala-8import/" class="leancloud_visitors" data-flag-title="scala学习笔记-包和引入">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="包的作用与定义"><a href="#包的作用与定义" class="headerlink" title="包的作用与定义"></a>包的作用与定义</h1><a id="more"></a>
+<p>同java中的包.c++中的命名空间一样,scala中的包主要用于大型工程代码的组织同时也解决命名冲突的问题,scala中的包与java有着诸多的相似之处,但是scala语言中的包更加灵活.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">//将代码组织到cn.scala.xtwy包中</span><br><span class="line">package cn.scala.xtwy</span><br><span class="line"></span><br><span class="line">abstract class Animal &#123;</span><br><span class="line">  //抽象字段(域）</span><br><span class="line">  var height:Int</span><br><span class="line">  //抽象方法</span><br><span class="line">  def eat:Unit</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Person(var height:Int) extends Animal&#123;</span><br><span class="line">  override def eat()=&#123;</span><br><span class="line">    println(<span class="string">"eat by mouth"</span>)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">object Person extends App&#123;</span><br><span class="line">  new Person(10).eat()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="包的作用域与引入（import）的使用方法"><a href="#包的作用域与引入（import）的使用方法" class="headerlink" title="包的作用域与引入（import）的使用方法"></a>包的作用域与引入（import）的使用方法</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">package cn&#123;</span><br><span class="line">  package scala&#123;</span><br><span class="line">    //在包cn.scala下创建了一个Utils单例</span><br><span class="line">    object Utils&#123;</span><br><span class="line">      def toString(x:String)&#123;</span><br><span class="line">        println(x)</span><br><span class="line">      &#125;</span><br><span class="line">      //外层包无法直接访问内层包，下面这一行代码编译通不过</span><br><span class="line">     //def getTeacher():Teacher=new Teacher(<span class="string">"john"</span>)</span><br><span class="line">     //如果一定要使用的话，可以引入包</span><br><span class="line">     import cn.scala.xtwy._</span><br><span class="line">     def getTeacher():Teacher=new Teacher(<span class="string">"john"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    //定义了cn.scala.xtwy</span><br><span class="line">    package xtwy&#123;</span><br><span class="line">      class Teacher(var name:String) &#123;</span><br><span class="line">           //演示包的访问规则</span><br><span class="line">           //内层包可以访问外层包中定义的类或对象，无需引入</span><br><span class="line">           def printName()=&#123;Utils.toString(name)&#125;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">object appDemo&#123;</span><br><span class="line">        //scala允许在任何地方进行包的引入，_的意思是引入该包下的所有类和对象</span><br><span class="line">        import cn.scala._</span><br><span class="line">        import cn.scala.xtwy._</span><br><span class="line">        def main(args: Array[String]): Unit = &#123;</span><br><span class="line">            Utils.toString(new Teacher(<span class="string">"john"</span>).name)</span><br><span class="line">            new Teacher(<span class="string">"john"</span>).printName() </span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="访问控制"><a href="#访问控制" class="headerlink" title="访问控制"></a>访问控制</h1><p>在java语言中,主要通过public  private protected及默认控制来实现包中类成员的访问控制,当定义一个类时,如果类成员不加任何访问控制符时,表示该成员在定义该类的包中可见.<br>在scala中没有public关键字,仅有private和protected访问控制符,当一个类成员不加private和protected时,他的访问权限就是public. 下面逐个解释:</p>
+<ol>
+<li>provate成员</li>
+</ol>
+<p>private成员同java是一样的，所有带该关键字修饰的成员仅能在定义它的类或对象中使用，在外部是不可见的</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">class Student(var name:String,var age:Int)&#123;</span><br><span class="line">	private var sex:Int=0</span><br><span class="line">	class Course(var cNamen:String,val gpa:Float)&#123;</span><br><span class="line">		//可以直接访问其外部类的私有成员</span><br><span class="line">    	def getStudentSex(student:Student)= student.sex</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 班级类</span><br><span class="line">class Class&#123;</span><br><span class="line">	//下面这条语句统计通不过，因为sex是私有的</span><br><span class="line">  // def getStudentSex(student:Student)=student.sex</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">object Student &#123;</span><br><span class="line">  private var studentNo:Int=0;</span><br><span class="line">  def uniqueStudentNo()=&#123;</span><br><span class="line">    studentNo+=1</span><br><span class="line">    studentNo</span><br><span class="line">  &#125;</span><br><span class="line">  def apply(name:String,age:Int)=new Student(name,age)</span><br><span class="line"></span><br><span class="line">  def main(args: Array[String]): Unit = &#123;</span><br><span class="line">    println(Student.uniqueStudentNo())</span><br><span class="line">    val s=new Student(<span class="string">"john"</span>,29)</span><br><span class="line">    //直接访问伴生类Student中的私有成员</span><br><span class="line">    println(s.sex)</span><br><span class="line"></span><br><span class="line">    val s1=Student(<span class="string">"john"</span>,29)</span><br><span class="line">    println(s1.name)</span><br><span class="line">    println(s1.age)</span><br><span class="line"></span><br><span class="line">    //使用内部类</span><br><span class="line">    val c1=new s1.Course(<span class="string">"Scala"</span>,3.0f)</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2.protected 成员</p>
+<p>在java语言中，protected成员不但可以被该类及其子类访问，也可以被同一个包中的其它类使用，但在scala中，protected成员只能被该类及其子类访问</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">class SuperClass &#123;</span><br><span class="line">  protected def f()=println(<span class="string">"....."</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class SubClass extends SuperClass&#123;</span><br><span class="line">  f()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class OtherClass&#123;</span><br><span class="line">  //下面这个语句会报错</span><br><span class="line">  //f()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>无修饰符成员</li>
+</ol>
+<p>无修饰符的成员同java的public , 可以在任何位置进行访问<br>4.范围保护</p>
+<p>在scala中提供了更为灵活的访问控制方法，private、protected除了可以直接修饰成员外，还可以以private[X]、protected[X]的方式进行更为灵活的访问控制，这种访问控制的意思是可以将private、protected限定到X，X可以是包、类，还可以是单例对象<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">package cn&#123;</span><br><span class="line">  class UtilsTest&#123;</span><br><span class="line">     //编译通不过，因为Utils利用private[scala]修饰，只能在scala及其子包中使用</span><br><span class="line">    //Utils.toString()</span><br><span class="line">  &#125;</span><br><span class="line">  package scala&#123;</span><br><span class="line">    //private[scala]限定Utils只能在scala及子包中使用</span><br><span class="line">    private[scala] object Utils&#123;</span><br><span class="line">      def toString(x:String)&#123;</span><br><span class="line">        println(x)</span><br><span class="line">      &#125;</span><br><span class="line">      import cn.scala.xtwy._</span><br><span class="line">      def getTeacher():Teacher=new Teacher(<span class="string">"john"</span>)</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    package xtwy&#123;</span><br><span class="line">      class Teacher(var name:String) &#123;</span><br><span class="line">           def printName()=&#123;Utils.toString(name)&#125;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">object appDemo&#123;</span><br><span class="line">        import cn.scala._</span><br><span class="line">        import cn.scala.xtwy._</span><br><span class="line">        def main(args: Array[String]): Unit = &#123;</span><br><span class="line">            //编译通不过，同UtilsTest</span><br><span class="line">            //Utils.toString(new Teacher(<span class="string">"john"</span>).name)</span><br><span class="line">            new Teacher(<span class="string">"john"</span>).printName() </span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>private[this]，限定只有该类的对象才能访问，称这种成员为对象私有成员</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">package cn.scala.xtwy;</span><br><span class="line"></span><br><span class="line">class Teacher(var name: String) &#123;</span><br><span class="line">  private[this] def printName(tName:String=<span class="string">""</span>) :Unit= &#123; println(tName) &#125;</span><br><span class="line">  //调用private[this] printName方法</span><br><span class="line">  def <span class="built_in">print</span>(n:String)=this.printName(n)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">object Teacher&#123;</span><br><span class="line">   //private[this]限定的成员，即使伴生对象Teacher也不能使用</span><br><span class="line">  //def printName=new Teacher(<span class="string">"john"</span>).printName()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">object appDemo &#123;</span><br><span class="line">  def main(args: Array[String]): Unit = &#123;</span><br><span class="line">          //编译不能通过</span><br><span class="line">         //new Teacher(<span class="string">"john"</span>).printName()</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>private，定义的类及伴生对象可以访问</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">package cn.scala.xtwy;</span><br><span class="line"></span><br><span class="line">class Teacher(var name: String) &#123;</span><br><span class="line">  private def printName(tName:String=<span class="string">""</span>) :Unit= &#123; println(tName) &#125;</span><br><span class="line">  //可以访问</span><br><span class="line">  def <span class="built_in">print</span>(n:String)=this.printName(n)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">object Teacher&#123;</span><br><span class="line">  //伴生对象可以访问</span><br><span class="line">  def printName=new Teacher(<span class="string">"john"</span>).printName()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">object appDemo &#123;</span><br><span class="line">  def main(args: Array[String]): Unit = &#123;</span><br><span class="line">          //不能访问</span><br><span class="line">         //new Teacher(<span class="string">"john"</span>).printName()</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>下面给出的是访问规则表</p>
+<p>修饰符    访问范围<br>无任何修饰符    任何地方都可以使用<br>private[scala]    在定义的类中可以访问，在scala包及子包中可以访问<br>private[this]    只能在定义的类中访问，即使伴生对象也不能访问团<br>private    在定义的的类及伴生对象中可以访问，其它地方不能访问<br>protected[scala]    在定义的类及子类中可以访问，在scala包及子包中可以访问，<br>protected[this]    只能在定义的类及子类中访问，即使伴生对象也不能访问<br>protected    在定义的类及子类中访问，伴生对象可以访问，其它地方不能访问</p>
+<h1 id="包对象"><a href="#包对象" class="headerlink" title="包对象"></a>包对象</h1><p>包对象主要用于常量,工具函数,使用时直接通过包名引用,</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/payforme.jpg" alt="高建华 wechat" style="width: 200px; max-width: 100%;"/>
+    <div>感觉不错,微信打赏一下！</div>
+</div>
+
+      </div>
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/乡村销客/" rel="tag"># 乡村销客</a>
+          
+            <a href="/tags/大数据/" rel="tag"># 大数据</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/07/oozie-timezone/" rel="next" title="oozie更改时区--乡村销客大数据">
+                <i class="fa fa-chevron-left"></i> oozie更改时区--乡村销客大数据
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/07/scals-class2/" rel="prev" title="scals学习笔记-类和对象1">
+                scals学习笔记-类和对象1 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="http://vis-user-image.oss-cn-qingdao.aliyuncs.com/userphoto/userphoto_9c3ae7df-b40f-4951-b4d5-677bae94277f_1457662255778__9C4A33BD1BA866FFD744A45D56B6B9BE.jpg"
+                alt="高建华" />
+            
+              <p class="site-author-name" itemprop="name">高建华</p>
+              <p class="site-description motion-element" itemprop="description">开心就好</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/gaojianhua" target="_blank" title="Github"><i class="fa fa-fw fa-globe"></i>Github</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/u/1726833822" target="_blank" title="Weibo"><i class="fa fa-fw fa-globe"></i>Weibo</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.imooc.com/u/2296056/courses" title="慕课网" target="_blank">慕课网</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://github.com/ETENG-WIKI" title="ETENG-WIKI" target="_blank">ETENG-WIKI</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#包的作用与定义"><span class="nav-number">1.</span> <span class="nav-text">包的作用与定义</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#包的作用域与引入（import）的使用方法"><span class="nav-number">2.</span> <span class="nav-text">包的作用域与引入（import）的使用方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#访问控制"><span class="nav-number">3.</span> <span class="nav-text">访问控制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#包对象"><span class="nav-number">4.</span> <span class="nav-text">包对象</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">高建华</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.3.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'p1o0jofOaRQUBgTa8UKO4tRN-gzGzoHsz',
+        appKey: 'egswCKrEQX4XlKVnbXVVXPTv',
+        placeholder: '写下你的意见吧',
+        avatar:'identicon',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("p1o0jofOaRQUBgTa8UKO4tRN-gzGzoHsz", "egswCKrEQX4XlKVnbXVVXPTv");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            
+            counter.save(null, {
+              success: function(counter) {
+                
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            
+              var newcounter = new Counter();
+              /* Set ACL */
+              var acl = new AV.ACL();
+              acl.setPublicReadAccess(true);
+              acl.setPublicWriteAccess(true);
+              newcounter.setACL(acl);
+              /* End Set ACL */
+              newcounter.set("title", title);
+              newcounter.set("url", url);
+              newcounter.set("time", 1);
+              newcounter.save(null, {
+                success: function(newcounter) {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                },
+                error: function(newcounter, error) {
+                  console.log('Failed to create');
+                }
+              });
+            
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

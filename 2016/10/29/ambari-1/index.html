@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="1.乡村销客  乡村销客官网 :http://www.vilsale.com乡村销客是面向化肥行业的企业互联网营销工具。通过“移动应用+云计算+应用市场”的互联网领先技术，帮助化肥生产销售企业快速实现">
+<meta name="keywords" content="乡村销客,大数据">
+<meta property="og:type" content="article">
+<meta property="og:title" content="乡村销客离线计算--ambari2.4.1和hdp2.5安装部署">
+<meta property="og:url" content="http://www.robingao.win/2016/10/29/ambari-1/index.html">
+<meta property="og:site_name" content="Robin Gao">
+<meta property="og:description" content="1.乡村销客  乡村销客官网 :http://www.vilsale.com乡村销客是面向化肥行业的企业互联网营销工具。通过“移动应用+云计算+应用市场”的互联网领先技术，帮助化肥生产销售企业快速实现">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/vis.png">
+<meta property="og:image" content="http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb1.png">
+<meta property="og:image" content="http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb2.png">
+<meta property="og:image" content="http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb3.png">
+<meta property="og:image" content="http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb4.png">
+<meta property="og:image" content="http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb5.png">
+<meta property="og:image" content="http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb6.png">
+<meta property="og:image" content="http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb7.png">
+<meta property="og:image" content="http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb8.png">
+<meta property="og:image" content="http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb9.png">
+<meta property="og:image" content="http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb10.png">
+<meta property="og:image" content="http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb11.png">
+<meta property="og:image" content="http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb12.png">
+<meta property="og:image" content="http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb13.png">
+<meta property="og:image" content="http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb14.png">
+<meta property="og:image" content="http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb15.png">
+<meta property="og:image" content="http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb16.png">
+<meta property="og:updated_time" content="2018-06-21T08:47:28.651Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="乡村销客离线计算--ambari2.4.1和hdp2.5安装部署">
+<meta name="twitter:description" content="1.乡村销客  乡村销客官网 :http://www.vilsale.com乡村销客是面向化肥行业的企业互联网营销工具。通过“移动应用+云计算+应用市场”的互联网领先技术，帮助化肥生产销售企业快速实现">
+<meta name="twitter:image" content="http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/vis.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://www.robingao.win/2016/10/29/ambari-1/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>乡村销客离线计算--ambari2.4.1和hdp2.5安装部署 | Robin Gao</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?e2c9a62df20c57b80e31998bdf409910";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Robin Gao</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">探索未知 每天都是新的开始</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+    <a href="/404.html" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />公益 404</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.robingao.win/2016/10/29/ambari-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="高建华">
+      <meta itemprop="description" content="开心就好">
+      <meta itemprop="image" content="http://vis-user-image.oss-cn-qingdao.aliyuncs.com/userphoto/userphoto_9c3ae7df-b40f-4951-b4d5-677bae94277f_1457662255778__9C4A33BD1BA866FFD744A45D56B6B9BE.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Robin Gao">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">乡村销客离线计算--ambari2.4.1和hdp2.5安装部署
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2016-10-29 22:12:19" itemprop="dateCreated datePublished" datetime="2016-10-29T22:12:19+08:00">2016-10-29</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/ambari/" itemprop="url" rel="index"><span itemprop="name">ambari</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/10/29/ambari-1/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2016/10/29/ambari-1/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2016/10/29/ambari-1/" class="leancloud_visitors" data-flag-title="乡村销客离线计算--ambari2.4.1和hdp2.5安装部署">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="1-乡村销客"><a href="#1-乡村销客" class="headerlink" title="1.乡村销客"></a>1.乡村销客</h1><p> <strong> 乡村销客官网 </strong>:<a href="http://www.vilsale.com" target="_blank" rel="noopener">http://www.vilsale.com</a><br>乡村销客是面向化肥行业的企业互联网营销工具。通过“移动应用+云计算+应用市场”的互联网领先技术，帮助化肥生产销售企业快速实现<br><img src="http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/vis.png" class="full-image"><br><a id="more"></a></p>
+<ol>
+<li><strong> 移动化市场营销及客户拜访，</strong>  </li>
+<li><strong> 解决调度发运响应不畅  </strong>  </li>
+<li><strong> 客户账户对账不准等问题， </strong>  </li>
+<li><strong> 帮助肥料企业营销及客户管理 </strong>”。 </li>
+</ol>
+<p>乡村销客基于软件即服务的互联网理念，创建国内第一个专注<strong> 肥料行业的SAAS平台 </strong>，为肥料企业打造性价比最高的企业互联网营销工具。</p>
+<p>———–这是广告结束的分割线————————–</p>
+<hr>
+<h1 id="2-集群环境"><a href="#2-集群环境" class="headerlink" title="2.集群环境"></a>2.集群环境</h1><p>censtos7 三台虚拟机  4核4G内存, 50存储<br>jdk8,mysql5.6</p>
+<p>192.168.0.65  h65m h65m.hadoop<br>192.168.0.66  h66  h66.hadoop<br>192.168.0.67  h67  h67.hadoop</p>
+<hr>
+<h1 id="3-操作系统环境"><a href="#3-操作系统环境" class="headerlink" title="3.操作系统环境"></a>3.操作系统环境</h1><h2 id="配置SSH免密码登陆"><a href="#配置SSH免密码登陆" class="headerlink" title="配置SSH免密码登陆"></a>配置SSH免密码登陆</h2><p>主节点(h65m)里root用户登录执行如下步骤  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen</span><br><span class="line">cd ~/.ssh/</span><br><span class="line">cat id_rsa.pub &gt;&gt;authorized_keys</span><br><span class="line">chmod 700 ~/.ssh</span><br><span class="line">chmod 600 ~/.ssh/authorized_keys</span><br></pre></td></tr></table></figure>
+<p>在从节点登录root执行命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir ~/.ssh/  </span><br><span class="line">chmod 700 ~/.ssh</span><br></pre></td></tr></table></figure>
+<p>在主节点,分发主节点里配置好的authorized_keys到各从节点</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp /root/.ssh/authorized_keys root@192.168.0.66:/root/.ssh/authorized_keys</span><br></pre></td></tr></table></figure>
+<h2 id="创建ambari用户和用户组"><a href="#创建ambari用户和用户组" class="headerlink" title="创建ambari用户和用户组"></a>创建ambari用户和用户组</h2><p>只在主节点操作</p>
+<p>添加ambari安装、运行用户和用户组，也可以不创建新用户，直接使用root或者系统其他账号</p>
+<p>adduser ambari<br>passwd ambari</p>
+<h2 id="开启NTP服务"><a href="#开启NTP服务" class="headerlink" title="开启NTP服务"></a>开启NTP服务</h2><p><strong>所有集群上节点</strong>都需要操作</p>
+<p>Centos 7 命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum  install ntp</span><br><span class="line">systemctl is-enabled ntpd</span><br><span class="line">systemctl <span class="built_in">enable</span> ntpd</span><br><span class="line">systemctl start ntpd</span><br></pre></td></tr></table></figure>
+<p>Centos 6 命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum install ntpd</span><br><span class="line">chkconfig --list ntpd</span><br><span class="line">chkconfig ntpd </span><br><span class="line">service ntpd start</span><br></pre></td></tr></table></figure>
+<h2 id="检查DNS和NSCD"><a href="#检查DNS和NSCD" class="headerlink" title="检查DNS和NSCD"></a>检查DNS和NSCD</h2><p><strong>所有节点都要设置</strong></p>
+<p>ambari在安装时需要配置全域名，所以需要检查DNS。为了减轻DNS的负担, 建议在节点里用 Name Service Caching Daemon (NSCD)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/hosts</span><br><span class="line">192.168.0.65 h65m h65m.hadoop</span><br><span class="line">192.168.0.66 h66 h66.hadoop</span><br><span class="line">192.168.0.67 h67 h67.hadoop</span><br></pre></td></tr></table></figure>
+<p>每台节点里配置FQDN，如下以主节点为例</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/sysconfig/network</span><br><span class="line">NETWORKING=yes</span><br><span class="line">HOSTNAME=h65m.hadoop</span><br></pre></td></tr></table></figure>
+<h2 id="关闭防火墙"><a href="#关闭防火墙" class="headerlink" title="关闭防火墙"></a>关闭防火墙</h2><p>所有节点都要设置</p>
+<p>Centos 7 命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="built_in">disable</span> firewalld</span><br><span class="line">systemctl stop firewalld</span><br></pre></td></tr></table></figure>
+<p>Centos 6 命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chkconfig iptables off</span><br><span class="line">/etc/init.d/iptables stop</span><br></pre></td></tr></table></figure>
+<h2 id="关闭SELinux"><a href="#关闭SELinux" class="headerlink" title="关闭SELinux"></a>关闭SELinux</h2><p>所有节点都要设置</p>
+<p>查看SELinux状态：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sestatus</span><br></pre></td></tr></table></figure>
+<p>如果SELinux status参数为enabled即为开启状态<br>SELinux status: enabled</p>
+<p>临时关闭，不用重启机器：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setenforce 0</span><br></pre></td></tr></table></figure>
+<p>修改配置文件需要重启机器：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/sysconfig/selinux</span><br><span class="line">SELINUX=disabled</span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="4-制作本地安装源"><a href="#4-制作本地安装源" class="headerlink" title="4.制作本地安装源"></a>4.制作本地安装源</h1><p>制作本地源只需在主节点上进行即可</p>
+<h2 id="安装-Apache-HTTP-服务器"><a href="#安装-Apache-HTTP-服务器" class="headerlink" title="安装 Apache HTTP 服务器"></a>安装 Apache HTTP 服务器</h2><p>安装HTTP 服务器，允许 http 服务通过防火墙(永久)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum install httpd</span><br><span class="line">firewall-cmd --add-service=http </span><br><span class="line">firewall-cmd --permanent --add-service=http</span><br></pre></td></tr></table></figure>
+<p>添加 Apache 服务到系统层使其随系统自动启动</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl start httpd.service</span><br><span class="line">systemctl <span class="built_in">enable</span> httpd.service</span><br></pre></td></tr></table></figure>
+<h2 id="安装本地源制作相关工具"><a href="#安装本地源制作相关工具" class="headerlink" title="安装本地源制作相关工具"></a>安装本地源制作相关工具</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install yum-utils createrepo</span><br></pre></td></tr></table></figure>
+<h2 id="下载安装资源"><a href="#下载安装资源" class="headerlink" title="下载安装资源"></a>下载安装资源</h2><h2 id="下载-Ambari-2-4-1-HDP-2-5-0-的安装资源"><a href="#下载-Ambari-2-4-1-HDP-2-5-0-的安装资源" class="headerlink" title="下载 Ambari 2.4.1 , HDP 2.5.0 的安装资源"></a>下载 Ambari 2.4.1 , HDP 2.5.0 的安装资源</h2><p>本文使用centos7的安装源</p>
+<p>Ambari地址中查找下载路径:<br><a href="http://docs.hortonworks.com/HDPDocuments/Ambari-2.4.1.0/bk_ambari-installation/content/ambari_repositories.html" target="_blank" rel="noopener">http://docs.hortonworks.com/HDPDocuments/Ambari-2.4.1.0/bk_ambari-installation/content/ambari_repositories.html</a></p>
+<p>hdp地址中查找下载路径:<br><a href="http://docs.hortonworks.com/HDPDocuments/Ambari-2.4.1.0/bk_ambari-installation/content/hdp_25_repositories.html" target="_blank" rel="noopener">http://docs.hortonworks.com/HDPDocuments/Ambari-2.4.1.0/bk_ambari-installation/content/hdp_25_repositories.html</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">wget http://public-repo-1.hortonworks.com/ambari/centos7/2.x/updates/2.4.1.0/ambari-2.4.1.0-centos7.tar.gz</span><br><span class="line"></span><br><span class="line">wget http://public-repo-1.hortonworks.com/HDP/centos7/2.x/updates/2.5.0.0/HDP-2.5.0.0-centos7-rpm.tar.gz</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">wget http://public-repo-1.hortonworks.com/HDP-UTILS-1.1.0.21/repos/centos7/HDP-UTILS-1.1.0.21-centos7.tar.gz</span><br></pre></td></tr></table></figure>
+<h2 id="在httpd网站根目录-创建ambari目录"><a href="#在httpd网站根目录-创建ambari目录" class="headerlink" title="在httpd网站根目录 创建ambari目录"></a>在httpd网站根目录 创建ambari目录</h2><p>在httpd网站根目录,默认是即/var/www/html/，创建目录ambari，<br>并且将下载的压缩包解压到/var/www/html/ambari目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /var/www/html/</span><br><span class="line">mkdir ambari</span><br><span class="line"><span class="built_in">cd</span> /var/www/html/ambari/</span><br><span class="line">tar -zxvf ambari-2.2.2.0-centos7.tar.gz</span><br><span class="line">tar -zxvf HDP-2.4.2.0-centos7-rpm.tar.gz</span><br><span class="line">tar -zxvf HDP-UTILS-1.1.0.20-centos7.tar.gz</span><br></pre></td></tr></table></figure>
+<p>验证httd网站是否可用，可以使用links 命令或者浏览器直接访问下面的地址：</p>
+<p><a href="http://192.168.0.65/ambari" target="_blank" rel="noopener">http://192.168.0.65/ambari</a></p>
+<h2 id="配置ambari、HDP、HDP-UTILS的本地源"><a href="#配置ambari、HDP、HDP-UTILS的本地源" class="headerlink" title="配置ambari、HDP、HDP-UTILS的本地源"></a>配置ambari、HDP、HDP-UTILS的本地源</h2><p>首先下载上面资源列表中的相应repo文件，修改其中的URL为本地的地址，相关配置如下：</p>
+<p>ambari.repo<br>直接执行AMBARI-2.4.1.0/setup_repo.sh 即可生成ambari.repo</p>
+<p>hdp.repo<br>在/HDP/centos7/ 下载 hdp.repo 修改为如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#VERSION_NUMBER=2.5.0.0-1245</span></span><br><span class="line">[HDP-2.5.0.0]</span><br><span class="line">name=HDP Version - HDP-2.5.0.0</span><br><span class="line">baseurl=http://192.168.0.65/ambari/HDP/centos7</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=http://192.168.0.65/ambari/HDP/centos7/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins</span><br><span class="line">enabled=1</span><br><span class="line">priority=1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[HDP-UTILS-1.1.0.21]</span><br><span class="line">name=HDP-UTILS Version - HDP-UTILS-1.1.0.21</span><br><span class="line">baseurl=http://192.168.0.65/ambari/HDP-UTILS-1.1.0.21/repos/centos7</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=http://192.168.0.65/ambari/HDP/centos7/2.x/updates/2.5.0.0/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins</span><br><span class="line">enabled=1</span><br><span class="line">priority=1</span><br></pre></td></tr></table></figure>
+<p>将上面的修改过的源放到/etc/yum.repos.d/下面</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum clean all</span><br><span class="line">yum list update</span><br><span class="line">yum makecache</span><br><span class="line">yum repolist</span><br></pre></td></tr></table></figure>
+<h2 id="安装mysql数据库"><a href="#安装mysql数据库" class="headerlink" title="安装mysql数据库"></a>安装mysql数据库</h2><p>Ambari安装会将安装等信息写入数据库，建议使用自己安装的MySQL数据库，也可以不安装而使用默认数据库PostgreSQL</p>
+<p>Mysql数据库安装请参考下面文章:</p>
+<p>使用docker安装:<br><a href="https://eteng-wiki.github.io/DB-WIKI/mysql/" target="_blank" rel="noopener">https://eteng-wiki.github.io/DB-WIKI/mysql/</a></p>
+<p>或者参考</p>
+<p><a href="http://blog.csdn.net/lochy/article/details/51721319" target="_blank" rel="noopener">http://blog.csdn.net/lochy/article/details/51721319</a></p>
+<p>安装完成后创建ambari数据库及用户，记住下面的用户名和密码 后面安装的时候需要用的,<br>登录root用户执行下面语句</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">create database ambari character <span class="built_in">set</span> utf8 ;  </span><br><span class="line">CREATE USER <span class="string">'ambari'</span>@<span class="string">'%'</span>IDENTIFIED BY <span class="string">'Ambari-123'</span>;</span><br><span class="line">GRANT ALL PRIVILEGES ON *.* TO <span class="string">'ambari'</span>@<span class="string">'%'</span>;</span><br><span class="line">FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure>
+<p>如果要安装Hive，再创建Hive数据库和用户 再执行下面的语句：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">create database hive character <span class="built_in">set</span> utf8 ;  </span><br><span class="line">CREATE USER <span class="string">'hive'</span>@<span class="string">'%'</span>IDENTIFIED BY <span class="string">'Hive-123'</span>;</span><br><span class="line">GRANT ALL PRIVILEGES ON *.* TO <span class="string">'hive'</span>@<span class="string">'%'</span>;</span><br><span class="line">FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure>
+<p>如果要安装Oozie，再创建Oozie数据库和用户 再执行下面的语句：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">create database oozie character <span class="built_in">set</span> utf8 ;  </span><br><span class="line">CREATE USER <span class="string">'oozie'</span>@<span class="string">'%'</span>IDENTIFIED BY <span class="string">'Oozie-123'</span>;</span><br><span class="line">GRANT ALL PRIVILEGES ON *.* TO <span class="string">'oozie'</span>@<span class="string">'%'</span>;</span><br><span class="line">FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure>
+<h2 id="安装JDK"><a href="#安装JDK" class="headerlink" title="安装JDK"></a>安装JDK</h2><p>参考:<br><a href="http://gjhbiji.mydoc.io/?t=36412" target="_blank" rel="noopener">http://gjhbiji.mydoc.io/?t=36412</a></p>
+<p>配置java环境变量</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/profile</span><br><span class="line"><span class="built_in">export</span> JAVA_HOME=/opt/java/jdk1.8.0_91</span><br><span class="line"><span class="built_in">export</span> CLASSPATH=.:<span class="variable">$JAVA_HOME</span>/lib/dt.jar:<span class="variable">$JAVA_HOME</span>/lib/tools.jar</span><br><span class="line">PATH=<span class="variable">$PATH</span>:<span class="variable">$HOME</span>/bin:<span class="variable">$JAVA_HOME</span>/bin</span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br></pre></td></tr></table></figure>
+<h2 id="安装mysql-jdbc-驱动"><a href="#安装mysql-jdbc-驱动" class="headerlink" title="安装mysql jdbc 驱动"></a>安装mysql jdbc 驱动</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install mysql-connector-java</span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="5-安装配置ambari"><a href="#5-安装配置ambari" class="headerlink" title="5.安装配置ambari"></a>5.安装配置ambari</h1><h2 id="安装Ambari"><a href="#安装Ambari" class="headerlink" title="安装Ambari"></a>安装Ambari</h2><p>在主节点执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install ambari-server</span><br></pre></td></tr></table></figure>
+<h2 id="配置Ambari"><a href="#配置Ambari" class="headerlink" title="配置Ambari"></a>配置Ambari</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ambari-server setup</span><br></pre></td></tr></table></figure>
+<p>下面是配置执行流程，按照提示操作</p>
+<p>1.检查SELinux是否关闭，如果关闭不用操作</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Using python  /usr/bin/python</span><br><span class="line">Setup ambari-server</span><br><span class="line">Checking SELinux...</span><br><span class="line">SELinux status is <span class="string">'disabled'</span></span><br></pre></td></tr></table></figure>
+<p>2.提示是否自定义设置。输入：y</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Customize user account <span class="keyword">for</span> ambari-server daemon [y/n] (n)? y</span><br></pre></td></tr></table></figure>
+<p>3.ambari-server 账号。输入：ambari</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Enter user account <span class="keyword">for</span> ambari-server daemon (root):ambari</span><br><span class="line">Adjusting ambari-server permissions and ownership...</span><br></pre></td></tr></table></figure>
+<p>4.检查防火墙，如果关闭则不用操作<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Checking firewall status...</span><br><span class="line">Redirecting to /bin/systemctl status  iptables.service</span><br></pre></td></tr></table></figure></p>
+<p>5.设置JDK。输入：3</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Checking JDK...</span><br><span class="line">Do you want to change Oracle JDK [y/n] (n)? y</span><br><span class="line">[] Oracle JDK 1.8 + Java Cryptography Extension (JCE) Policy Files 8</span><br><span class="line">[] Oracle JDK 1.7 + Java Cryptography Extension (JCE) Policy Files 7</span><br><span class="line">[] Custom JDK</span><br><span class="line">==============================================================================</span><br><span class="line">Enter choice (1): 3</span><br></pre></td></tr></table></figure>
+<p>6.如果上面选择3自定义JDK,则需要设置JAVA_HOME。输入：/opt/Java/jdk1.8.0_91</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">WARNING: JDK must be installed on all hosts and JAVA_HOME must be valid on all hosts.</span><br><span class="line">WARNING: JCE Policy files are required <span class="keyword">for</span> configuring Kerberos security. If you plan to use Kerberos,please make sure JCE Unlimited Strength Jurisdiction Policy Files are valid on all hosts.</span><br><span class="line">Path to JAVA_HOME: /opt/java/jdk1.8.0_91</span><br><span class="line">Validating JDK on Ambari Server...done.</span><br><span class="line">Completing setup...</span><br></pre></td></tr></table></figure>
+<p>7.数据库配置。选择：y</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Configuring database...</span><br><span class="line">Enter advanced database configuration [y/n] (n)? y</span><br></pre></td></tr></table></figure>
+<p>8.选择数据库类型。输入：3</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Configuring database...</span><br><span class="line">==============================================================================</span><br><span class="line">Choose one of the following options:</span><br><span class="line">[1] - PostgreSQL (Embedded)</span><br><span class="line">[2] - Oracle</span><br><span class="line">[3] - MySQL</span><br><span class="line">[4] - PostgreSQL</span><br><span class="line">[5] - Microsoft SQL Server (Tech Preview)</span><br><span class="line">[6] - SQL Anywhere</span><br><span class="line">==============================================================================</span><br><span class="line">Enter choice (3): 3</span><br></pre></td></tr></table></figure>
+<p>9.设置数据库的具体配置信息，根据实际情况输入，如果和括号内相同，则可以直接回车。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Hostname (localhost): </span><br><span class="line">Port (): </span><br><span class="line">Database name (ambari): </span><br><span class="line">Username (ambari): </span><br><span class="line">Enter Database Password (Ambari-123):</span><br></pre></td></tr></table></figure>
+<p>10.提示必须安装MySQL JDBC，回车结束ambari配置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">WARNING: Before starting Ambari Server, you must copy the MySQL JDBC driver JAR file to /usr/share/java.</span><br><span class="line">Press &lt;enter&gt; to <span class="built_in">continue</span>.</span><br></pre></td></tr></table></figure>
+<p>11.将Ambari数据库脚本导入到数据库</p>
+<p>如果使用自己定义的数据库，必须在启动Ambari服务之前导入Ambari的sql脚本</p>
+<p>用Ambari用户（上面设置的用户）登录mysql</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql -u ambari -p</span><br><span class="line">use ambari</span><br><span class="line"><span class="built_in">source</span> /var/lib/ambari-server/resources/Ambari-DDL-MySQL-CREATE.sql</span><br></pre></td></tr></table></figure>
+<h2 id="启动Amabri"><a href="#启动Amabri" class="headerlink" title="启动Amabri"></a>启动Amabri</h2><p>执行启动命令，启动Ambari服务</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ambari-server start</span><br></pre></td></tr></table></figure>
+<p>成功启动后在浏览器输入Ambari地址：</p>
+<p><a href="http://192.168.0.65:8080/" target="_blank" rel="noopener">http://192.168.0.65:8080/</a><br>出现登录界面，默认管理员账户登录， 账户：admin 密码：admin</p>
+<hr>
+<h1 id="6-安装hdp集群"><a href="#6-安装hdp集群" class="headerlink" title="6.安装hdp集群"></a>6.安装hdp集群</h1><h2 id="1-出现登录界面，"><a href="#1-出现登录界面，" class="headerlink" title="1 出现登录界面，"></a>1 出现登录界面，</h2><p>默认管理员账户登录， 账户：admin 密码：admin</p>
+<p><img src="http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb1.png" alt="安装hdp集群" title="安装hdp集群"> </p>
+<h2 id="2登陆成功后，如下界面，点击-Launch-Install-Wizard"><a href="#2登陆成功后，如下界面，点击-Launch-Install-Wizard" class="headerlink" title="2登陆成功后，如下界面，点击 Launch Install Wizard"></a>2登陆成功后，如下界面，点击 Launch Install Wizard</h2><p><img src="http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb2.png" alt="安装hdp集群" title="安装hdp集群"> </p>
+<h2 id="3-安装集群，-设置一个集群名字"><a href="#3-安装集群，-设置一个集群名字" class="headerlink" title="3 安装集群， 设置一个集群名字"></a>3 安装集群， 设置一个集群名字</h2><p><img src="http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb3.png" alt="安装hdp集群" title="安装hdp集群"> </p>
+<h2 id="4-设置HDP安装源"><a href="#4-设置HDP安装源" class="headerlink" title="4 设置HDP安装源"></a>4 设置HDP安装源</h2><p>选择HDP2.5 ,并且设置Advanced Repository Options 的信息，本次使用本地源，所以修改对用系统的安装源为本地源地址。</p>
+<p><img src="http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb4.png" alt="安装hdp集群" title="安装hdp集群"> </p>
+<p><img src="http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb5.png" alt="安装hdp集群" title="安装hdp集群"> </p>
+<h2 id="6设置集群机器，"><a href="#6设置集群机器，" class="headerlink" title="6设置集群机器，"></a>6设置集群机器，</h2><p>选择密钥 id_rsa ,</p>
+<p><img src="http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb6.png" alt="安装hdp集群" title="安装hdp集群"> </p>
+<h2 id="7确认集群host"><a href="#7确认集群host" class="headerlink" title="7确认集群host"></a>7确认集群host</h2><p>确认前面配置集群中hosts列表 中的机器是否都可用，也可以移除相关机器，机器Success后进行下一步操作。</p>
+<p><img src="http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb7.png" alt="安装hdp集群" title="安装hdp集群"> </p>
+<p><img src="http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb8.png" alt="安装hdp集群" title="安装hdp集群"> </p>
+<h2 id="9-选择安装的服务"><a href="#9-选择安装的服务" class="headerlink" title="9 选择安装的服务"></a>9 选择安装的服务</h2><p><img src="http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb9.png" alt="安装hdp集群" title="安装hdp集群"> </p>
+<h2 id="10-各个服务Masters-配置，"><a href="#10-各个服务Masters-配置，" class="headerlink" title="10 各个服务Masters 配置，"></a>10 各个服务Masters 配置，</h2><p>可以自己选择机器</p>
+<p><img src="http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb10.png" alt="安装hdp集群" title="安装hdp集群"> </p>
+<h2 id="11服务的Slaves-和-Clients节配置"><a href="#11服务的Slaves-和-Clients节配置" class="headerlink" title="11服务的Slaves 和 Clients节配置"></a>11服务的Slaves 和 Clients节配置</h2><p><img src="http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb11.png" alt="安装hdp集群" title="安装hdp集群"> </p>
+<h2 id="12服务的个性化配置"><a href="#12服务的个性化配置" class="headerlink" title="12服务的个性化配置"></a>12服务的个性化配置</h2><p><img src="http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb12.png" alt="安装hdp集群" title="安装hdp集群"> </p>
+<h2 id="13-hdfs-配置修改"><a href="#13-hdfs-配置修改" class="headerlink" title="13 hdfs 配置修改"></a>13 hdfs 配置修改</h2><p>可以不更改</p>
+<p><img src="http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb13.png" alt="安装hdp集群" title="安装hdp集群"> </p>
+<h2 id="14HIVE配置源数据"><a href="#14HIVE配置源数据" class="headerlink" title="14HIVE配置源数据"></a>14HIVE配置源数据</h2><p>需要上传mysql.jar  执行 图中命令 配置mysql驱动 ， 没有装hive的略过</p>
+<p><img src="http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb14.png" alt="安装hdp集群" title="安装hdp集群"> </p>
+<h2 id="15显示配置信息"><a href="#15显示配置信息" class="headerlink" title="15显示配置信息"></a>15显示配置信息</h2><p><img src="http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb15.png" alt="安装hdp集群" title="安装hdp集群"> </p>
+<h2 id="16-开始安装"><a href="#16-开始安装" class="headerlink" title="16 开始安装"></a>16 开始安装</h2><p><img src="http://vis-workworld-image.oss-cn-qingdao.aliyuncs.com/11echarts/11wiki/amb16.png" alt="安装hdp集群" title="安装hdp集群"> </p>
+<h1 id="卸载ambari"><a href="#卸载ambari" class="headerlink" title="卸载ambari"></a>卸载ambari</h1><p>卸载ambari 请看下一篇文章 </p>
+<p>/<em>参考资料</em>/</p>
+<p>官方文档:<br><a href="http://docs.hortonworks.com/HDPDocuments/Ambari-2.4.1.0/bk_ambari-installation/content/ch_Getting_Ready.html" target="_blank" rel="noopener">http://docs.hortonworks.com/HDPDocuments/Ambari-2.4.1.0/bk_ambari-installation/content/ch_Getting_Ready.html</a></p>
+<p>HDP组件安装:<br><a href="http://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.5.0/bk_command-line-installation/content/ch_getting_ready_chapter.html" target="_blank" rel="noopener">http://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.5.0/bk_command-line-installation/content/ch_getting_ready_chapter.html</a></p>
+<p>配置ssh免密码登陆:<br><a href="http://www.cnblogs.com/xia520pi/archive/2012/05/16/2503949.html" target="_blank" rel="noopener">http://www.cnblogs.com/xia520pi/archive/2012/05/16/2503949.html</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/payforme.jpg" alt="高建华 wechat" style="width: 200px; max-width: 100%;"/>
+    <div>感觉不错,微信打赏一下！</div>
+</div>
+
+      </div>
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/乡村销客/" rel="tag"># 乡村销客</a>
+          
+            <a href="/tags/大数据/" rel="tag"># 大数据</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/17/ambari-spark2/" rel="next" title="乡村销客离线计算--ambari-spark(3)">
+                <i class="fa fa-chevron-left"></i> 乡村销客离线计算--ambari-spark(3)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/22/xenserver-extend/" rel="prev" title="XenCenter虚拟机扩展磁盘空间">
+                XenCenter虚拟机扩展磁盘空间 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="http://vis-user-image.oss-cn-qingdao.aliyuncs.com/userphoto/userphoto_9c3ae7df-b40f-4951-b4d5-677bae94277f_1457662255778__9C4A33BD1BA866FFD744A45D56B6B9BE.jpg"
+                alt="高建华" />
+            
+              <p class="site-author-name" itemprop="name">高建华</p>
+              <p class="site-description motion-element" itemprop="description">开心就好</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/gaojianhua" target="_blank" title="Github"><i class="fa fa-fw fa-globe"></i>Github</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/u/1726833822" target="_blank" title="Weibo"><i class="fa fa-fw fa-globe"></i>Weibo</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.imooc.com/u/2296056/courses" title="慕课网" target="_blank">慕课网</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://github.com/ETENG-WIKI" title="ETENG-WIKI" target="_blank">ETENG-WIKI</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-乡村销客"><span class="nav-number">1.</span> <span class="nav-text">1.乡村销客</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-集群环境"><span class="nav-number">2.</span> <span class="nav-text">2.集群环境</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-操作系统环境"><span class="nav-number">3.</span> <span class="nav-text">3.操作系统环境</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#配置SSH免密码登陆"><span class="nav-number">3.1.</span> <span class="nav-text">配置SSH免密码登陆</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建ambari用户和用户组"><span class="nav-number">3.2.</span> <span class="nav-text">创建ambari用户和用户组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开启NTP服务"><span class="nav-number">3.3.</span> <span class="nav-text">开启NTP服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#检查DNS和NSCD"><span class="nav-number">3.4.</span> <span class="nav-text">检查DNS和NSCD</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关闭防火墙"><span class="nav-number">3.5.</span> <span class="nav-text">关闭防火墙</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关闭SELinux"><span class="nav-number">3.6.</span> <span class="nav-text">关闭SELinux</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-制作本地安装源"><span class="nav-number">4.</span> <span class="nav-text">4.制作本地安装源</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-Apache-HTTP-服务器"><span class="nav-number">4.1.</span> <span class="nav-text">安装 Apache HTTP 服务器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装本地源制作相关工具"><span class="nav-number">4.2.</span> <span class="nav-text">安装本地源制作相关工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下载安装资源"><span class="nav-number">4.3.</span> <span class="nav-text">下载安装资源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下载-Ambari-2-4-1-HDP-2-5-0-的安装资源"><span class="nav-number">4.4.</span> <span class="nav-text">下载 Ambari 2.4.1 , HDP 2.5.0 的安装资源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在httpd网站根目录-创建ambari目录"><span class="nav-number">4.5.</span> <span class="nav-text">在httpd网站根目录 创建ambari目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置ambari、HDP、HDP-UTILS的本地源"><span class="nav-number">4.6.</span> <span class="nav-text">配置ambari、HDP、HDP-UTILS的本地源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装mysql数据库"><span class="nav-number">4.7.</span> <span class="nav-text">安装mysql数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装JDK"><span class="nav-number">4.8.</span> <span class="nav-text">安装JDK</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装mysql-jdbc-驱动"><span class="nav-number">4.9.</span> <span class="nav-text">安装mysql jdbc 驱动</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-安装配置ambari"><span class="nav-number">5.</span> <span class="nav-text">5.安装配置ambari</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装Ambari"><span class="nav-number">5.1.</span> <span class="nav-text">安装Ambari</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置Ambari"><span class="nav-number">5.2.</span> <span class="nav-text">配置Ambari</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动Amabri"><span class="nav-number">5.3.</span> <span class="nav-text">启动Amabri</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-安装hdp集群"><span class="nav-number">6.</span> <span class="nav-text">6.安装hdp集群</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-出现登录界面，"><span class="nav-number">6.1.</span> <span class="nav-text">1 出现登录界面，</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2登陆成功后，如下界面，点击-Launch-Install-Wizard"><span class="nav-number">6.2.</span> <span class="nav-text">2登陆成功后，如下界面，点击 Launch Install Wizard</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-安装集群，-设置一个集群名字"><span class="nav-number">6.3.</span> <span class="nav-text">3 安装集群， 设置一个集群名字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-设置HDP安装源"><span class="nav-number">6.4.</span> <span class="nav-text">4 设置HDP安装源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6设置集群机器，"><span class="nav-number">6.5.</span> <span class="nav-text">6设置集群机器，</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7确认集群host"><span class="nav-number">6.6.</span> <span class="nav-text">7确认集群host</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-选择安装的服务"><span class="nav-number">6.7.</span> <span class="nav-text">9 选择安装的服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-各个服务Masters-配置，"><span class="nav-number">6.8.</span> <span class="nav-text">10 各个服务Masters 配置，</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11服务的Slaves-和-Clients节配置"><span class="nav-number">6.9.</span> <span class="nav-text">11服务的Slaves 和 Clients节配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12服务的个性化配置"><span class="nav-number">6.10.</span> <span class="nav-text">12服务的个性化配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#13-hdfs-配置修改"><span class="nav-number">6.11.</span> <span class="nav-text">13 hdfs 配置修改</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#14HIVE配置源数据"><span class="nav-number">6.12.</span> <span class="nav-text">14HIVE配置源数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#15显示配置信息"><span class="nav-number">6.13.</span> <span class="nav-text">15显示配置信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#16-开始安装"><span class="nav-number">6.14.</span> <span class="nav-text">16 开始安装</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#卸载ambari"><span class="nav-number">7.</span> <span class="nav-text">卸载ambari</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">高建华</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.3.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'p1o0jofOaRQUBgTa8UKO4tRN-gzGzoHsz',
+        appKey: 'egswCKrEQX4XlKVnbXVVXPTv',
+        placeholder: '写下你的意见吧',
+        avatar:'identicon',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("p1o0jofOaRQUBgTa8UKO4tRN-gzGzoHsz", "egswCKrEQX4XlKVnbXVVXPTv");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            
+            counter.save(null, {
+              success: function(counter) {
+                
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            
+              var newcounter = new Counter();
+              /* Set ACL */
+              var acl = new AV.ACL();
+              acl.setPublicReadAccess(true);
+              acl.setPublicWriteAccess(true);
+              newcounter.setACL(acl);
+              /* End Set ACL */
+              newcounter.set("title", title);
+              newcounter.set("url", url);
+              newcounter.set("time", 1);
+              newcounter.save(null, {
+                success: function(newcounter) {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                },
+                error: function(newcounter, error) {
+                  console.log('Failed to create');
+                }
+              });
+            
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

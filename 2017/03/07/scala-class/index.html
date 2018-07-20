@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="1.类定义.创建对象">
+<meta name="keywords" content="乡村销客,大数据">
+<meta property="og:type" content="article">
+<meta property="og:title" content="scals学习笔记-类和对象1">
+<meta property="og:url" content="http://www.robingao.win/2017/03/07/scala-class/index.html">
+<meta property="og:site_name" content="Robin Gao">
+<meta property="og:description" content="1.类定义.创建对象">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-06-21T08:47:28.682Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="scals学习笔记-类和对象1">
+<meta name="twitter:description" content="1.类定义.创建对象">
+
+
+
+
+
+
+  <link rel="canonical" href="http://www.robingao.win/2017/03/07/scala-class/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>scals学习笔记-类和对象1 | Robin Gao</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?e2c9a62df20c57b80e31998bdf409910";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Robin Gao</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">探索未知 每天都是新的开始</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+    <a href="/404.html" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />公益 404</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.robingao.win/2017/03/07/scala-class/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="高建华">
+      <meta itemprop="description" content="开心就好">
+      <meta itemprop="image" content="http://vis-user-image.oss-cn-qingdao.aliyuncs.com/userphoto/userphoto_9c3ae7df-b40f-4951-b4d5-677bae94277f_1457662255778__9C4A33BD1BA866FFD744A45D56B6B9BE.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Robin Gao">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">scals学习笔记-类和对象1
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-03-07 20:11:13" itemprop="dateCreated datePublished" datetime="2017-03-07T20:11:13+08:00">2017-03-07</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/scals/" itemprop="url" rel="index"><span itemprop="name">scals</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/03/07/scala-class/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2017/03/07/scala-class/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/03/07/scala-class/" class="leancloud_visitors" data-flag-title="scals学习笔记-类和对象1">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="1-类定义-创建对象"><a href="#1-类定义-创建对象" class="headerlink" title="1.类定义.创建对象"></a>1.类定义.创建对象</h1><a id="more"></a>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//采用关键字class定义</span><br><span class="line">class Persion&#123;</span><br><span class="line">	//类成员必须初始化,否则报错</span><br><span class="line">	//这里定义一个公有成员</span><br><span class="line">	var name:String=null</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Person 类在编译后会生成Person.class 文件</p>
+<p>利用java -private Person 命令查看字节码文件内容</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">javap -private Person</span><br><span class="line"></span><br><span class="line">警告: 二进制文件Person包含cn.scala.xtwy.Person</span><br><span class="line">Compiled from <span class="string">"Person.scala"</span></span><br><span class="line">public class cn.scala.xtwy.Person &#123;</span><br><span class="line">  private java.lang.String name;</span><br><span class="line">  public java.lang.String name();</span><br><span class="line">  public void name_<span class="variable">$eq</span>(java.lang.String);</span><br><span class="line">  public cn.scala.xtwy.Person();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从字节码文件内容可以看到：虽然我们只在Person类中定义了一个类成员（域）name，类型为String，<br>但Scala会默认帮我们生成name()与name_=（）及构造函数Person()。其中name()对应java中的getter方法，name_=()对应java中的setter方法（由于JVM中不允许出现=，所以用$eq代替。<br>值得注意的是定义的是公有成员，但生成的字节码中却是以私有的方式实现的，生成的getter、setter方法是公有的<br>因此，可以直接new操作创建Person对象</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//默认已经有构造函数,所以可以直接new</span><br><span class="line"></span><br><span class="line">val p = new Persion()</span><br><span class="line">//直接调用getter和setter方法</span><br><span class="line">//setter方法</span><br><span class="line">p.name_=<span class="string">"nike"</span></span><br><span class="line">//getter方法</span><br><span class="line">p.name</span><br><span class="line"></span><br><span class="line">//直接修改,但是调用的是 p.name_ = (<span class="string">"nike"</span>)</span><br><span class="line">p.name=<span class="string">"nike1"</span></span><br></pre></td></tr></table></figure>
+<p>你也可以自定义setter 和getter方法</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">class Persion&#123;</span><br><span class="line">	//定义私有变量</span><br><span class="line">	private var privateName:String=null</span><br><span class="line">	//getter方法</span><br><span class="line">	def name=privateName</span><br><span class="line">	//setter方法</span><br><span class="line">	def name_=(name:String)&#123;</span><br><span class="line">	  this.privateName=name</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">javap -private Person</span><br><span class="line">警告: 二进制文件Person包含cn.scala.xtwy.Person</span><br><span class="line">Compiled from <span class="string">"Person.scala"</span></span><br><span class="line">public class cn.scala.xtwy.Person &#123;</span><br><span class="line">  private java.lang.String privateName;</span><br><span class="line">  private java.lang.String privateName();</span><br><span class="line">  private void privateName_<span class="variable">$eq</span>(java.lang.String);</span><br><span class="line">  public java.lang.String name();</span><br><span class="line">  public void name_<span class="variable">$eq</span>(java.lang.String);</span><br><span class="line">  public cn.scala.xtwy.Person();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从字节码中可以看出: (1) 定义成私有成员, getter和setter也是私有的 . (2)直接能访问的是我们自己定义的getter和setter方法,下面是调用方式</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; val p=new Person()</span><br><span class="line">p: Person = Person@12d0b54</span><br><span class="line"></span><br><span class="line">scala&gt; p.name</span><br><span class="line">res29: String = null</span><br><span class="line"></span><br><span class="line">//直接赋值法</span><br><span class="line">scala&gt; p.name=<span class="string">"john"</span></span><br><span class="line">p.name: String = john</span><br><span class="line"></span><br><span class="line">scala&gt; p.name</span><br><span class="line">res30: String = john</span><br></pre></td></tr></table></figure>
+<p>从代码执行的结果看, 我们知道: 通过p.name=”nike” 这种方式进行赋值,调用者<br> 并需要知道是其通过方法调用还是通过字段访问来进行操作的,这便是著名的<strong> 统一访问原则</strong></p>
+<p> 如果类的成员域是val类型的变量,则只会生成getter方法</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class Person &#123;</span><br><span class="line">  //类成员必须初始化，否则会报错</span><br><span class="line">  //这里定义的是一个val公有成员</span><br><span class="line">  val name:String=<span class="string">"john"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">javap -private Person</span><br><span class="line">警告: 二进制文件Person包含cn.scala.xtwy.Person</span><br><span class="line">Compiled from <span class="string">"Person.scala"</span></span><br><span class="line">public class cn.scala.xtwy.Person &#123;</span><br><span class="line">  private final java.lang.String name;</span><br><span class="line">  public java.lang.String name();</span><br><span class="line">  public cn.scala.xtwy.Person();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> 从字节码文件中可以看出：val变量对应的是java中的final类型变量，只生成了getter方法</p>
+<p> 如果将成员域定义为private[this] ,则不会生成getter和setter方法</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">calss Persion&#123;</span><br><span class="line">	//private[this] 修饰</span><br><span class="line">	private[this] var name:String=<span class="string">'nike'</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">javap -private Person</span><br><span class="line">警告: 二进制文件Person包含cn.scala.xtwy.Person</span><br><span class="line">Compiled from <span class="string">"Person.scala"</span></span><br><span class="line">public class cn.scala.xtwy.Person &#123;</span><br><span class="line">  private java.lang.String name;</span><br><span class="line">  public cn.scala.xtwy.Person();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在java语言中,在定义javaBean的时候生成的都是setXXX(),getXxx()方法,但是scala语言生成的getter和setter方法并不是这样的,如果也需要程序自动生成getter和setter方法,则需要引入 scala.reflect.BeanProperty然后采用注解的方式修改变量</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">class Persion&#123;</span><br><span class="line">	//@BeanProperty 用于生成get 和<span class="built_in">set</span>方法</span><br><span class="line">	@BeanProperty var name:String=<span class="string">"nike"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">javap -private Person</span><br><span class="line">警告: 二进制文件Person包含cn.scala.xtwy.Person</span><br><span class="line">Compiled from <span class="string">"Person.scala"</span></span><br><span class="line">public class cn.scala.xtwy.Person &#123;</span><br><span class="line">  private java.lang.String name;</span><br><span class="line">  public java.lang.String name();</span><br><span class="line">  public void name_<span class="variable">$eq</span>(java.lang.String);</span><br><span class="line">  public void setName(java.lang.String);</span><br><span class="line">  public java.lang.String getName();</span><br><span class="line">  public cn.scala.xtwy.Person();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>下面是getter.setter方法产生的规则</p>
+<p><strong> val/var  name </strong> </p>
+<p>generated Methods<br>public name name_=(var only)</p>
+<p>when to use<br>to implement a property that is publicly<br>accessible and backed by a field</p>
+<p><strong> @BeanProperty val/var name </strong></p>
+<p>generated Methods<br>public name<br>getName()<br>name_=(var only)<br>setName(…)(var only)</p>
+<p>when to use<br>To interoperate with JavaBeans</p>
+<p>private val/var name </p>
+<p>generated Methods<br>provate name<br>name_=(var only)</p>
+<p>To confine the field to the methods of this class, just like in java . Use private unless you really want a public property</p>
+<p>private[this] val/var name </p>
+<p>none </p>
+<p>to confine the field to methods invoked on the same object . not commonly used</p>
+<p>类主构造器</p>
+<p>主构造器的定义与类的定义交织在一起, 将构造器参数直接放在类名称之后,如下代码:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">//以下代码不但定义了一个Persion类,还定义了主构造器,参数为 String , Int</span><br><span class="line">class Person (val name:String,val age:int)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">javap -private Person</span><br><span class="line">警告: 二进制文件Person包含cn.scala.xtwy.Person</span><br><span class="line">Compiled from <span class="string">"Person.scala"</span></span><br><span class="line">public class cn.scala.xtwy.Person &#123;</span><br><span class="line">  private final java.lang.String name;</span><br><span class="line">  private final int age;</span><br><span class="line">  public java.lang.String name();</span><br><span class="line">  public int age();</span><br><span class="line">  public cn.scala.xtwy.Person(java.lang.String, int);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//不难看出：上面的代码与下列java语言编写的代码等同</span><br><span class="line">public class Person&#123;</span><br><span class="line">  private final String name;</span><br><span class="line">  private final int age;</span><br><span class="line">  public Person(String name,int age)&#123;</span><br><span class="line">       this.name=name;</span><br><span class="line">       this.age=age;</span><br><span class="line">  &#125;</span><br><span class="line">  public String <span class="function"><span class="title">getName</span></span>()&#123; <span class="built_in">return</span> name&#125;</span><br><span class="line">  public int <span class="function"><span class="title">getAge</span></span>() &#123;<span class="built_in">return</span> age&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//具体使用操作如下：</span><br><span class="line">scala&gt; val p=new Person(<span class="string">"john"</span>,29)</span><br><span class="line">p: Person = Person@abdc0f</span><br><span class="line"></span><br><span class="line">scala&gt; p.name</span><br><span class="line">res31: String = john</span><br><span class="line"></span><br><span class="line">scala&gt; p.age</span><br><span class="line">res32: Int = 29</span><br></pre></td></tr></table></figure>
+<p>前面我们定义的Persion类是一种无参主构造器<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//Person类具有无参主构建器</span><br><span class="line">class Person &#123;</span><br><span class="line">  println(<span class="string">"constructing Person...."</span>)</span><br><span class="line">  val name:String=<span class="string">"john"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">scala&gt; val p=new Person()</span><br><span class="line">constructing Person....</span><br><span class="line">p: Person = Person@79895f</span><br></pre></td></tr></table></figure></p>
+<p>主构造器还可以使用默认参数</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//默认参数的主构建器</span><br><span class="line">class Person(val name:String=<span class="string">""</span>,val age:Int=18)&#123;</span><br><span class="line">  println(<span class="string">"constructing Person ........"</span>)</span><br><span class="line">  override def toString()= name + <span class="string">":"</span>+ age</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">scala&gt; val p=new Person</span><br><span class="line">constructing Person ........</span><br><span class="line">p: Person = :18</span><br><span class="line"></span><br><span class="line">scala&gt; val p=new Person(<span class="string">"john"</span>)</span><br><span class="line">constructing Person ........</span><br><span class="line">p: Person = john:18</span><br></pre></td></tr></table></figure>
+<p>主构造器中的参数还可以加访问控制符</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">//默认参数的主构建器，参数带访问控制符号</span><br><span class="line">//age变成私有成员，其getter方法是私有的，外部不能访问</span><br><span class="line">class Person(val name:String=<span class="string">""</span>,private val age:Int=18)&#123;</span><br><span class="line">  println(<span class="string">"constructing Person ........"</span>)</span><br><span class="line">  override def toString()= name + <span class="string">":"</span>+ age</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当主构造器的参数不用var或val修饰的时候，参数会生成类的私有val成员，并且不会产生getter和setter方法</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">//不加变量修饰符</span><br><span class="line">class Person(name:String,age:Int)&#123;</span><br><span class="line">  println(<span class="string">"constructing Person ........"</span>)</span><br><span class="line">  override def toString()= name + <span class="string">":"</span>+ age</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">javap -private Person</span><br><span class="line">警告: 二进制文件Person包含cn.scala.xtwy.Person</span><br><span class="line">Compiled from <span class="string">"Person.scala"</span></span><br><span class="line">public class cn.scala.xtwy.Person &#123;</span><br><span class="line">  private final java.lang.String name;</span><br><span class="line">  private final int age;</span><br><span class="line">  public java.lang.String toString();</span><br><span class="line">  public cn.scala.xtwy.Person(java.lang.String, int);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//与下面类定义等同</span><br><span class="line">class Person(private[this] val name:String,private[this] val age:Int)&#123;</span><br><span class="line">  println(<span class="string">"constructing Person ........"</span>)</span><br><span class="line">  override def toString()= name + <span class="string">":"</span>+ age</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">javap -private Person</span><br><span class="line">警告: 二进制文件Person包含cn.scala.xtwy.Person</span><br><span class="line">Compiled from <span class="string">"Person.scala"</span></span><br><span class="line">public class cn.scala.xtwy.Person &#123;</span><br><span class="line">  private final java.lang.String name;</span><br><span class="line">  private final int age;</span><br><span class="line">  public java.lang.String toString();</span><br><span class="line">  public cn.scala.xtwy.Person(java.lang.String, int);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>值得注意的是,将上述Persion类中的toString()方法去掉,则类中无任何地方使用了主构造器的参数,此时主构造器参数不会生成类成员.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">即将</span><br><span class="line">//不加变量修饰符</span><br><span class="line">class Person(name:String,age:Int)&#123;</span><br><span class="line">  println(<span class="string">"constructing Person ........"</span>)</span><br><span class="line">  override def toString()= name + <span class="string">":"</span>+ age</span><br><span class="line">&#125;</span><br><span class="line">改成：</span><br><span class="line">class Person( val name:String,age:Int)&#123;</span><br><span class="line">  println(<span class="string">"constructing Person ........"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">其字节码文件如下：</span><br><span class="line">D:\ScalaWorkspace\ScalaChapter06\bin\cn\scala\xtwy&gt;javap -private Person</span><br><span class="line">警告: 二进制文件Person包含cn.scala.xtwy.Person</span><br><span class="line">Compiled from <span class="string">"Person.scala"</span></span><br><span class="line">public class cn.scala.xtwy.Person &#123;</span><br><span class="line">  public cn.scala.xtwy.Person(java.lang.String, int);</span><br><span class="line">&#125;</span><br><span class="line">//可以看出，主构造器参数不会生成类成员</span><br></pre></td></tr></table></figure>
+<p>下面图给出了scala中的主构造器参数生成类成员和方法的规则</p>
+<p>name: String </p>
+<p>object-private field , or no field no method uses name</p>
+<p>private val/var name:String</p>
+<p>private field ,private getter/setter</p>
+<p>val/var name:String </p>
+<p>private field,public getter/setter</p>
+<p>@BeanProperty val/var name : String </p>
+<p>private field , public scala and javabeans<br>getters and setters</p>
+<p>在某些情况下, 可能需要禁用主构建器,代码如下<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">//类名后面紧跟private关键字可以将主构建器设为私有，不允许外部使用</span><br><span class="line">class Person private(var name:String,var age:Int)&#123;</span><br><span class="line">	println(<span class="string">"constructing Persion...."</span>)</span><br><span class="line">&#125;</span><br><span class="line">//生成的字节码文件如下，可以看到其构建函数已经为private了</span><br><span class="line">javap -private Person</span><br><span class="line">警告: 二进制文件Person包含cn.scala.xtwy.Person</span><br><span class="line">Compiled from <span class="string">"Person.scala"</span></span><br><span class="line">public class cn.scala.xtwy.Person &#123;</span><br><span class="line">  private java.lang.String name;</span><br><span class="line">  private int age;</span><br><span class="line">  public java.lang.String name();</span><br><span class="line">  public void name_<span class="variable">$eq</span>(java.lang.String);</span><br><span class="line">  public int age();</span><br><span class="line">  public void age_<span class="variable">$eq</span>(int);</span><br><span class="line">  private cn.scala.xtwy.Person(java.lang.String, int);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//此时不能直接这么用</span><br><span class="line">scala&gt; val p=new Person(<span class="string">"john"</span>,19)</span><br><span class="line">&lt;console&gt;:9: error: constructor Person <span class="keyword">in</span> class Person cannot be accessed <span class="keyword">in</span> obj</span><br><span class="line">ect <span class="variable">$iw</span></span><br><span class="line">       val p=new Person(<span class="string">"john"</span>,19)</span><br></pre></td></tr></table></figure></p>
+<p>辅助构造函数<br>前面讲了，如果禁用掉了主构建器，则必须使用辅助构造函数来创建对象。辅助构造函数具有两个特点：（1）辅助构建器的名称为this，java中的辅助构造函数与类名相同，这常常会导致修改类名时出现不少问题，scala语言避免了这样的问题；（2）调用辅助构造函数时，必须先调用主构造函数或其它已经定义好的构造函数。</p>
+<p>3.1 我们首先看一下只有辅助构造函数的Person类</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">//只有辅助构造函数的类</span><br><span class="line">class Person&#123;</span><br><span class="line">  //类成员</span><br><span class="line">  private var name:String=null</span><br><span class="line">  private var age:Int=18</span><br><span class="line">  private var sex:Int=0</span><br><span class="line"></span><br><span class="line">  //辅助构造器</span><br><span class="line">  def this(name:String)&#123;</span><br><span class="line">    this()</span><br><span class="line">    this.name=name</span><br><span class="line">  &#125;</span><br><span class="line">  def this(name:String,age:Int)&#123;</span><br><span class="line">    this(name)</span><br><span class="line">    this.age=age</span><br><span class="line">  &#125;</span><br><span class="line">   def this(name:String,age:Int,sex:Int)&#123;</span><br><span class="line">    this(name,age)</span><br><span class="line">    this.sex=sex</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//字节码文件</span><br><span class="line">D:\ScalaWorkspace\ScalaChapter06\bin\cn\scala\xtwy&gt;javap -private Person</span><br><span class="line">警告: 二进制文件Person包含cn.scala.xtwy.Person</span><br><span class="line">Compiled from <span class="string">"Person.scala"</span></span><br><span class="line">public class cn.scala.xtwy.Person &#123;</span><br><span class="line">  private java.lang.String name;</span><br><span class="line">  private int age;</span><br><span class="line">  private int sex;</span><br><span class="line">  private java.lang.String name();</span><br><span class="line">  private void name_<span class="variable">$eq</span>(java.lang.String);</span><br><span class="line">  private int age();</span><br><span class="line">  private void age_<span class="variable">$eq</span>(int);</span><br><span class="line">  private int sex();</span><br><span class="line">  private void sex_<span class="variable">$eq</span>(int);</span><br><span class="line">  public cn.scala.xtwy.Person();</span><br><span class="line">  public cn.scala.xtwy.Person(java.lang.String);</span><br><span class="line">  public cn.scala.xtwy.Person(java.lang.String, int);</span><br><span class="line">  public cn.scala.xtwy.Person(java.lang.String, int, int);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//在定义辅助构造函数时，需要注意构造函数的顺序</span><br><span class="line">class Person&#123;</span><br><span class="line">  //类成员</span><br><span class="line">  private var name:String=null</span><br><span class="line">  private var age:Int=18</span><br><span class="line">  private var sex:Int=0</span><br><span class="line"></span><br><span class="line"> //辅助构造器</span><br><span class="line"> def this(name:String,age:Int,sex:Int)&#123;</span><br><span class="line">    this(name,age)//此处会发生编译错误，这是因为def this(name:String,age:Int)没有被定义</span><br><span class="line">    this.sex=sex</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  def this(name:String)&#123;</span><br><span class="line">    this()</span><br><span class="line">    this.name=name</span><br><span class="line">  &#125;</span><br><span class="line">  def this(name:String,age:Int)&#123;</span><br><span class="line">    this(name)</span><br><span class="line">    this.age=age</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3.2 带主构造函数、辅助构造函数的Person类<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">//具有主构建函数和辅助构建函数的Person类</span><br><span class="line">class Person(var name:String,var age:Int)&#123;</span><br><span class="line">  //类成员</span><br><span class="line">  private var sex:Int=0</span><br><span class="line"></span><br><span class="line">  //辅助构造器</span><br><span class="line">   def this(name:String,age:Int,sex:Int)&#123;</span><br><span class="line">    this(name,age)</span><br><span class="line">    this.sex=sex</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">生成的字节码文件如下：</span><br><span class="line">D:\ScalaWorkspace\ScalaChapter06\bin\cn\scala\xtwy&gt;javap -private Person</span><br><span class="line">警告: 二进制文件Person包含cn.scala.xtwy.Person</span><br><span class="line">Compiled from <span class="string">"Person.scala"</span></span><br><span class="line">public class cn.scala.xtwy.Person &#123;</span><br><span class="line">  private java.lang.String name;</span><br><span class="line">  private int age;</span><br><span class="line">  private int sex;</span><br><span class="line">  public java.lang.String name();</span><br><span class="line">  public void name_<span class="variable">$eq</span>(java.lang.String);</span><br><span class="line">  public int age();</span><br><span class="line">  public void age_<span class="variable">$eq</span>(int);</span><br><span class="line">  private int sex();</span><br><span class="line">  private void sex_<span class="variable">$eq</span>(int);</span><br><span class="line">  public cn.scala.xtwy.Person(java.lang.String, int);</span><br><span class="line">  public cn.scala.xtwy.Person(java.lang.String, int, int);</span><br><span class="line">&#125;</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">在主构造函数小节当中我们提到，有时候可能会禁用掉主构造函数，此时只能通过辅助构造函数来创建对象</span><br><span class="line"></span><br><span class="line">```bash</span><br><span class="line">//禁用主构造函数</span><br><span class="line">class Person private(var name:String,var age:Int)&#123;</span><br><span class="line">  //类成员</span><br><span class="line">  private var sex:Int=0</span><br><span class="line"></span><br><span class="line">  //辅助构造器</span><br><span class="line">   def this(name:String,age:Int,sex:Int)&#123;</span><br><span class="line">    this(name,age)</span><br><span class="line">    this.sex=sex</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//其字节码文件内容如下</span><br><span class="line">D:\ScalaWorkspace\ScalaChapter06\bin\cn\scala\xtwy&gt;javap -private Person</span><br><span class="line">警告: 二进制文件Person包含cn.scala.xtwy.Person</span><br><span class="line">Compiled from <span class="string">"Person.scala"</span></span><br><span class="line">public class cn.scala.xtwy.Person &#123;</span><br><span class="line">  private java.lang.String name;</span><br><span class="line">  private int age;</span><br><span class="line">  private int sex;</span><br><span class="line">  public java.lang.String name();</span><br><span class="line">  public void name_<span class="variable">$eq</span>(java.lang.String);</span><br><span class="line">  public int age();</span><br><span class="line">  public void age_<span class="variable">$eq</span>(int);</span><br><span class="line">  private int sex();</span><br><span class="line">  private void sex_<span class="variable">$eq</span>(int);</span><br><span class="line">  private cn.scala.xtwy.Person(java.lang.String, int);</span><br><span class="line">  public cn.scala.xtwy.Person(java.lang.String, int, int);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/payforme.jpg" alt="高建华 wechat" style="width: 200px; max-width: 100%;"/>
+    <div>感觉不错,微信打赏一下！</div>
+</div>
+
+      </div>
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/乡村销客/" rel="tag"># 乡村销客</a>
+          
+            <a href="/tags/大数据/" rel="tag"># 大数据</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/07/scals-class2/" rel="next" title="scals学习笔记-类和对象1">
+                <i class="fa fa-chevron-left"></i> scals学习笔记-类和对象1
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/05/scala-9extends/" rel="prev" title="scala学习笔记-继承和组合">
+                scala学习笔记-继承和组合 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="http://vis-user-image.oss-cn-qingdao.aliyuncs.com/userphoto/userphoto_9c3ae7df-b40f-4951-b4d5-677bae94277f_1457662255778__9C4A33BD1BA866FFD744A45D56B6B9BE.jpg"
+                alt="高建华" />
+            
+              <p class="site-author-name" itemprop="name">高建华</p>
+              <p class="site-description motion-element" itemprop="description">开心就好</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/gaojianhua" target="_blank" title="Github"><i class="fa fa-fw fa-globe"></i>Github</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/u/1726833822" target="_blank" title="Weibo"><i class="fa fa-fw fa-globe"></i>Weibo</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.imooc.com/u/2296056/courses" title="慕课网" target="_blank">慕课网</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://github.com/ETENG-WIKI" title="ETENG-WIKI" target="_blank">ETENG-WIKI</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-类定义-创建对象"><span class="nav-number">1.</span> <span class="nav-text">1.类定义.创建对象</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">高建华</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.3.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'p1o0jofOaRQUBgTa8UKO4tRN-gzGzoHsz',
+        appKey: 'egswCKrEQX4XlKVnbXVVXPTv',
+        placeholder: '写下你的意见吧',
+        avatar:'identicon',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("p1o0jofOaRQUBgTa8UKO4tRN-gzGzoHsz", "egswCKrEQX4XlKVnbXVVXPTv");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            
+            counter.save(null, {
+              success: function(counter) {
+                
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            
+              var newcounter = new Counter();
+              /* Set ACL */
+              var acl = new AV.ACL();
+              acl.setPublicReadAccess(true);
+              acl.setPublicWriteAccess(true);
+              newcounter.setACL(acl);
+              /* End Set ACL */
+              newcounter.set("title", title);
+              newcounter.set("url", url);
+              newcounter.set("time", 1);
+              newcounter.save(null, {
+                success: function(newcounter) {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                },
+                error: function(newcounter, error) {
+                  console.log('Failed to create');
+                }
+              });
+            
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

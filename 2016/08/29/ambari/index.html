@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="乡村销客 乡村销客官网 : http://www.vilsale.com乡村销客是面向化肥行业的企业互联网营销工具。通过“移动应用+云计算+应用市场”的互联网领先技术，帮助化肥生产销售企业快速实现">
+<meta name="keywords" content="乡村销客,大数据,ambari">
+<meta property="og:type" content="article">
+<meta property="og:title" content="乡村销客离线计算--ambari平台搭建">
+<meta property="og:url" content="http://www.robingao.win/2016/08/29/ambari/index.html">
+<meta property="og:site_name" content="Robin Gao">
+<meta property="og:description" content="乡村销客 乡村销客官网 : http://www.vilsale.com乡村销客是面向化肥行业的企业互联网营销工具。通过“移动应用+云计算+应用市场”的互联网领先技术，帮助化肥生产销售企业快速实现">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-06-21T08:47:28.651Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="乡村销客离线计算--ambari平台搭建">
+<meta name="twitter:description" content="乡村销客 乡村销客官网 : http://www.vilsale.com乡村销客是面向化肥行业的企业互联网营销工具。通过“移动应用+云计算+应用市场”的互联网领先技术，帮助化肥生产销售企业快速实现">
+
+
+
+
+
+
+  <link rel="canonical" href="http://www.robingao.win/2016/08/29/ambari/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>乡村销客离线计算--ambari平台搭建 | Robin Gao</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?e2c9a62df20c57b80e31998bdf409910";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Robin Gao</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">探索未知 每天都是新的开始</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+    <a href="/404.html" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />公益 404</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.robingao.win/2016/08/29/ambari/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="高建华">
+      <meta itemprop="description" content="开心就好">
+      <meta itemprop="image" content="http://vis-user-image.oss-cn-qingdao.aliyuncs.com/userphoto/userphoto_9c3ae7df-b40f-4951-b4d5-677bae94277f_1457662255778__9C4A33BD1BA866FFD744A45D56B6B9BE.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Robin Gao">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">乡村销客离线计算--ambari平台搭建
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2016-08-29 21:22:11" itemprop="dateCreated datePublished" datetime="2016-08-29T21:22:11+08:00">2016-08-29</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/ambari/" itemprop="url" rel="index"><span itemprop="name">ambari</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/08/29/ambari/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2016/08/29/ambari/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2016/08/29/ambari/" class="leancloud_visitors" data-flag-title="乡村销客离线计算--ambari平台搭建">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="乡村销客"><a href="#乡村销客" class="headerlink" title="乡村销客"></a>乡村销客</h3><p><strong> 乡村销客官网 </strong>: <a href="http://www.vilsale.com" target="_blank" rel="noopener">http://www.vilsale.com</a><br>乡村销客是面向化肥行业的企业互联网营销工具。通过“移动应用+云计算+应用市场”的互联网领先技术，帮助化肥生产销售企业快速实现<br><a id="more"></a></p>
+<ol>
+<li><strong> 移动化市场营销及客户拜访，</strong>  </li>
+<li><strong> 解决调度发运响应不畅  </strong>  </li>
+<li><strong> 客户账户对账不准等问题， </strong>  </li>
+<li><strong> 帮助肥料企业营销及客户管理 </strong>”。 </li>
+</ol>
+<p>乡村销客基于软件即服务的互联网理念，创建国内第一个专注<strong> 肥料行业的SAAS平台 </strong>，为肥料企业打造性价比最高的企业互联网营销工具。</p>
+<p>———–这是广告结束的分割线————————–</p>
+<h3 id="安装docker-engine最新版"><a href="#安装docker-engine最新版" class="headerlink" title="安装docker-engine最新版"></a>安装docker-engine最新版</h3><p>1、centos系统更新</p>
+<pre><code>yum -y update
+</code></pre><p>2、添加docker源</p>
+<pre><code>tee /etc/yum.repos.d/docker.repo &lt;&lt;-&apos;EOF&apos;
+[dockerrepo]
+name=Docker Repository
+baseurl=https://yum.dockerproject.org/repo/main/centos/7/
+enabled=1
+gpgcheck=1
+gpgkey=https://yum.dockerproject.org/gpg
+EOF
+</code></pre><p>3、安装docker-engine</p>
+<pre><code>yum -y install docker-engine
+</code></pre><p>4、启动docker</p>
+<pre><code>service docker start
+</code></pre><h3 id="安装docker-拓展命令"><a href="#安装docker-拓展命令" class="headerlink" title="安装docker 拓展命令"></a>安装docker 拓展命令</h3><pre><code>yum install wget
+wget -P ~ https://github.com/yeasy/docker_practice/raw/master/_local/.bashrc_docker;
+echo &quot;[ -f ~/.bashrc_docker ] &amp;&amp; . ~/.bashrc_docker&quot; &gt;&gt; ~/.bashrc; source ~/.bashrc
+</code></pre><p>可执行：<br>docker-pid 可以获取某个容器的 PID：docker-pid myjenkins<br>docker-enter 可以进入容器或直接在容器内执行命令：docker-enter myjenkins</p>
+<h3 id="装sequenceiq-ambari容器"><a href="#装sequenceiq-ambari容器" class="headerlink" title="装sequenceiq/ambari容器"></a>装sequenceiq/ambari容器</h3><p><a href="https://hub.docker.com/r/sequenceiq/ambari/" target="_blank" rel="noopener">https://hub.docker.com/r/sequenceiq/ambari/</a><br>ambaris: 是hortonworks开发的一个自动部署、管理、监控  HDP（Hortonworks Data Platform， <a href="http://hortonworks.com/hdp/，由hadoop生态环境中的一些开源软件组成）的开源软件。与之相对应的有cloudera" target="_blank" rel="noopener">http://hortonworks.com/hdp/，由hadoop生态环境中的一些开源软件组成）的开源软件。与之相对应的有cloudera</a> manager， cloudera 发展时间更长，网上能搜到的资料更多， 但是其开源性好像没有hortonworks好。<br>Ambari Server与agent 交互从而 管理集群节点，这里agent的注册可以是被动，也就是server 通过ssh连接到agent，然后启动agent 去注册，所以需要两个配置， agent上需要能够ssh 私钥 无密码登陆，而且agent上要配置server的地址。</p>
+<h3 id="下载镜像"><a href="#下载镜像" class="headerlink" title="下载镜像"></a>下载镜像</h3><pre><code>docker pull sequenceiq/ambari
+</code></pre><h3 id="下载ambari-functions脚本文件"><a href="#下载ambari-functions脚本文件" class="headerlink" title="下载ambari-functions脚本文件"></a>下载ambari-functions脚本文件</h3><pre><code>curl -O https://raw.githubusercontent.com/sequenceiq/docker-ambari/master/ambari-functions
+</code></pre><h3 id="执行脚本：ambari-functions"><a href="#执行脚本：ambari-functions" class="headerlink" title="执行脚本：ambari-functions"></a>执行脚本：ambari-functions</h3><pre><code>source ambari-functions
+</code></pre><p>source命令：<br>source命令也称为“点命令”，也就是一个点符号（.）,是bash的内部命令。<br>功能：使Shell读入指定的Shell程序文件并依次执行文件中的所有语句<br>source命令通常用于重新执行刚修改的初始化文件，使之立即生效，而不必注销并重新登录。</p>
+<h3 id="安装ambari-server和ambari-agent集群："><a href="#安装ambari-server和ambari-agent集群：" class="headerlink" title="安装ambari-server和ambari-agent集群："></a>安装ambari-server和ambari-agent集群：</h3><p>将会启动1个consul server(分布式服务注册和发现consul)、1个Ambari server、2个Ambari agents</p>
+<pre><code>amb-start-cluster
+</code></pre><p>或者 启动5个Ambari agents</p>
+<pre><code>amb-start-cluster 6
+</code></pre><p>假如 服务没有启动全,请删掉 安装的docker ,重新执行如上命令</p>
+<pre><code>docker rm dockername
+amb-start-cluster 6
+</code></pre><h3 id="创建并启动ambari-shell"><a href="#创建并启动ambari-shell" class="headerlink" title="创建并启动ambari-shell"></a>创建并启动ambari-shell</h3><p>创建ambari-shell容器</p>
+<pre><code>docker run  -d --name shell --link amb-server:ambariserver hortonworks/ambari-server
+</code></pre><h3 id="进入ambari-shell容器"><a href="#进入ambari-shell容器" class="headerlink" title="进入ambari-shell容器"></a>进入ambari-shell容器</h3><pre><code>docker-enter shell
+</code></pre><h3 id="创建蓝图文件two-node-only-zookeeper（仅安装zookeeper服务）"><a href="#创建蓝图文件two-node-only-zookeeper（仅安装zookeeper服务）" class="headerlink" title="创建蓝图文件two-node-only-zookeeper（仅安装zookeeper服务）"></a>创建蓝图文件two-node-only-zookeeper（仅安装zookeeper服务）</h3><pre><code>vi /tmp/two-node-only-zookeeper
+</code></pre><p>{<br>  “host_groups”: [<br>    {<br>      “name”: “master”,<br>      “components”: [<br>        {<br>          “name”: “ZOOKEEPER_SERVER”<br>        }<br>      ],<br>      “cardinality”: “1”<br>    },<br>    {<br>      “name”: “slave_1”,<br>      “components”: [<br>        {<br>          “name”: “ZOOKEEPER_CLIENT”<br>        }<br>      ],<br>      “cardinality”: “1+”<br>    }<br>  ],<br>  “Blueprints”: {<br>    “blueprint_name”: “two-node-only-zookeeper”,<br>    “stack_name”: “HDP”,<br>    “stack_version”: “2.5”<br>  }<br>}</p>
+<h3 id="运行ambari-shell"><a href="#运行ambari-shell" class="headerlink" title="运行ambari-shell"></a>运行ambari-shell</h3><pre><code>export AMBARI_HOST=ambariserver;\
+export PATH=$PATH:/usr/jdk64/jdk1.7.0_67/bin;\
+cd /tmp;\
+./ambari-shell.sh
+</code></pre><h3 id="通过ambari-shell创建hadoop集群环境"><a href="#通过ambari-shell创建hadoop集群环境" class="headerlink" title="通过ambari-shell创建hadoop集群环境"></a>通过ambari-shell创建hadoop集群环境</h3><pre><code>blueprint add --file /tmp/two-node-only-zookeeper
+cluster build --blueprint two-node-only-zookeeper
+cluster autoAssign
+cluster create
+</code></pre><h3 id="客户端机器添加网络路由"><a href="#客户端机器添加网络路由" class="headerlink" title="客户端机器添加网络路由"></a>客户端机器添加网络路由</h3><p>Windows(需要以管理员身份运行cmd): route add 172.17.0.0 mask 255.255.0.0 192.168.0.207</p>
+<p>将consul容器作为客户端机器的DNS服务器：netsh interface ip add dns “无线网络连接 2” 172.17.0.2</p>
+<p>Linux:  route add -net 172.17.0.0/16 192.168.0.207</p>
+<p>route add -net 172.17.0.0 netmask 255.255.0.0 gw 192.168.0.62</p>
+<p>8、手动安装其他服务</p>
+<p>ZooKeeper： ZooKeeper Server、ZooKeeper Client<br>HDFS: NameNode、SNameNode、DataNode、HDFS Client<br>YARN + MapReduce2: ResourceManager、History Server、App Timeline Server、<br>    NodeManager、YARN Client、MapReduce2 Client<br>Tez:                Tez Client<br>Pig:                Pig Client<br>Slider:             Slider Client<br>Hiver:              Hive Metastore、HiveServer2、MySQL Server、WebHCat Server、<br>                     Hive Client、HCat Client<br>Spark:              Livy Server、Spark History Server、Spark Client<br>Zeppelin:           Zeppelin Notebook<br>Oozie:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">amb1:ZooKeeper，hdfs，yarn，mapreduce,namenode,  </span><br><span class="line"> ResourceManager, History Server, App Timeline Server,  </span><br><span class="line">  NodeManager</span><br><span class="line"></span><br><span class="line">amb2:oozie，hive ，snamenode,Hive Metastore,  </span><br><span class="line"> HiveServer2, WebHCat Server, Oozie Server,  </span><br><span class="line"></span><br><span class="line">amb3:spark，zeppelin，datanode, HDFS Client,  </span><br><span class="line"> Spark History Server, Livy Server, Zeppelin Notebook</span><br><span class="line"></span><br><span class="line">amb4:datanode, HDFS Client</span><br><span class="line"></span><br><span class="line">amb5:所有client,datanode, tez，pig，slider,flume</span><br><span class="line"></span><br><span class="line">hive密码：yiteng</span><br></pre></td></tr></table></figure>
+<h3 id="ambari-server管理页面"><a href="#ambari-server管理页面" class="headerlink" title="ambari server管理页面"></a>ambari server管理页面</h3><p><a href="http://192.168.0.230:8080/" target="_blank" rel="noopener">http://192.168.0.230:8080/</a>  用户密码 admin/admin</p>
+<h3 id="HDFS-NameNode管理界面"><a href="#HDFS-NameNode管理界面" class="headerlink" title="HDFS NameNode管理界面"></a>HDFS NameNode管理界面</h3><p><a href="http://192.168.0.231:50070/" target="_blank" rel="noopener">http://192.168.0.231:50070/</a></p>
+<h3 id="MapReduce2-JobHistory-管理页面"><a href="#MapReduce2-JobHistory-管理页面" class="headerlink" title="MapReduce2 JobHistory 管理页面"></a>MapReduce2 JobHistory 管理页面</h3><p><a href="http://192.168.0.231:19888/" target="_blank" rel="noopener">http://192.168.0.231:19888/</a></p>
+<h3 id="查找DFS-Master配置"><a href="#查找DFS-Master配置" class="headerlink" title="查找DFS Master配置"></a>查找DFS Master配置</h3><p>登陆ambari server管理界面-&gt;HDFS-&gt;Configs-&gt;Advanced-&gt; Advanced hdfs-site<br>-&gt; dfs.namenode.rpc-address</p>
+<h3 id="查找Map-Reduce-v2-Master配置"><a href="#查找Map-Reduce-v2-Master配置" class="headerlink" title="查找Map/Reduce(v2) Master配置"></a>查找Map/Reduce(v2) Master配置</h3><p>登陆ambari server管理界面-&gt;YARN-&gt;Configs-&gt;Advanced-&gt; Advanced yarn-site<br>-&gt; yarn.resourcemanager.scheduler.address</p>
+<p>/<em>参考资料</em>/<br><a href="http://robingao.xyz/2016/08/29/ambari/" target="_blank" rel="noopener">http://robingao.xyz/2016/08/29/ambari/</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/payforme.jpg" alt="高建华 wechat" style="width: 200px; max-width: 100%;"/>
+    <div>感觉不错,微信打赏一下！</div>
+</div>
+
+      </div>
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/乡村销客/" rel="tag"># 乡村销客</a>
+          
+            <a href="/tags/大数据/" rel="tag"># 大数据</a>
+          
+            <a href="/tags/ambari/" rel="tag"># ambari</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/10/vislog1/" rel="next" title="乡村销客离线计算--日志清洗">
+                <i class="fa fa-chevron-left"></i> 乡村销客离线计算--日志清洗
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/09/25/dataxTest/" rel="prev" title="乡村销客离线计算--DataX 测试">
+                乡村销客离线计算--DataX 测试 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="http://vis-user-image.oss-cn-qingdao.aliyuncs.com/userphoto/userphoto_9c3ae7df-b40f-4951-b4d5-677bae94277f_1457662255778__9C4A33BD1BA866FFD744A45D56B6B9BE.jpg"
+                alt="高建华" />
+            
+              <p class="site-author-name" itemprop="name">高建华</p>
+              <p class="site-description motion-element" itemprop="description">开心就好</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/gaojianhua" target="_blank" title="Github"><i class="fa fa-fw fa-globe"></i>Github</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/u/1726833822" target="_blank" title="Weibo"><i class="fa fa-fw fa-globe"></i>Weibo</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.imooc.com/u/2296056/courses" title="慕课网" target="_blank">慕课网</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://github.com/ETENG-WIKI" title="ETENG-WIKI" target="_blank">ETENG-WIKI</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#乡村销客"><span class="nav-number">1.</span> <span class="nav-text">乡村销客</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装docker-engine最新版"><span class="nav-number">2.</span> <span class="nav-text">安装docker-engine最新版</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装docker-拓展命令"><span class="nav-number">3.</span> <span class="nav-text">安装docker 拓展命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#装sequenceiq-ambari容器"><span class="nav-number">4.</span> <span class="nav-text">装sequenceiq/ambari容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下载镜像"><span class="nav-number">5.</span> <span class="nav-text">下载镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下载ambari-functions脚本文件"><span class="nav-number">6.</span> <span class="nav-text">下载ambari-functions脚本文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#执行脚本：ambari-functions"><span class="nav-number">7.</span> <span class="nav-text">执行脚本：ambari-functions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装ambari-server和ambari-agent集群："><span class="nav-number">8.</span> <span class="nav-text">安装ambari-server和ambari-agent集群：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建并启动ambari-shell"><span class="nav-number">9.</span> <span class="nav-text">创建并启动ambari-shell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进入ambari-shell容器"><span class="nav-number">10.</span> <span class="nav-text">进入ambari-shell容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建蓝图文件two-node-only-zookeeper（仅安装zookeeper服务）"><span class="nav-number">11.</span> <span class="nav-text">创建蓝图文件two-node-only-zookeeper（仅安装zookeeper服务）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行ambari-shell"><span class="nav-number">12.</span> <span class="nav-text">运行ambari-shell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通过ambari-shell创建hadoop集群环境"><span class="nav-number">13.</span> <span class="nav-text">通过ambari-shell创建hadoop集群环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#客户端机器添加网络路由"><span class="nav-number">14.</span> <span class="nav-text">客户端机器添加网络路由</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ambari-server管理页面"><span class="nav-number">15.</span> <span class="nav-text">ambari server管理页面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HDFS-NameNode管理界面"><span class="nav-number">16.</span> <span class="nav-text">HDFS NameNode管理界面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MapReduce2-JobHistory-管理页面"><span class="nav-number">17.</span> <span class="nav-text">MapReduce2 JobHistory 管理页面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查找DFS-Master配置"><span class="nav-number">18.</span> <span class="nav-text">查找DFS Master配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查找Map-Reduce-v2-Master配置"><span class="nav-number">19.</span> <span class="nav-text">查找Map/Reduce(v2) Master配置</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">高建华</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.3.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'p1o0jofOaRQUBgTa8UKO4tRN-gzGzoHsz',
+        appKey: 'egswCKrEQX4XlKVnbXVVXPTv',
+        placeholder: '写下你的意见吧',
+        avatar:'identicon',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("p1o0jofOaRQUBgTa8UKO4tRN-gzGzoHsz", "egswCKrEQX4XlKVnbXVVXPTv");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            
+            counter.save(null, {
+              success: function(counter) {
+                
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            
+              var newcounter = new Counter();
+              /* Set ACL */
+              var acl = new AV.ACL();
+              acl.setPublicReadAccess(true);
+              acl.setPublicWriteAccess(true);
+              newcounter.setACL(acl);
+              /* End Set ACL */
+              newcounter.set("title", title);
+              newcounter.set("url", url);
+              newcounter.set("time", 1);
+              newcounter.save(null, {
+                success: function(newcounter) {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                },
+                error: function(newcounter, error) {
+                  console.log('Failed to create');
+                }
+              });
+            
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

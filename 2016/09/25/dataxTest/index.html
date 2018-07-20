@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="乡村销客 乡村销客官网 : http://www.vilsale.com乡村销客是面向化肥行业的企业互联网营销工具。通过“移动应用+云计算+应用市场”的互联网领先技术，帮助化肥生产销售企业快速实现">
+<meta name="keywords" content="乡村销客,大数据,ETL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="乡村销客离线计算--DataX 测试">
+<meta property="og:url" content="http://www.robingao.win/2016/09/25/dataxTest/index.html">
+<meta property="og:site_name" content="Robin Gao">
+<meta property="og:description" content="乡村销客 乡村销客官网 : http://www.vilsale.com乡村销客是面向化肥行业的企业互联网营销工具。通过“移动应用+云计算+应用市场”的互联网领先技术，帮助化肥生产销售企业快速实现">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-06-21T08:47:28.651Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="乡村销客离线计算--DataX 测试">
+<meta name="twitter:description" content="乡村销客 乡村销客官网 : http://www.vilsale.com乡村销客是面向化肥行业的企业互联网营销工具。通过“移动应用+云计算+应用市场”的互联网领先技术，帮助化肥生产销售企业快速实现">
+
+
+
+
+
+
+  <link rel="canonical" href="http://www.robingao.win/2016/09/25/dataxTest/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>乡村销客离线计算--DataX 测试 | Robin Gao</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?e2c9a62df20c57b80e31998bdf409910";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Robin Gao</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">探索未知 每天都是新的开始</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+    <a href="/404.html" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />公益 404</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.robingao.win/2016/09/25/dataxTest/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="高建华">
+      <meta itemprop="description" content="开心就好">
+      <meta itemprop="image" content="http://vis-user-image.oss-cn-qingdao.aliyuncs.com/userphoto/userphoto_9c3ae7df-b40f-4951-b4d5-677bae94277f_1457662255778__9C4A33BD1BA866FFD744A45D56B6B9BE.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Robin Gao">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">乡村销客离线计算--DataX 测试
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2016-09-25 21:22:11" itemprop="dateCreated datePublished" datetime="2016-09-25T21:22:11+08:00">2016-09-25</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/ambari/" itemprop="url" rel="index"><span itemprop="name">ambari</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/09/25/dataxTest/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2016/09/25/dataxTest/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2016/09/25/dataxTest/" class="leancloud_visitors" data-flag-title="乡村销客离线计算--DataX 测试">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="乡村销客"><a href="#乡村销客" class="headerlink" title="乡村销客"></a>乡村销客</h1><p><strong> 乡村销客官网 </strong>: <a href="http://www.vilsale.com" target="_blank" rel="noopener">http://www.vilsale.com</a><br>乡村销客是面向化肥行业的企业互联网营销工具。通过“移动应用+云计算+应用市场”的互联网领先技术，帮助化肥生产销售企业快速实现<br><a id="more"></a></p>
+<ol>
+<li><strong> 移动化市场营销及客户拜访，</strong>  </li>
+<li><strong> 解决调度发运响应不畅  </strong>  </li>
+<li><strong> 客户账户对账不准等问题， </strong>  </li>
+<li><strong> 帮助肥料企业营销及客户管理 </strong>”。 </li>
+</ol>
+<p>乡村销客基于软件即服务的互联网理念，创建国内第一个专注<strong> 肥料行业的SAAS平台 </strong>，为肥料企业打造性价比最高的企业互联网营销工具。</p>
+<p>———–这是广告结束的分割线————————–</p>
+<h1 id="datax"><a href="#datax" class="headerlink" title=" datax "></a><strong> datax </strong></h1><p>dataxWIKI : <a href="https://github.com/alibaba/DataX/wiki/DataX-Introduction" target="_blank" rel="noopener">https://github.com/alibaba/DataX/wiki/DataX-Introduction</a></p>
+<p>hdfswriter : <a href="https://github.com/alibaba/DataX/blob/master/hdfswriter/doc/hdfswriter.md" target="_blank" rel="noopener">https://github.com/alibaba/DataX/blob/master/hdfswriter/doc/hdfswriter.md</a></p>
+<h1 id="hive"><a href="#hive" class="headerlink" title="hive"></a>hive</h1><p> 1 进入 amb5 或者amb6</p>
+<p> 2 执行 hive 命令 启动 hive</p>
+<p> 3 写sql语句</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">databases</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">tables</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">database</span> <span class="keyword">IF</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> hdfswriter;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> hdfswriter;</span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> text_table(</span><br><span class="line">PERSONNEL_CODE  <span class="keyword">STRING</span>,</span><br><span class="line">PERSONNEL_NAME  <span class="keyword">STRING</span>,</span><br><span class="line">REGION_CODE  <span class="keyword">STRING</span>,</span><br><span class="line">REGION_NAME  <span class="keyword">STRING</span>,</span><br><span class="line">REGION_TREECODE  <span class="keyword">STRING</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span></span><br><span class="line"><span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">"\t"</span></span><br><span class="line"><span class="keyword">STORED</span> <span class="keyword">AS</span> TEXTFILE;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">desc text_table ; </span><br><span class="line"></span><br><span class="line"><span class="keyword">insert</span> overwrite <span class="keyword">table</span> text_table <span class="keyword">select</span> * <span class="keyword">from</span> text_table <span class="keyword">where</span> text_table.personnel_code = <span class="string">'000437'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">insert</span> overwrite <span class="keyword">table</span> t_table1 <span class="keyword">select</span> * <span class="keyword">from</span> t_table1 <span class="keyword">where</span> XXXX; 其中xxx是你需要保留的数据的查询条件。 如果清空表，如下： <span class="keyword">insert</span> overwrite <span class="keyword">table</span> t_table1 <span class="keyword">select</span> * <span class="keyword">from</span> t ...</span><br></pre></td></tr></table></figure>
+<h1 id="mysql—-gt-hive"><a href="#mysql—-gt-hive" class="headerlink" title="mysql—&gt;hive"></a>mysql—&gt;hive</h1><h2 id="mysql-hdfs-json-配置案例"><a href="#mysql-hdfs-json-配置案例" class="headerlink" title="mysql-hdfs.json 配置案例"></a>mysql-hdfs.json 配置案例</h2><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"job"</span>: &#123;</span><br><span class="line">        <span class="attr">"content"</span>: [</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="attr">"reader"</span>: &#123;</span><br><span class="line">                    <span class="attr">"name"</span>: <span class="string">"mysqlreader"</span>, </span><br><span class="line">                    <span class="attr">"parameter"</span>: &#123;</span><br><span class="line">                        <span class="attr">"username"</span>: <span class="string">"e***"</span>,</span><br><span class="line">                        <span class="attr">"password"</span>: <span class="string">"e***"</span>,</span><br><span class="line">                         </span><br><span class="line">                        <span class="attr">"connection"</span>: [</span><br><span class="line">                            &#123;</span><br><span class="line">                                <span class="attr">"querySql"</span>:[<span class="string">"SELECT p.PERSONNEL_CODE,p.PERSONNEL_NAME,reg.REGION_CODE,reg.REGION_NAME,reg.REGION_TREECODE FROM dossier_personnel p  JOIN re_user_regoin r ON r.user_id = p.PERSONNEL_ID JOIN        bd_region reg ON reg.REGION_ID = r.REGION_ID WHERE r.RUG_STATE =0 "</span>],</span><br><span class="line">                                <span class="attr">"jdbcUrl"</span>: [<span class="string">"jdbc:mysql://192.168.0.57:3306/vil"</span>]</span><br><span class="line">                            &#125;</span><br><span class="line">                        ]</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;, </span><br><span class="line">                <span class="attr">"writer"</span>: &#123;</span><br><span class="line">                    <span class="attr">"name"</span>: <span class="string">"hdfswriter"</span>, </span><br><span class="line">                    <span class="attr">"parameter"</span>: &#123;</span><br><span class="line">                        <span class="attr">"column"</span>: [</span><br><span class="line">                            &#123;</span><br><span class="line">                                <span class="attr">"name"</span>: <span class="string">"PERSONNEL_CODE"</span>,</span><br><span class="line">                                <span class="attr">"type"</span>: <span class="string">"STRING"</span></span><br><span class="line">                            &#125;, &#123;</span><br><span class="line">                                <span class="attr">"name"</span>: <span class="string">"PERSONNEL_NAME"</span>,</span><br><span class="line">                                <span class="attr">"type"</span>: <span class="string">"STRING"</span></span><br><span class="line">                            &#125;, &#123;</span><br><span class="line">                                <span class="attr">"name"</span>: <span class="string">"REGION_CODE"</span>,</span><br><span class="line">                                <span class="attr">"type"</span>: <span class="string">"STRING"</span></span><br><span class="line">                            &#125;, &#123;</span><br><span class="line">                                <span class="attr">"name"</span>: <span class="string">"REGION_NAME"</span>,</span><br><span class="line">                                <span class="attr">"type"</span>: <span class="string">"STRING"</span></span><br><span class="line">                            &#125;, &#123;</span><br><span class="line">                                <span class="attr">"name"</span>: <span class="string">"REGION_TREECODE"</span>,</span><br><span class="line">                                <span class="attr">"type"</span>: <span class="string">"STRING"</span></span><br><span class="line">                            &#125;</span><br><span class="line">                        ], </span><br><span class="line">                         </span><br><span class="line">                        <span class="attr">"defaultFS"</span>: <span class="string">"hdfs://172.17.0.5:8020"</span>, </span><br><span class="line">                        <span class="attr">"fieldDelimiter"</span>: <span class="string">"\t"</span>, </span><br><span class="line">                        <span class="attr">"fileName"</span>: <span class="string">"text_table1"</span>, </span><br><span class="line">                        <span class="attr">"fileType"</span>: <span class="string">"text"</span>, </span><br><span class="line">                        <span class="attr">"path"</span>: <span class="string">"/apps/hive/warehouse/hdfswriter.db/text_table"</span>, </span><br><span class="line">                        <span class="attr">"writeMode"</span>: <span class="string">"append"</span></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        ], </span><br><span class="line">        <span class="attr">"setting"</span>: &#123;</span><br><span class="line">            <span class="attr">"speed"</span>: &#123;</span><br><span class="line">                <span class="attr">"channel"</span>: <span class="string">"2"</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h2><ul>
+<li><strong>defaultFS</strong><br>描述：Hadoop hdfs文件系统namenode节点地址。格式：hdfs://ip:端口；例如：hdfs://127.0.0.1:9000</li>
+</ul>
+<ul>
+<li><strong>fileType</strong><br>描述：文件的类型，目前只支持用户配置为”text”或”orc”。<br>text表示textfile文件格式<br>orc表示orcfile文件格式</li>
+</ul>
+<ul>
+<li><strong>path</strong></li>
+</ul>
+<p>描述：存储到Hadoop hdfs文件系统的路径信息，HdfsWriter会根据并发配置在Path目录下写入多个文件。为与hive表关联，请填写hive表在hdfs上的存储路径。例：Hive上设置的数据仓库的存储路径为：/user/hive/warehouse/ ，已建立数据库：test，表：hello；则对应的存储路径为：/user/hive/warehouse/test.db/hello </p>
+<ul>
+<li><strong>writeMode</strong><br>描述：hdfswriter写入前数据清理处理模式：<br>append，写入前不做任何处理，DataX hdfswriter直接使用filename写入，并保证文件名不冲突。<br>nonConflict，如果目录下有fileName前缀的文件，直接报错。</li>
+</ul>
+<ul>
+<li><strong>compress</strong><br>描述：hdfs文件压缩类型，默认不填写意味着没有压缩。其中：text类型文件支持压缩类型有gzip、bzip2;orc类型文件支持的压缩类型有NONE、SNAPPY（需要用户安装SnappyCodec）。</li>
+</ul>
+<h2 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h2><p>目前 HdfsWriter 支持大部分 Hive 类型，请注意检查你的类型。</p>
+<p>下面列出 HdfsWriter 针对 Hive 数据类型转换列表:</p>
+<table>
+<thead>
+<tr>
+<th>DataX 内部类型</th>
+<th>HIVE 数据类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Long</td>
+<td>TINYINT,SMALLINT,INT,BIGINT</td>
+</tr>
+<tr>
+<td>Double</td>
+<td>FLOAT,DOUBLE</td>
+</tr>
+<tr>
+<td>String</td>
+<td>STRING,VARCHAR,CHAR</td>
+</tr>
+<tr>
+<td>Boolean</td>
+<td>BOOLEAN</td>
+</tr>
+<tr>
+<td>Date</td>
+<td>DATE,TIMESTAMP</td>
+</tr>
+</tbody>
+</table>
+<h1 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h1><p> 1 建表<br> 2 配置 json<br> 3 执行导入<br> 4 hive 查看测试数据</p>
+<h1 id="定时任务"><a href="#定时任务" class="headerlink" title="定时任务"></a>定时任务</h1><p>参考<br><a href="https://github.com/alibaba/DataX/wiki/%E9%85%8D%E7%BD%AE%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1%EF%BC%88Linux%E7%8E%AF%E5%A2%83%EF%BC%89" target="_blank" rel="noopener">https://github.com/alibaba/DataX/wiki/%E9%85%8D%E7%BD%AE%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1%EF%BC%88Linux%E7%8E%AF%E5%A2%83%EF%BC%89</a></p>
+<p>会进入已有crontab文件编辑界面，继续增加定时任务即可，本示例增加以下内容,并保存</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0,10,20,30,40,50 * * * *  python /opt/<span class="built_in">local</span>/datax/bin/datax.py  /opt/<span class="built_in">local</span>/datax/job/mysql.json  &gt;&gt;/opt/logs/dataxlog.`date +\%Y\%m\%d\%H\%M\%S`  2&gt;&amp;1</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python /opt/<span class="built_in">local</span>/datax/bin/datax.py  /opt/<span class="built_in">local</span>/datax/job/mysql.json</span><br></pre></td></tr></table></figure>
+<p>查看该用户下的crontab服务是否创建成功， 用 crontab  -l 命令  </p>
+<p>分       小时      日        月       星期     命令</p>
+<p>0-59    0-23    1-31     1-12       0-6     command     (取值范围,0表示周日一般一行对应一个任务)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">每天执行一次</span><br><span class="line">40 00 * * * /opt/<span class="built_in">local</span>/datax/visdb/startETL.sh &gt;&gt;/opt/logs/datax/<span class="built_in">log</span>.`date +\%Y\%m\%d\%H\%M\%S` 2&gt;&amp;1</span><br><span class="line">每小时执行一次</span><br><span class="line">09 * * * * <span class="built_in">echo</span> <span class="string">"break now. hour"</span> &gt;&gt;/opt/logs/datax/hlog.`date +\%Y\%m\%d\%H\%M\%S` 2&gt;&amp;1</span><br><span class="line">每周执行一次</span><br><span class="line">10 02 * * 0 <span class="built_in">echo</span> <span class="string">"break now. weekly "</span> &gt;&gt;/opt/logs/datax/wlog.`date +\%Y\%m\%d\%H\%M\%S` 2&gt;&amp;1</span><br><span class="line">每月执行一次</span><br><span class="line">13 03 1 * * <span class="built_in">echo</span> <span class="string">"break now. month"</span> &gt;&gt;/opt/logs/datax/mlog.`date +\%Y\%m\%d\%H\%M\%S` 2&gt;&amp;1</span><br><span class="line"></span><br><span class="line">30  3  10,20  *  *  ls  每月10号及20号的3：30执行ls命令[注：“，”用来连接多个不连续的时段]</span><br><span class="line"></span><br><span class="line">25  8-11 *  *   *   ls   每天8-11点的第25分钟执行ls命令[注：“-”用来连接连续的时段]</span><br><span class="line"></span><br><span class="line">*/15  *   *   *   *   ls  每15分钟执行一次ls命令 [即每个小时的第0 15 30 45 60分钟执行ls命令 ]</span><br><span class="line"></span><br><span class="line">30  6   */10   *  *  ls   每个月中，每隔10天6:30执行一次ls命令[即每月的1、11、21、31日是的6：30执行一次ls 命令。 ]</span><br><span class="line"></span><br><span class="line">每天7：50以root 身份执行/etc/cron.daily目录中的所有可执行文件</span><br><span class="line"></span><br><span class="line">50  7  *   *  *   root  run-parts     /etc/cron.daily   [ 注：run-parts参数表示，执行后面目录中的所有可执行文件。 ]</span><br></pre></td></tr></table></figure>
+<p>/<em>参考资料</em>/<br><a href="http://robingao.xyz/2016/09/25/dataxTest/" target="_blank" rel="noopener">http://robingao.xyz/2016/09/25/dataxTest/</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/payforme.jpg" alt="高建华 wechat" style="width: 200px; max-width: 100%;"/>
+    <div>感觉不错,微信打赏一下！</div>
+</div>
+
+      </div>
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/乡村销客/" rel="tag"># 乡村销客</a>
+          
+            <a href="/tags/大数据/" rel="tag"># 大数据</a>
+          
+            <a href="/tags/ETL/" rel="tag"># ETL</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/29/ambari/" rel="next" title="乡村销客离线计算--ambari平台搭建">
+                <i class="fa fa-chevron-left"></i> 乡村销客离线计算--ambari平台搭建
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/09/29/ambari-spark/" rel="prev" title="乡村销客离线计算--ambari-spark(1)">
+                乡村销客离线计算--ambari-spark(1) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="http://vis-user-image.oss-cn-qingdao.aliyuncs.com/userphoto/userphoto_9c3ae7df-b40f-4951-b4d5-677bae94277f_1457662255778__9C4A33BD1BA866FFD744A45D56B6B9BE.jpg"
+                alt="高建华" />
+            
+              <p class="site-author-name" itemprop="name">高建华</p>
+              <p class="site-description motion-element" itemprop="description">开心就好</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/gaojianhua" target="_blank" title="Github"><i class="fa fa-fw fa-globe"></i>Github</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/u/1726833822" target="_blank" title="Weibo"><i class="fa fa-fw fa-globe"></i>Weibo</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.imooc.com/u/2296056/courses" title="慕课网" target="_blank">慕课网</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://github.com/ETENG-WIKI" title="ETENG-WIKI" target="_blank">ETENG-WIKI</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#乡村销客"><span class="nav-number">1.</span> <span class="nav-text">乡村销客</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#datax"><span class="nav-number">2.</span> <span class="nav-text"> datax </span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hive"><span class="nav-number">3.</span> <span class="nav-text">hive</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#mysql—-gt-hive"><span class="nav-number">4.</span> <span class="nav-text">mysql—&gt;hive</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#mysql-hdfs-json-配置案例"><span class="nav-number">4.1.</span> <span class="nav-text">mysql-hdfs.json 配置案例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参数说明"><span class="nav-number">4.2.</span> <span class="nav-text">参数说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类型转换"><span class="nav-number">4.3.</span> <span class="nav-text">类型转换</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#步骤"><span class="nav-number">5.</span> <span class="nav-text">步骤</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#定时任务"><span class="nav-number">6.</span> <span class="nav-text">定时任务</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">高建华</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.3.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'p1o0jofOaRQUBgTa8UKO4tRN-gzGzoHsz',
+        appKey: 'egswCKrEQX4XlKVnbXVVXPTv',
+        placeholder: '写下你的意见吧',
+        avatar:'identicon',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("p1o0jofOaRQUBgTa8UKO4tRN-gzGzoHsz", "egswCKrEQX4XlKVnbXVVXPTv");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            
+            counter.save(null, {
+              success: function(counter) {
+                
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            
+              var newcounter = new Counter();
+              /* Set ACL */
+              var acl = new AV.ACL();
+              acl.setPublicReadAccess(true);
+              acl.setPublicWriteAccess(true);
+              newcounter.setACL(acl);
+              /* End Set ACL */
+              newcounter.set("title", title);
+              newcounter.set("url", url);
+              newcounter.set("time", 1);
+              newcounter.save(null, {
+                success: function(newcounter) {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                },
+                error: function(newcounter, error) {
+                  console.log('Failed to create');
+                }
+              });
+            
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
