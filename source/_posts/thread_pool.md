@@ -33,7 +33,7 @@ Java线程池多种多样，本质主要是基于Java原生线程池ThreadPoolEx
 - 首先，把被拒绝当做一种生活中的正常状态。
 - 其次，提交被拒绝时如果没有定义RejectedExecutionHandler，会抛出RejectedExecution，如果定义了RejectedExecutionHandler，任务会被移交给RejectedExecutionHandler处理。java提供了四种默认的处理Handler：
 - ThreadPoolExecutor.AbortPolicy()抛出java.util.concurrent.RejectedExecutionException异常 终止策略是默认的饱和策略；
-- ThreadPoolExecutor.CallerRunsPolicy()当抛出RejectedExecutionException异常时，会调rejectedExecution方法 调用者运行策略实现了一种调节机制，该策略既不会抛弃任务也不会爆出异常，而是将任务退回给调用者，实际会在调用者的线程中把任务执行掉，从而降低新任务的流量
+- ThreadPoolExecutor.CallerRunsPolicy()当抛出RejectedExecutionException异常时，会调rejectedExecution方法 调用者运行策略实现了一种调节机制，该策略既不会抛弃任务也不会报出异常，而是将任务退回给调用者，实际会在调用者的线程中把任务执行掉，从而降低新任务的流量
 - ThreadPoolExecutor.DiscardOldestPolicy()抛弃旧的任务；当新提交的任务无法保存到队列中等待执行时将抛弃最旧的任务，然后尝试提交新任务。如果等待队列是一个优先级队列，抛弃最旧的策略将导致抛弃优先级最高的任务，因此AbortPolicy最好不要和优先级队列一起使用。
 ThreadPoolExecutor.DiscardPolicy()抛弃当前的任务
 - 注意(敲黑板)

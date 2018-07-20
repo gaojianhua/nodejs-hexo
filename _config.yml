@@ -70,8 +70,10 @@ theme: next
 ## Docs: http://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com/gaojianhua/nodejs-hexo.git
-  #branch:master
+  repo: git@github.com:gaojianhua/nodejs-hexo.git 
+  #repo: git@github.com:username/username.github.io.git 
+  #repo: https://github.com/gaojianhua/nodejs-hexo.git
+  branch: master
 ##多说, 换成自己定义的多说域名的名字 http://duoshuo.com/create-site/
 duoshuo_shortname: robingao
 
